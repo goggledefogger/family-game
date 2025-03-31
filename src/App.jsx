@@ -16,6 +16,7 @@ import GrandFinaleScreen from './components/GrandFinaleScreen';
 import RevealScreen from './components/RevealScreen';
 import JoelDetectionScreen from './components/JoelDetectionScreen';
 import JoelResponseScreen from './components/JoelResponseScreen';
+import PaymentConfirmationScreen from './components/PaymentConfirmationScreen';
 import GameHeader from './components/GameHeader';
 import { gameSteps } from './data/gameSteps';
 import { funnyQuestions } from './data/questions';
@@ -607,6 +608,18 @@ const App = () => {
     setGameState('joel-detection');
   };
 
+  // Handler for jumping to payment confirmation screen
+  const handleJumpToPayment = () => {
+    // Clear necessary states first
+    setShowConfirmation(false);
+    setShowConfigConfirmation(false);
+    setShowConsentConfirmation(false);
+    setShowAlertConfirmation(false);
+    
+    // Set to payment confirmation screen
+    setGameState('payment-confirmation');
+  };
+
   const handleChangeAnswer = () => {
     setShowConfirmation(false);
     setSelectedAnswerIndex(null);
@@ -626,7 +639,15 @@ const App = () => {
   };
 
   const handleJoelResponseComplete = () => {
-    setCurrentStep(0);
+    // After Joel response, insert payment confirmation at position #8
+    setGameState('payment-confirmation');
+    advanceStepCount();
+  };
+
+  // Handler for the payment confirmation screen
+  const handlePaymentConfirmation = () => {
+    // Move to the next step in the game
+    setCurrentStep(currentStep + 1);
     setLoadingProgress(0);
     setGameState('loading');
     advanceStepCount();
@@ -875,6 +896,14 @@ const App = () => {
                 />
               )}
               
+              {gameState === 'payment-confirmation' && (
+                <PaymentConfirmationScreen 
+                  playerName={playerName}
+                  onProceed={handlePaymentConfirmation}
+                  stepLabel={currentStepLabel}
+                />
+              )}
+              
               {gameState === 'loading' && loadingScreenType === 'default' && (
                 <LoadingScreen 
                   playerName={playerName}
@@ -1057,9 +1086,15 @@ const App = () => {
               </button>
               <button 
                 onClick={handleJumpToJoel} 
-                className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 font-medium rounded shadow-inner flex items-center justify-center"
+                className="bg-gray-900 hover:bg-gray-900 text-white px-3 py-2 font-medium rounded shadow-inner flex items-center justify-center"
               >
                 Joel Screen
+              </button>
+              <button 
+                onClick={handleJumpToPayment} 
+                className="bg-gray-700 hover:bg-gray-700 text-white px-3 py-2 font-medium rounded shadow-inner flex items-center justify-center"
+              >
+                Payment Screen
               </button>
             </div>
           </div>

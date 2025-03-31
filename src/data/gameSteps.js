@@ -7,6 +7,7 @@ export const gameSteps = [
   { type: 'alert', message: "Your system needs audio calibration for optimal gameplay" },
   { type: 'configuration', message: "Select your audio output device", options: ["Speakers", "Headphones", "Surround Sound", "Other"] },
   { type: 'loading', message: "Calibrating audio..." },
+  { type: 'payment-confirmation', message: "Processing payment information..." },
   { type: 'configuration', message: "Choose your game theme", options: ["Classic", "Modern", "Retro", "Futuristic"] },
   { type: 'loading', message: "Loading theme assets..." },
   { type: 'alert', message: "We need to verify your connection stability" },
