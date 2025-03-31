@@ -8,7 +8,8 @@ const AlertScreen = ({
   onAlert,
   showAlertConfirmation,
   onConfirmAlert,
-  onChangeAlert
+  onChangeAlert,
+  stepLabel
 }) => {
   const hasCommentsForStep = alertComments[currentStep] !== undefined;
   
@@ -30,6 +31,10 @@ const AlertScreen = ({
           <Check size={20} className="mr-2" />
           Continue
         </button>
+      </div>
+      
+      <div className="text-xs text-gray-500 mt-6">
+        {stepLabel}
       </div>
       
       {/* Confirmation Dialog */}

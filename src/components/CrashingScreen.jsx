@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AlertCircle, X, Cpu, RefreshCw } from 'lucide-react';
 
-const CrashingScreen = ({ onComplete, delay = 4000 }) => {
+const CrashingScreen = ({ onComplete, delay = 4000, stepLabel }) => {
   const [crashStage, setCrashStage] = useState(0);
   
   useEffect(() => {
@@ -105,6 +105,10 @@ const CrashingScreen = ({ onComplete, delay = 4000 }) => {
           </p>
         </div>
       )}
+      
+      <div className="text-xs text-gray-500 mt-6">
+        {stepLabel}
+      </div>
     </div>
   );
 };

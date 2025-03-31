@@ -1,29 +1,48 @@
 import React from 'react';
-import { RefreshCw } from 'lucide-react';
+import { Loader } from 'lucide-react';
 import ProgressBar from './ProgressBar';
 
-const LoadingScreen = ({ stepMessage, loadingProgress, progressBarType, isMelting, isReversingProgress, currentStep }) => {
+const LoadingScreen = ({ 
+  stepMessage, 
+  loadingProgress, 
+  progressBarType, 
+  isMelting, 
+  isReversingProgress,
+  currentStep,
+  stepLabel 
+}) => {
   return (
     <div className={`flex flex-col items-center justify-center p-8 max-w-lg mx-auto ${isMelting ? 'melting-ui' : ''}`}>
-      <h2 className={`text-2xl font-bold mb-6 text-yellow-400 ${isMelting ? 'melting-text' : ''}`}>Loading Game</h2>
+      <div className={`text-yellow-500 mb-6 ${isMelting ? 'melting-spinner' : ''}`}>
+        <Loader size={48} className="animate-spin" />
+      </div>
       
-      <ProgressBar 
-        progress={loadingProgress} 
-        progressBarType={progressBarType} 
-        isMelting={isMelting} 
-        isReversingProgress={isReversingProgress} 
-      />
+      <h2 className={`text-2xl font-bold mb-6 text-yellow-400 ${isMelting ? 'melting-text' : ''}`}>
+        Loading Game Data
+      </h2>
       
-      <div className={`text-gray-300 mb-4 h-8 flex items-center ${isMelting ? 'melting-text' : ''}`}>
+      <p className={`text-gray-300 mb-8 text-center ${isMelting ? 'melting-text-subtle' : ''}`}>
         {stepMessage}
+      </p>
+      
+      <div className="progress-container mb-6 w-full">
+        <div 
+          className={`progress-bar progress-bar-${progressBarType} ${
+            isReversingProgress ? 'bg-red-500' : ''
+          } ${isMelting ? 'melting-ui' : ''}`}
+          style={{ width: `${loadingProgress}%` }}
+        ></div>
       </div>
       
-      <div className={`${isMelting ? 'melting-spinner' : 'animate-spin'} text-yellow-500 mt-4`}>
-        <RefreshCw size={32} />
-      </div>
+      <p className="text-gray-400 text-sm">
+        {isReversingProgress 
+          ? 'Error detected, restoring data...' 
+          : `${Math.floor(loadingProgress)}% complete`
+        }
+      </p>
       
-      <div className={`text-xs text-gray-500 mt-8 ${isMelting ? 'melting-text-subtle' : ''}`}>
-        {currentStep > 2 && "Please do not close this window..."}
+      <div className="text-xs text-gray-500 mt-6">
+        {stepLabel}
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FileWarning, ShieldAlert, FileX, FileCog } from 'lucide-react';
 
-const CorruptedDataScreen = ({ stepMessage, loadingProgress, onComplete, delay = 5000 }) => {
+const CorruptedDataScreen = ({ stepMessage, loadingProgress, onComplete, delay = 5000, stepLabel }) => {
   const [corruptionLevel, setCorruptionLevel] = useState(0);
   const [showRepair, setShowRepair] = useState(false);
   
@@ -144,6 +144,10 @@ const CorruptedDataScreen = ({ stepMessage, loadingProgress, onComplete, delay =
             </div>
           </div>
         )}
+      </div>
+      
+      <div className="text-xs text-gray-500 mt-6">
+        {stepLabel}
       </div>
     </div>
   );

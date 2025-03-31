@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Database, Code } from 'lucide-react';
 
-const BinaryLoadingScreen = ({ stepMessage, loadingProgress, onComplete, delay = 5000 }) => {
+const BinaryLoadingScreen = ({ stepMessage, loadingProgress, onComplete, delay = 5000, stepLabel }) => {
   const [binaryDigits, setBinaryDigits] = useState([]);
   
   // Generate binary rain effect
@@ -109,6 +109,10 @@ const BinaryLoadingScreen = ({ stepMessage, loadingProgress, onComplete, delay =
         <div className="text-right text-green-600 text-sm font-mono">
           {Math.floor(loadingProgress)}% complete
         </div>
+      </div>
+      
+      <div className="text-xs text-gray-500 mt-6">
+        {stepLabel}
       </div>
     </div>
   );
