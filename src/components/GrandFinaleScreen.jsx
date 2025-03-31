@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Trophy, Star, PartyPopper, Gift, Sparkles, Crown, Confetti } from 'lucide-react';
+import { Trophy, Star, PartyPopper, Gift, Sparkles, Crown } from 'lucide-react';
 
 const GrandFinaleScreen = ({ playerName, onComplete }) => {
   const [stage, setStage] = useState(0);
@@ -129,7 +129,7 @@ const GrandFinaleScreen = ({ playerName, onComplete }) => {
         <div className="animate-fade-in mt-6 text-center">
           <div className="flex justify-center mb-4">
             <PartyPopper size={32} className="text-pink-500 mr-4 animate-bounce" />
-            <Confetti size={32} className="text-green-400 animate-bounce" />
+            <PartyPopper size={32} className="text-green-400 animate-bounce" />
           </div>
           <p className="text-xl text-white font-bold">
             Click below to claim your reward!
@@ -151,16 +151,16 @@ const GrandFinaleScreen = ({ playerName, onComplete }) => {
       {stage >= 2 && (
         <>
           <div className="absolute top-0 left-[10%] animate-float-slow">
-            <Confetti size={24} className="text-yellow-400" />
+            <PartyPopper size={24} className="text-yellow-400" />
           </div>
           <div className="absolute top-[5%] right-[15%] animate-float-medium">
-            <Confetti size={20} className="text-pink-500" />
+            <PartyPopper size={20} className="text-pink-500" />
           </div>
           <div className="absolute bottom-[10%] left-[20%] animate-float-fast">
-            <Confetti size={16} className="text-blue-400" />
+            <PartyPopper size={16} className="text-blue-400" />
           </div>
           <div className="absolute bottom-[15%] right-[10%] animate-float-medium">
-            <Confetti size={22} className="text-green-400" />
+            <PartyPopper size={22} className="text-green-400" />
           </div>
         </>
       )}

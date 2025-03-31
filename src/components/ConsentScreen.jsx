@@ -29,24 +29,24 @@ const ConsentScreen = ({ onConsent, showConsentConfirmation, onConfirmConsent, o
       
       {/* Confirmation Dialog */}
       {showConsentConfirmation && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
-          <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold mb-4 text-yellow-400">Terms Accepted</h3>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10 p-4">
+          <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 max-w-md w-full shadow-xl">
+            <h3 className="text-xl font-bold mb-6 text-yellow-400">Terms Accepted</h3>
             
-            <p className="text-gray-300 mb-6">
+            <p className="text-gray-300 mb-8">
               {consentComments[Math.floor(Math.random() * consentComments.length)]}
             </p>
             
-            <div className="flex justify-between">
+            <div className="flex justify-between space-x-4">
               <button
                 onClick={onChangeConsent}
-                className="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded"
+                className="bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded font-medium"
               >
                 Wait, Let Me Read Again
               </button>
               <button
                 onClick={onConfirmConsent}
-                className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded"
+                className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded"
               >
                 Yes, I Accept
               </button>

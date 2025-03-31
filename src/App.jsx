@@ -323,15 +323,13 @@ const App = () => {
   };
   
   const handleButtonHover = (index) => {
-    // Reduce frequency of button movement (30% chance instead of 50%)
-    if (Math.random() > 0.7) {
-      setMovingButtonIndex(index);
-      
-      // Reset after a short delay
-      setTimeout(() => {
-        setMovingButtonIndex(null);
-      }, 1500);
-    }
+    // Always move the button on hover (removed random check)
+    setMovingButtonIndex(index);
+    
+    // Reset after a short delay
+    setTimeout(() => {
+      setMovingButtonIndex(null);
+    }, 500); // Shortened time to make it more responsive
   };
 
   const handleFinaleComplete = () => {

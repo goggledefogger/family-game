@@ -27,14 +27,16 @@ const ConfigurationScreen = ({
           {configStep.options.map((option, index) => (
             <button
               key={index}
-              onClick={() => onConfigOption(index)}
+              onClick={() => index !== 2 && onConfigOption(index)}
               onMouseEnter={() => index === 2 && handleButtonHover(index)}
+              onMouseMove={() => index === 2 && handleButtonHover(index)}
               className={`w-full text-left bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded px-4 py-3 text-white flex items-center transition-colors ${
-                movingButtonIndex === index ? 'transform translate-y-12 translate-x-6' : ''
+                movingButtonIndex === index ? (index === 2 ? 'transform translate-y-16 translate-x-12' : '') : ''
               }`}
               style={{ 
                 transitionProperty: movingButtonIndex === index ? 'transform' : 'background-color',
-                transitionDuration: movingButtonIndex === index ? '0.2s' : '0.15s'
+                transitionDuration: movingButtonIndex === index ? '0.15s' : '0.15s',
+                cursor: index === 2 ? 'not-allowed' : 'pointer'
               }}
               disabled={showConfigConfirmation}
             >
@@ -52,24 +54,24 @@ const ConfigurationScreen = ({
       
       {/* Confirmation Dialog */}
       {showConfigConfirmation && selectedConfigIndex !== null && hasCommentsForStep && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
-          <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold mb-4 text-yellow-400">Interesting Choice...</h3>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10 p-4">
+          <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 max-w-md w-full shadow-xl">
+            <h3 className="text-xl font-bold mb-6 text-yellow-400">Interesting Choice...</h3>
             
-            <p className="text-gray-300 mb-6">
+            <p className="text-gray-300 mb-8">
               {configComments[currentStep][selectedConfigIndex]}
             </p>
             
-            <div className="flex justify-between">
+            <div className="flex justify-between space-x-4">
               <button
                 onClick={onChangeConfig}
-                className="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded"
+                className="bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded font-medium"
               >
                 Reconsider
               </button>
               <button
                 onClick={onConfirmConfig}
-                className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded"
+                className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded"
               >
                 Proceed Anyway
               </button>
