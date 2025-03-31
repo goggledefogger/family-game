@@ -65,7 +65,11 @@ const AlertScreen = ({
       {showAlertConfirmation && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10 p-4">
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 max-w-md w-full shadow-xl">
-            <h3 className="text-xl font-bold mb-6 text-yellow-400">Oh, Really, {displayName}?</h3>
+            <h3 className="text-xl font-bold mb-6 text-yellow-400">
+              {currentStep < 7 ? 'Please Confirm' : 
+               currentStep < 14 ? `Are You Sure, ${displayName}?` : 
+               `Oh, Really, ${displayName}?`}
+            </h3>
             
             <p className="text-gray-300 mb-8">
               {getComment()}
@@ -76,13 +80,17 @@ const AlertScreen = ({
                 onClick={onChangeAlert}
                 className="btn-cancel py-3 px-6 rounded font-medium"
               >
-                Wait, What?
+                {currentStep < 7 ? 'Go Back' : 
+                 currentStep < 14 ? 'Let Me Think' : 
+                 'Wait, What?'}
               </button>
               <button
                 onClick={onConfirmAlert}
                 className="btn-primary py-3 px-6 rounded"
               >
-                Whatever, Continue
+                {currentStep < 7 ? 'Continue' : 
+                 currentStep < 14 ? 'Yes, Continue' : 
+                 'Whatever, Continue'}
               </button>
             </div>
           </div>

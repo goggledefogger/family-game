@@ -1,0 +1,21 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background shape -->
+  <rect x="2" y="2" width="60" height="60" rx="8" fill="#1f2937" stroke="#f59e0b" stroke-width="2"/>
+  
+  <!-- Game controller shape -->
+  <path d="M16 32c0-2.2 1.8-4 4-4h24c2.2 0 4 1.8 4 4v8c0 2.2-1.8 4-4 4H20c-2.2 0-4-1.8-4-4v-8z" fill="#374151" stroke="#f59e0b" stroke-width="1"/>
+  
+  <!-- D-pad left button -->
+  <rect x="20" y="34" width="4" height="4" rx="1" fill="#f59e0b"/>
+  
+  <!-- Action buttons -->
+  <circle cx="40" cy="36" r="2" fill="#ef4444"/> <!-- Red button -->
+  <circle cx="44" cy="32" r="2" fill="#10b981"/> <!-- Green button -->
+  
+  <!-- Question mark - representing the quiz/game aspect -->
+  <path d="M32 18c-3.3 0-6 2.7-6 6h4c0-1.1 0.9-2 2-2s2 0.9 2 2c0 2-3 1.5-3 5h4c0-2 3-2.5 3-5 0-3.3-2.7-6-6-6z" fill="#f59e0b"/>
+  <rect x="30" y="30" width="4" height="4" rx="1" fill="#f59e0b"/>
+  
+  <!-- Snarky smile/smirk at the bottom -->
+  <path d="M24 46c0 0 4 4 8 4s8-4 8-4" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" transform="rotate(5, 32, 48)"/>
+</svg> 
