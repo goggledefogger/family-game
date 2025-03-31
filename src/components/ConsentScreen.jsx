@@ -19,11 +19,11 @@ const ConsentScreen = ({ playerName, onConsent, showConsentConfirmation, onConfi
       <h2 className="text-2xl font-bold mb-6 text-yellow-400 subtle-rotate">Terms & Conditions for {displayName}</h2>
       
       <div className="w-full max-w-md">
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-8">
-          <div className="max-h-80 overflow-y-auto mb-6 text-gray-300 text-sm leading-relaxed px-4 py-2">
-            <p className="mb-4">By proceeding with this game, {displayName} agrees to the following terms and conditions:</p>
+        <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-6">
+          <div className="max-h-80 overflow-y-auto mb-4 text-gray-300 text-sm leading-relaxed px-2 py-1">
+            <p className="mb-3">By proceeding with this game, {displayName} agrees to the following terms and conditions:</p>
             
-            <ol className="list-decimal pl-5 space-y-4">
+            <ol className="list-decimal pl-4 space-y-3">
               <li className="occasional-glitch" data-text="Game data will be collected for analysis and improvement purposes. This may include your responses, timing, and interaction patterns.">
                 Game data will be collected for analysis and improvement purposes. This may include {displayName}'s responses, timing, and interaction patterns.
               </li>
@@ -85,13 +85,13 @@ const ConsentScreen = ({ playerName, onConsent, showConsentConfirmation, onConfi
             <div className="flex justify-between space-x-4">
               <button
                 onClick={onChangeConsent}
-                className="btn-cancel py-3 px-6 rounded font-medium"
+                className="btn-cancel py-3 px-6 rounded font-medium w-full"
               >
                 Let me think...
               </button>
               <button
                 onClick={onConfirmConsent}
-                className="btn-primary py-3 px-6 rounded"
+                className="btn-primary py-3 px-6 rounded w-full"
               >
                 Yes, Accept
               </button>

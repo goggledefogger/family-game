@@ -14,9 +14,9 @@ const Registration = ({ playerName, setPlayerName, onSubmit, stepLabel }) => {
       
       <div className="w-full max-w-md">
         <div className="mb-6">
-          <label htmlFor="playerName" className="block text-gray-300 mb-8">Enter your name to begin:</label>
+          <label htmlFor="playerName" className="block text-gray-300">Enter your name to begin:</label>
           <div className="flex mt-4">
-            <div className="bg-gray-800 border border-gray-600 rounded-l p-2 flex items-center">
+            <div className="bg-gray-800 border border-gray-600 rounded-l p-2 inline-flex items-center justify-center" style={{ width: '48px', flexShrink: 0 }}>
               <UserRound size={24} className="text-gray-400" />
             </div>
             <input
@@ -25,7 +25,8 @@ const Registration = ({ playerName, setPlayerName, onSubmit, stepLabel }) => {
               value={playerName}
               onChange={(e) => setPlayerName(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="flex-1 bg-gray-800 border-t border-r border-b border-gray-600 rounded-r p-3 text-white text-lg focus:outline-none focus:border-yellow-400"
+              className="bg-gray-800 border-t border-r border-b border-gray-600 rounded-r p-3 text-white text-lg focus:outline-none focus:border-yellow-400"
+              style={{ width: 'calc(100% - 48px)' }}
               placeholder="Your name"
             />
           </div>

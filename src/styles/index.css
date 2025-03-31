@@ -117,6 +117,9 @@ pre, code, .font-mono {
 /* Fix for form elements */
 input, textarea, select {
   padding: 0.75rem;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Text areas with proper padding */
@@ -487,6 +490,19 @@ input, textarea, select {
   }
 }
 
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shine {
+  animation: shine 3s infinite;
+}
+
 /* Input/button styles */
 input {
   outline: none;
@@ -581,4 +597,162 @@ button {
 .btn-cancel:hover {
   background-color: #374151 !important; /* slightly lighter on hover */
   color: #e5e7eb !important; /* whiter text on hover */
+}
+
+/* Add responsive breakpoints */
+@media (max-width: 768px) {
+  .p-8 {
+    padding: 1rem;
+  }
+  
+  .px-6 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .py-3 {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  .text-container, .scrollable-content {
+    padding: 0.75rem;
+  }
+  
+  .bg-gray-800, .bg-gray-900 {
+    padding: 1rem;
+  }
+  
+  .max-w-lg, .max-w-md {
+    width: 100%;
+    max-width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  /* Ensure modal dialogs stay within the screen */
+  .fixed.inset-0 .max-w-md {
+    width: 95%;
+    max-width: 95%;
+    margin: 0 auto;
+  }
+  
+  /* Ensure text doesn't overflow */
+  h2, h3 {
+    word-break: break-word;
+  }
+  
+  /* Improve button layout on small screens */
+  .flex.justify-between {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .flex.justify-between button {
+    width: 100%;
+  }
+  
+  .space-x-4 > * + * {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+  
+  /* Fix dialog content overflow */
+  .overflow-y-auto {
+    max-height: 60vh;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Ensure no horizontal overflow */
+  body, .container-breathe, .screen-tilt, .subtle-rotate {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  
+  /* Button text shouldn't overflow */
+  button {
+    white-space: normal;
+    word-break: break-word;
+  }
+  
+  /* Ensure input fields don't overflow */
+  input, textarea, select {
+    /* max-width: 100%;
+    width: 100%; */
+    font-size: 16px; /* Prevents iOS zoom on focus */
+  }
+  
+  /* Ensure input containers stay within bounds */
+  .flex {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  /* Better handling of flex containers on small screens */
+  .flex.w-full {
+    flex-wrap: wrap;
+  }
+  
+  /* Fix for form controls with icons */
+  .flex > input {
+    min-width: 0;
+    flex-shrink: 1;
+  }
+  
+  /* Fix for form elements with labels */
+  label {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Ensure all content stays within the viewport */
+  * {
+    max-width: 100vw;
+  }
+  
+  /* Fix dialog content and containers */
+  .fixed.inset-0 .bg-gray-800,
+  .fixed.inset-0 .bg-gray-700 {
+    width: 95%;
+    max-width: 95%;
+    margin: 0 auto;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  
+  /* Ensure dialog content stays contained */
+  .fixed.inset-0 p {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .p-8 {
+    padding: 0.75rem;
+  }
+  
+  .mb-8 {
+    margin-bottom: 1rem;
+  }
+  
+  .mb-6 {
+    margin-bottom: 0.75rem;
+  }
+  
+  .text-2xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+  
+  .text-xl {
+    font-size: 1.125rem;
+    line-height: 1.5rem;
+  }
+  
+  /* Ensure modal dialogs don't have excessive padding */
+  .fixed.inset-0 .bg-gray-800 {
+    padding: 0.75rem;
+  }
 } 

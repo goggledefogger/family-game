@@ -90,7 +90,7 @@ const AlertScreen = ({
             <div className="flex justify-between space-x-4">
               <button
                 onClick={onChangeAlert}
-                className="btn-cancel py-3 px-6 rounded font-medium"
+                className="btn-cancel py-3 px-6 rounded font-medium w-full"
               >
                 {(() => {
                   // Special cases for steps with specific tones
@@ -110,7 +110,7 @@ const AlertScreen = ({
               </button>
               <button
                 onClick={onConfirmAlert}
-                className="btn-primary py-3 px-6 rounded"
+                className="btn-primary py-3 px-6 rounded w-full"
               >
                 {(() => {
                   // Special cases for steps with specific tones

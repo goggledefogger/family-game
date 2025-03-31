@@ -162,10 +162,10 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
                   type="radio" 
                   checked={reportOption === index}
                   onChange={() => setReportOption(index)}
-                  className="mr-3"
+                  className="mr-3 w-auto"
                   id={`option-${index}`}
                 />
-                <label htmlFor={`option-${index}`} className="cursor-pointer text-gray-200">{option}</label>
+                <label htmlFor={`option-${index}`} className="cursor-pointer text-gray-200 flex-1">{option}</label>
               </div>
             ))}
           </div>
@@ -173,13 +173,13 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
           <div className="flex flex-col md:flex-row justify-center space-y-3 md:space-y-0 md:space-x-4">
             <button
               onClick={changeOption}
-              className="bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded font-medium transition-colors duration-200 w-auto"
+              className="bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded font-medium transition-colors duration-200 w-full md:w-auto"
             >
               Cancel Report
             </button>
             <button
               onClick={confirmReport}
-              className="bg-gray-800 hover:bg-gray-900 border-2 border-red-500 text-white font-bold py-3 px-6 rounded transition-colors duration-200 w-auto"
+              className="bg-gray-800 hover:bg-gray-900 border-2 border-red-500 text-white font-bold py-3 px-6 rounded transition-colors duration-200 w-full md:w-auto"
               disabled={reportOption === null}
             >
               Submit Report

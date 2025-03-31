@@ -78,13 +78,13 @@ const QuestionScreen = ({
             <div className="flex justify-between space-x-4">
               <button
                 onClick={onChangeAnswer}
-                className="btn-cancel py-3 px-6 rounded font-medium"
+                className="btn-cancel py-3 px-6 rounded font-medium w-full"
               >
                 Change Answer
               </button>
               <button
                 onClick={onConfirmAnswer}
-                className="btn-primary py-3 px-6 rounded"
+                className="btn-primary py-3 px-6 rounded w-full"
               >
                 <span className="slant-text">I'm Sure</span>
               </button>

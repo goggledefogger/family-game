@@ -21,7 +21,8 @@ const TitleScreen = ({ onStartGame }) => {
       </button>
       
       <div className="mt-8 text-sm text-gray-400">
-        <p>Version 1.4.2 • © 2025 Bauman Family Games Inc.</p>
+        <p>Version 1.4.2</p>
+        <p>© 2025 Bauman Family Games Inc.</p>
       </div>
     </div>
   );
