@@ -60,40 +60,40 @@ const RevealScreen = ({ playerName, onStartOver }) => {
       </div>
       
       {showDetails && (
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-8 max-w-md animate-fade-in">
-          <div className="flex justify-between items-start mb-4">
+        <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 mb-8 max-w-md animate-fade-in">
+          <div className="flex justify-between items-start mb-6">
             <h3 className="text-xl font-bold text-yellow-400">The Prank Revealed</h3>
             <Skull size={20} className="text-gray-400" />
           </div>
           
-          <p className="text-gray-300 mb-4 text-left">
+          <p className="text-gray-300 mb-6 text-left">
             Sorry to disappoint, but this was all an April Fools' joke! There's no Family Fortune game show, just a series of fake loading screens and "errors" designed to waste your time and drive you a little crazy.
           </p>
           
-          <div className="border-t border-gray-700 pt-4 mt-4">
-            <h4 className="text-lg font-semibold text-gray-200 mb-2 text-left">What Just Happened?</h4>
-            <ul className="text-gray-300 text-left space-y-2 mb-4">
+          <div className="border-t border-gray-700 pt-6 mt-6">
+            <h4 className="text-lg font-semibold text-gray-200 mb-4 text-left">What Just Happened?</h4>
+            <ul className="text-gray-300 text-left space-y-3 mb-6">
               <li className="flex items-start">
-                <span className="mr-2 mt-1">•</span>
+                <span className="mr-3 mt-1">•</span>
                 <span>You spent time answering meaningless questions</span>
               </li>
               <li className="flex items-start">
-                <span className="mr-2 mt-1">•</span>
+                <span className="mr-3 mt-1">•</span>
                 <span>You watched progress bars that went nowhere</span>
               </li>
               <li className="flex items-start">
-                <span className="mr-2 mt-1">•</span>
+                <span className="mr-3 mt-1">•</span>
                 <span>You were trolled by snarky dialog boxes</span>
               </li>
               <li className="flex items-start">
-                <span className="mr-2 mt-1">•</span>
+                <span className="mr-3 mt-1">•</span>
                 <span>You dealt with mysterious "errors" and "technical issues"</span>
               </li>
             </ul>
           </div>
           
-          <p className="text-gray-300 mt-4 flex items-center justify-center">
-            <ThumbsUp size={18} className="mr-2 text-yellow-500" />
+          <p className="text-gray-300 mt-6 flex items-center justify-center">
+            <ThumbsUp size={18} className="mr-3 text-yellow-500" />
             <span>Hope you had a laugh! Happy April Fools' Day!</span>
           </p>
           

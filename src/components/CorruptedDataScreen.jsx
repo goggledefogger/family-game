@@ -101,8 +101,8 @@ const CorruptedDataScreen = ({ stepMessage, loadingProgress, onComplete, delay =
           corruptionLevel < 2 
             ? 'border-yellow-600' 
             : 'border-red-600'
-        } rounded-lg p-4 mb-6`}>
-          <h3 className={`font-bold mb-2 ${
+        } rounded-lg p-8 mb-6`}>
+          <h3 className={`font-bold mb-4 ${
             corruptionLevel < 2 
               ? 'text-yellow-400' 
               : 'text-red-400'
@@ -122,7 +122,7 @@ const CorruptedDataScreen = ({ stepMessage, loadingProgress, onComplete, delay =
                       : 'text-red-600 font-bold'
                 } ${corruptionLevel >= 3 ? 'animate-glitch-text' : ''}`}
               >
-                <span className="mr-2">•</span>
+                <span className="mr-3">•</span>
                 <span>{corruptText(item.message, corruptionLevel * 0.5)}</span>
               </div>
             ))}
@@ -130,14 +130,14 @@ const CorruptedDataScreen = ({ stepMessage, loadingProgress, onComplete, delay =
         </div>
         
         {showRepair && (
-          <div className="bg-gray-800 border border-blue-600 rounded-lg p-4 mb-4 animate-fade-in">
-            <div className="flex items-center">
-              <FileCog size={20} className="text-blue-400 mr-2 animate-spin" />
+          <div className="bg-gray-800 border border-blue-600 rounded-lg p-8 mb-4 animate-fade-in">
+            <div className="flex items-center mb-4">
+              <FileCog size={20} className="text-blue-400 mr-3 animate-spin" />
               <h3 className="text-blue-400 font-bold">Attempting Data Repair</h3>
             </div>
             
-            <div className="mt-3 text-sm text-gray-300">
-              <p className="typewriter">Rebuilding corrupted indices...</p>
+            <div className="mt-4 text-sm text-gray-300">
+              <p className="typewriter mb-4">Rebuilding corrupted indices...</p>
               <div className="h-1 bg-gray-700 mt-2">
                 <div className="h-full bg-blue-500 animate-pulse" style={{ width: '60%' }}></div>
               </div>

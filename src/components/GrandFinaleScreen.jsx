@@ -57,7 +57,7 @@ const GrandFinaleScreen = ({ playerName, onComplete }) => {
   }, [stage]);
   
   return (
-    <div className="flex flex-col items-center justify-center p-4 max-w-lg mx-auto relative min-h-[80vh]">
+    <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto relative min-h-[80vh]">
       {/* Background stars */}
       {stars.map(star => (
         <div
@@ -89,9 +89,9 @@ const GrandFinaleScreen = ({ playerName, onComplete }) => {
       {/* Stage 1: Show grand prize */}
       {stage >= 1 && (
         <div className={`transition-all duration-500 ${stage > 1 ? 'scale-[0.8] opacity-80 mb-4' : 'scale-100'}`}>
-          <div className="animate-scale-in bg-gradient-to-r from-purple-900 to-indigo-900 p-6 rounded-lg shadow-lg text-center border-2 border-yellow-400">
-            <Crown size={48} className="text-yellow-400 mx-auto mb-2" />
-            <h3 className="text-2xl font-bold text-white mb-2">Grand Prize Winner!</h3>
+          <div className="animate-scale-in bg-gradient-to-r from-purple-900 to-indigo-900 p-8 rounded-lg shadow-lg text-center border-2 border-yellow-400">
+            <Crown size={48} className="text-yellow-400 mx-auto mb-4" />
+            <h3 className="text-2xl font-bold text-white mb-3">Grand Prize Winner!</h3>
             <p className="text-gray-300">
               {playerName || 'Player'}, you've been selected for our exclusive reward!
             </p>
@@ -101,23 +101,23 @@ const GrandFinaleScreen = ({ playerName, onComplete }) => {
       
       {/* Stage 2: Show prize details */}
       {stage >= 2 && (
-        <div className="animate-slide-in bg-black bg-opacity-80 p-6 rounded-lg shadow-lg border border-yellow-600 max-w-md mx-auto text-center">
-          <div className="flex justify-center mb-4">
-            <Gift size={48} className="text-red-500 mr-2" />
+        <div className="animate-slide-in bg-black bg-opacity-80 p-8 rounded-lg shadow-lg border border-yellow-600 max-w-md mx-auto text-center">
+          <div className="flex justify-center mb-6">
+            <Gift size={48} className="text-red-500 mr-4" />
             <Sparkles size={48} className="text-blue-400" />
           </div>
-          <h3 className="text-xl font-bold text-white mb-4">Your PRIZE includes:</h3>
-          <ul className="text-left space-y-3 mb-4">
+          <h3 className="text-xl font-bold text-white mb-6">Your PRIZE includes:</h3>
+          <ul className="text-left space-y-4 mb-4">
             <li className="flex items-center text-gray-200">
-              <span className="mr-2 text-yellow-400">•</span>
+              <span className="mr-3 text-yellow-400">•</span>
               A once-in-a-lifetime opportunity
             </li>
             <li className="flex items-center text-gray-200">
-              <span className="mr-2 text-yellow-400">•</span>
+              <span className="mr-3 text-yellow-400">•</span>
               Exclusive access to premium content
             </li>
             <li className="flex items-center text-gray-200">
-              <span className="mr-2 text-yellow-400">•</span>
+              <span className="mr-3 text-yellow-400">•</span>
               Recognition from our entire team
             </li>
           </ul>

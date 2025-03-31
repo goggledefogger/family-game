@@ -54,10 +54,10 @@ const BinaryLoadingScreen = ({ stepMessage, loadingProgress, onComplete, delay =
   
   return (
     <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto">
-      <div className="w-full binary-rain relative min-h-[300px]">
-        {/* Binary rain background */}
+      {/* Falling binary background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {binaryDigits.map((digit) => (
-          <div 
+          <div
             key={digit.id}
             className="binary-digit absolute"
             style={{
@@ -72,51 +72,42 @@ const BinaryLoadingScreen = ({ stepMessage, loadingProgress, onComplete, delay =
             {digit.value}
           </div>
         ))}
+      </div>
+      
+      {/* Main content */}
+      <div className="relative z-10 bg-black bg-opacity-70 p-8 rounded-lg border border-green-500">
+        <div className="mb-6 flex justify-center">
+          <Database size={48} className="text-green-500 animate-pulse" />
+        </div>
         
-        {/* Content on top of binary rain */}
-        <div className="relative z-10 bg-black bg-opacity-70 p-6 rounded-lg border border-green-500">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-mono text-green-400">System Analysis</h2>
-            <Code size={24} className="text-green-500" />
+        <h2 className="text-xl font-mono text-green-400 mb-6 text-center">SYSTEM OPERATION</h2>
+        
+        <div className="progress-container mb-6">
+          <div 
+            className="progress-bar bg-green-500"
+            style={{ width: `${loadingProgress}%` }}
+          ></div>
+        </div>
+        
+        <p className="text-green-400 font-mono mb-6 text-center">
+          {stepMessage}
+        </p>
+        
+        <div className="font-mono text-green-800 text-xs h-24 overflow-hidden border border-green-900 bg-black bg-opacity-50 p-4 mb-2">
+          <div>
+            <p>&gt; INITIALIZING DATA STREAM</p>
+            <p>&gt; {generateBinaryString(32)}</p>
+            <p>&gt; {generateBinaryString(32)}</p>
+            <p>&gt; ANALYZING USER DATA</p>
+            <p>&gt; {generateBinaryString(32)}</p>
+            <p>&gt; {generateBinaryString(32)}</p>
+            <p>&gt; ACCESSING MAIN FRAME</p>
+            <p>&gt; {generateBinaryString(32)}</p>
           </div>
-          
-          <div className="mb-4">
-            <div className="flex justify-between mb-1">
-              <span className="text-green-300 font-mono text-sm">Processing:</span>
-              <span className="text-green-300 font-mono text-sm">{loadingProgress}%</span>
-            </div>
-            <div className="h-2 bg-gray-800 rounded overflow-hidden">
-              <div 
-                className="h-full bg-green-500 transition-all duration-300 ease-out"
-                style={{ width: `${loadingProgress}%` }}
-              ></div>
-            </div>
-          </div>
-          
-          <div className="font-mono text-green-300 text-sm mb-4">
-            {stepMessage}
-          </div>
-          
-          <div className="font-mono text-green-800 text-xs h-24 overflow-hidden border border-green-900 bg-black bg-opacity-50 p-2">
-            <div>
-              <p>&gt; INITIALIZING DATA STREAM</p>
-              <p>&gt; {generateBinaryString(32)}</p>
-              <p>&gt; {generateBinaryString(32)}</p>
-              <p>&gt; ANALYZING USER DATA</p>
-              <p>&gt; {generateBinaryString(32)}</p>
-              <p>&gt; {generateBinaryString(32)}</p>
-              <p>&gt; ACCESSING MAIN FRAME</p>
-              <p>&gt; {generateBinaryString(32)}</p>
-            </div>
-          </div>
-          
-          <div className="flex justify-between items-center mt-4">
-            <div className="flex items-center">
-              <Database size={16} className="text-green-500 mr-2" />
-              <span className="text-green-300 font-mono text-xs">System v4.01</span>
-            </div>
-            <span className="text-green-300 font-mono text-xs animate-pulse">Processing...</span>
-          </div>
+        </div>
+        
+        <div className="text-right text-green-600 text-sm font-mono">
+          {Math.floor(loadingProgress)}% complete
         </div>
       </div>
     </div>

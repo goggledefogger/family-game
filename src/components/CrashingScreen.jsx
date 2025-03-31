@@ -55,7 +55,7 @@ const CrashingScreen = ({ onComplete, delay = 4000 }) => {
       {/* Second stage - error message */}
       {crashStage >= 2 && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-90 z-10">
-          <div className="bg-gray-800 border-2 border-red-500 rounded-lg p-6 max-w-md w-full animate-bounce-in relative crt-effect">
+          <div className="bg-gray-800 border-2 border-red-500 rounded-lg p-8 max-w-md w-full animate-bounce-in relative crt-effect">
             <div className="scanline"></div>
             
             <div className="flex items-start space-x-4 mb-4">
@@ -69,7 +69,7 @@ const CrashingScreen = ({ onComplete, delay = 4000 }) => {
               <X size={24} className="text-gray-400 ml-auto" />
             </div>
             
-            <div className="border border-gray-700 bg-gray-900 p-3 mb-4 font-mono text-sm text-gray-300 overflow-auto h-24">
+            <div className="border border-gray-700 bg-gray-900 p-4 mb-4 font-mono text-sm text-gray-300 overflow-auto h-24">
               <p className="animate-glitch-text">
                 A critical system error has occurred.
                 <br />
