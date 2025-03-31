@@ -58,32 +58,42 @@ const App = () => {
       
       // Select a loading screen type based on step or random choice
       if (loadingProgress === 0) {
-        // Randomly select a progress bar type
-        setProgressBarType(Math.floor(Math.random() * 4));
-        
-        // Create a more varied and distributed selection of loading screen types
-        const stepIndex = currentStep % 8; // Create a repeating pattern every 8 steps
-        
-        if (stepIndex === 0) {
-          setLoadingScreenType('default');
-        } else if (stepIndex === 1) {
-          setLoadingScreenType('binary');
-        } else if (stepIndex === 2) {
-          setLoadingScreenType('default');
-        } else if (stepIndex === 3) {
-          setLoadingScreenType('crash');
-        } else if (stepIndex === 4) {
-          setLoadingScreenType('default');
-        } else if (stepIndex === 5) {
-          setLoadingScreenType('corrupted');
+        // Randomly select a progress bar type - more variety later in the game
+        if (currentStep < 5) {
+          // First third: mostly default progress bar type (0)
+          setProgressBarType(Math.floor(Math.random() * 2)); // Only types 0-1
+        } else if (currentStep < 12) {
+          // Middle third: more variety but still controlled
+          setProgressBarType(Math.floor(Math.random() * 3)); // Types 0-2
         } else {
-          // For the remaining steps, select randomly but weight toward default
-          const screenTypes = ['default', 'default', 'binary', 'crash', 'corrupted'];
-          setLoadingScreenType(screenTypes[Math.floor(Math.random() * screenTypes.length)]);
+          // Final third: full variety
+          setProgressBarType(Math.floor(Math.random() * 4)); // All types 0-3
         }
         
-        // Set melting effect occasionally for visual variety
-        if (currentStep === 7 || currentStep === 14 || Math.random() > 0.85) {
+        // Create a progressive distribution of loading screen types
+        if (currentStep < 6) {
+          // First third: mostly default loading screens, occasional binary
+          const screenTypes = ['default', 'default', 'default', 'default', 'binary'];
+          const randomIndex = Math.floor(Math.random() * screenTypes.length);
+          setLoadingScreenType(screenTypes[randomIndex]);
+        } else if (currentStep < 12) {
+          // Middle third: introduce crash screens, more binary
+          const screenTypes = ['default', 'default', 'binary', 'binary', 'crash'];
+          const randomIndex = Math.floor(Math.random() * screenTypes.length);
+          setLoadingScreenType(screenTypes[randomIndex]);
+        } else {
+          // Final third: all screen types with corrupted data more frequent
+          const screenTypes = ['default', 'binary', 'crash', 'corrupted', 'corrupted'];
+          const randomIndex = Math.floor(Math.random() * screenTypes.length);
+          setLoadingScreenType(screenTypes[randomIndex]);
+        }
+        
+        // Set melting effect with increasing frequency as game progresses
+        if (
+          (currentStep < 6 && Math.random() > 0.95) || // 5% chance early game
+          (currentStep >= 6 && currentStep < 12 && Math.random() > 0.85) || // 15% chance mid game
+          (currentStep >= 12 && (currentStep === 14 || Math.random() > 0.7)) // 30% chance late game + step 14
+        ) {
           setIsMelting(true);
         } else {
           setIsMelting(false);
@@ -92,33 +102,75 @@ const App = () => {
       
       const interval = setInterval(() => {
         setLoadingProgress(prev => {
-          // Reduce weird behavior frequency by:
-          // 1. Making fewer steps eligible for reverse progression
-          // 2. Making the random threshold higher (less chance)
-          const isSpecialStep = currentStep === 7 || currentStep === 15;
-          const isReversePoint = 
-            (prev >= 40 && prev <= 42 && Math.random() > 0.8) || 
-            (prev >= 70 && prev <= 72 && Math.random() > 0.85 && isSpecialStep);
+          // Reduce weird behavior in early game, increase in late game
+          const progressStage = currentStep < 6 ? 'early' : currentStep < 12 ? 'mid' : 'late';
           
-          if (isReversePoint && !isReversingProgress && Math.random() > 0.97) {
-            setIsReversingProgress(true);
+          // Different reverse progress chance based on game stage
+          let reverseChance = 0.99; // 1% chance early game
+          let specialStepCheck = false;
+          
+          if (progressStage === 'early') {
+            reverseChance = 0.99; // 1% chance
+            // Only at specific points with a high threshold
+            const isReversePoint = (prev >= 40 && prev <= 41 && Math.random() > 0.9);
+            if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
+              setIsReversingProgress(true);
+              setTimeout(() => {
+                setIsReversingProgress(false);
+              }, 500); // Short reverse period
+            }
+          } else if (progressStage === 'mid') {
+            reverseChance = 0.95; // 5% chance
+            const isSpecialStep = currentStep === 7;
+            const isReversePoint = 
+              (prev >= 40 && prev <= 42 && Math.random() > 0.8) || 
+              (prev >= 70 && prev <= 72 && isSpecialStep && Math.random() > 0.85);
             
-            // Make the reverse period shorter
-            setTimeout(() => {
-              setIsReversingProgress(false);
-            }, 800);
+            if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
+              setIsReversingProgress(true);
+              setTimeout(() => {
+                setIsReversingProgress(false);
+              }, 700); // Medium reverse period
+            }
+          } else { // late game
+            reverseChance = 0.9; // 10% chance
+            const isSpecialStep = currentStep === 15 || currentStep === 17;
+            const isReversePoint = 
+              (prev >= 40 && prev <= 43 && Math.random() > 0.7) || 
+              (prev >= 70 && prev <= 73 && Math.random() > 0.75) ||
+              (prev >= 55 && prev <= 58 && isSpecialStep); 
+            
+            if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
+              setIsReversingProgress(true);
+              setTimeout(() => {
+                setIsReversingProgress(false);
+              }, 800); // Longer reverse period
+            }
           }
           
           // If we're reversing, go backwards
           if (isReversingProgress) {
-            return Math.max(prev - 1, 35);
+            return Math.max(prev - (progressStage === 'late' ? 1.5 : 1), 35);
           }
           
           // Otherwise normal progress, slowing down at certain points
           if (prev >= 75 && prev < 95) {
             return prev + 0.5;
           } else {
-            return prev + 2;
+            let nextProgress = prev + 2;
+            
+            // Cap at 100% in early game, allow exceeding only in mid and late game
+            if (progressStage === 'early') {
+              return Math.min(nextProgress, 100);
+            } else if (progressStage === 'mid') {
+              // Mid game: occasionally allow exceeding 100%, but not by much
+              const maxProgress = Math.random() < 0.8 ? 100 : 102;
+              return Math.min(nextProgress, maxProgress);
+            } else {
+              // Late game: more frequently allow exceeding 100%, by more
+              const maxProgress = Math.random() < 0.5 ? 100 : 100 + (Math.random() * 5);
+              return Math.min(nextProgress, maxProgress);
+            }
           }
         });
         
@@ -187,9 +239,28 @@ const App = () => {
     // Do NOT advance step counter here - it should stay as Step 1 until after first loading screen
   };
 
+  // Make confirmation dialogs gradually more frequent based on game progress
+  const getConfirmationChance = (baseChance, currentIndex, maxIndex, increment) => {
+    // Calculate game progress as a percentage
+    const gameProgress = currentStep / 20; // Assuming about 20 steps total
+    
+    // Reduce chance early, standard in middle, increase late
+    let adjustedBaseChance;
+    if (gameProgress < 0.3) { // First third
+      adjustedBaseChance = baseChance * 0.4; // 40% of normal chance
+    } else if (gameProgress < 0.6) { // Middle third
+      adjustedBaseChance = baseChance * 0.8; // 80% of normal chance
+    } else { // Final third
+      adjustedBaseChance = baseChance * 1.2; // 120% of normal chance
+    }
+    
+    return adjustedBaseChance + (Math.min(currentIndex, maxIndex) * increment);
+  };
+
   const handleAnswer = (answerIndex) => {
-    // Random chance to show confirmation, increasing as the game progresses
-    const randomChance = 0.3 + (Math.min(questionIndex, 5) * 0.1); // 30-80% chance
+    // Random chance to show confirmation, with progressive increase
+    const baseChance = 0.3; // 30% base chance
+    const randomChance = getConfirmationChance(baseChance, questionIndex, 5, 0.08);
     
     if (Math.random() < randomChance) {
       // Instead of immediately proceeding, show confirmation dialog
@@ -233,9 +304,9 @@ const App = () => {
 
   const handleConfigOption = (optionIndex) => {
     // Check if we should show a confirmation for this configuration step
-    // Either because there are comments OR by random chance
-    // The chance increases as you advance through the game
-    const randomChance = 0.3 + (Math.min(currentStep, 20) * 0.02); // 30% at start, increasing by 2% per step
+    // With progressive chance increase
+    const baseChance = 0.3; // 30% base chance
+    const randomChance = getConfirmationChance(baseChance, currentStep, 20, 0.02);
     
     if (configComments[currentStep] || Math.random() < randomChance) {
       setSelectedConfigIndex(optionIndex);
@@ -294,8 +365,9 @@ const App = () => {
   };
 
   const handleConsent = () => {
-    // Random chance to show confirmation, increasing as the game progresses
-    const randomChance = 0.5 + (Math.min(currentStep, 10) * 0.03); // 50-80% chance
+    // Random chance to show confirmation, with progressive increase
+    const baseChance = 0.5; // 50% base chance
+    const randomChance = getConfirmationChance(baseChance, currentStep, 10, 0.02);
     
     if (Math.random() < randomChance) {
       // Show confirmation dialog instead of proceeding immediately
@@ -348,9 +420,9 @@ const App = () => {
 
   const handleAlert = () => {
     // Check if we should show a confirmation for this alert step
-    // Either because there are comments OR by random chance
-    // The chance increases as you advance through the game
-    const randomChance = 0.4 + (Math.min(currentStep, 15) * 0.03); // 40% at start, increasing by 3% per step
+    // With progressive chance increase
+    const baseChance = 0.4; // 40% base chance
+    const randomChance = getConfirmationChance(baseChance, currentStep, 15, 0.02);
     
     if (alertComments[currentStep] || Math.random() < randomChance) {
       setShowAlertConfirmation(true);
@@ -595,14 +667,16 @@ const App = () => {
       newStepCount.subsub = null;
       newStepCount.type = 'numeric';
     } else {
-      // Stage 4+: Get weird
-      if (Math.random() < 0.8) {
-        // 80% chance: increment existing step in strange ways
+      // Stage 4+: Get weird, but gradually based on game progress
+      const gameProgress = currentStep / 20; // Assuming about 20 steps total
+      
+      if (gameProgress < 0.6) {
+        // Before final third, keep somewhat reasonable
         newStepCount.main = 2;
         
-        // Add or advance sub-steps in unpredictable ways
-        if (!newStepCount.sub || Math.random() < 0.5) {
-          newStepCount.sub = newStepCount.sub ? newStepCount.sub + 1 : 3; // Skip to 2.3 after 2.2
+        // Just add sequential sub-steps
+        if (!newStepCount.sub || Math.random() < 0.8) {
+          newStepCount.sub = newStepCount.sub ? newStepCount.sub + 1 : 3; // Move to 2.3, 2.4, etc.
         } else {
           if (!newStepCount.subsub) {
             newStepCount.subsub = 1;
@@ -611,20 +685,43 @@ const App = () => {
           }
         }
         
-        // Sometimes switch numbering systems
-        if (Math.random() < 0.4) {
-          const systems = ['numeric', 0, 1, 2, 3, 4];
+        // Small chance of weird numbering system
+        if (Math.random() < 0.2) {
+          const systems = ['numeric', 0, 1];  // Limited options
           newStepCount.type = systems[Math.floor(Math.random() * systems.length)];
         }
       } else {
-        // 20% chance: completely weird format
-        newStepCount.main = 2;
-        newStepCount.sub = Math.floor(Math.random() * 9) + 3; // 2.3 through 2.11
-        newStepCount.subsub = Math.random() < 0.5 ? Math.floor(Math.random() * 5) + 1 : null;
-        
-        // Use a random numbering system
-        const systems = ['numeric', 0, 1, 2, 3, 4];
-        newStepCount.type = systems[Math.floor(Math.random() * systems.length)];
+        // In final third, get fully weird
+        if (Math.random() < 0.7) {
+          // 70% chance: increment existing step in strange ways
+          newStepCount.main = 2;
+          
+          // Add or advance sub-steps in unpredictable ways
+          if (!newStepCount.sub || Math.random() < 0.5) {
+            newStepCount.sub = newStepCount.sub ? newStepCount.sub + Math.floor(Math.random() * 3) + 1 : 3; // Skip to 2.3 after 2.2, maybe jump ahead more
+          } else {
+            if (!newStepCount.subsub) {
+              newStepCount.subsub = 1;
+            } else {
+              newStepCount.subsub += Math.floor(Math.random() * 3) + 1;
+            }
+          }
+          
+          // Higher chance of weird numbering systems
+          if (Math.random() < 0.4) {
+            const systems = ['numeric', 0, 1, 2, 3, 4];
+            newStepCount.type = systems[Math.floor(Math.random() * systems.length)];
+          }
+        } else {
+          // 30% chance: completely weird format
+          newStepCount.main = 2;
+          newStepCount.sub = Math.floor(Math.random() * 9) + 3; // 2.3 through 2.11
+          newStepCount.subsub = Math.random() < 0.5 ? Math.floor(Math.random() * 5) + 1 : null;
+          
+          // Use a random numbering system
+          const systems = ['numeric', 0, 1, 2, 3, 4];
+          newStepCount.type = systems[Math.floor(Math.random() * systems.length)];
+        }
       }
     }
     
@@ -640,7 +737,21 @@ const App = () => {
     } else if (nextStage === 3) {
       newLabel = "Step 2.2 of 3";
     } else {
-      newLabel = getStepLabel(newStepCount);
+      // Only use special formats in the later parts of the game
+      const gameProgress = currentStep / 20;
+      if (gameProgress < 0.5) {
+        // First half: simple step numbering
+        if (newStepCount.subsub) {
+          newLabel = `Step ${newStepCount.main}.${newStepCount.sub}.${newStepCount.subsub} of 3`;
+        } else if (newStepCount.sub) {
+          newLabel = `Step ${newStepCount.main}.${newStepCount.sub} of 3`;
+        } else {
+          newLabel = `Step ${newStepCount.main} of 3`;
+        }
+      } else {
+        // Second half: use the full range of weird formats
+        newLabel = getStepLabel(newStepCount);
+      }
     }
     
     setCurrentStepLabel(newLabel);
