@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Database, Code } from 'lucide-react';
 
-const BinaryLoadingScreen = ({ stepMessage, loadingProgress, onComplete, delay = 5000, stepLabel }) => {
+const BinaryLoadingScreen = ({ playerName, stepMessage, loadingProgress, onComplete, delay = 5000, stepLabel }) => {
   const [binaryDigits, setBinaryDigits] = useState([]);
+  // Get a default name if none is provided
+  const displayName = playerName?.trim() || 'User';
+  
+  // Personalize messages with player name
+  const personalizedMessage = stepMessage?.includes('player') 
+    ? stepMessage.replace('player', displayName) 
+    : stepMessage;
   
   // Generate binary rain effect
   useEffect(() => {
@@ -80,7 +87,7 @@ const BinaryLoadingScreen = ({ stepMessage, loadingProgress, onComplete, delay =
           <Database size={48} className="text-green-500 animate-pulse" />
         </div>
         
-        <h2 className="text-xl font-mono text-green-400 mb-6 text-center">SYSTEM OPERATION</h2>
+        <h2 className="text-xl font-mono text-green-400 mb-6 text-center">USER DATA: {displayName.toUpperCase()}</h2>
         
         <div className="progress-container h-4 bg-black bg-opacity-50 border border-green-900 mb-6 overflow-hidden">
           <div 
@@ -90,16 +97,15 @@ const BinaryLoadingScreen = ({ stepMessage, loadingProgress, onComplete, delay =
         </div>
         
         <p className="text-green-400 font-mono mb-6 text-center h-12 flex items-center justify-center">
-          {stepMessage}
+          {personalizedMessage}
         </p>
         
         <div className="font-mono text-green-800 text-xs h-24 overflow-hidden border border-green-900 bg-black bg-opacity-50 p-4 mb-2 w-full">
           <div className="binary-text-container">
             <p>&gt; INITIALIZING DATA STREAM</p>
-            <p>&gt; {generateBinaryString(32)}</p>
+            <p>&gt; USER: {displayName.toUpperCase()}</p>
             <p>&gt; {generateBinaryString(32)}</p>
             <p>&gt; ANALYZING USER DATA</p>
-            <p>&gt; {generateBinaryString(32)}</p>
             <p>&gt; {generateBinaryString(32)}</p>
             <p>&gt; ACCESSING MAIN FRAME</p>
             <p>&gt; {generateBinaryString(32)}</p>

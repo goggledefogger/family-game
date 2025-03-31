@@ -5,6 +5,7 @@ import { alertComments } from '../data/alertComments';
 import { randomAlertComments } from '../data/randomComments';
 
 const AlertScreen = ({ 
+  playerName,
   currentStep, 
   onAlert,
   showAlertConfirmation,
@@ -15,13 +16,26 @@ const AlertScreen = ({
   const hasCommentsForStep = alertComments[currentStep] !== undefined;
   const [randomComment] = useState(randomAlertComments[Math.floor(Math.random() * randomAlertComments.length)]);
   
+  // Get a default name if none is provided
+  const displayName = playerName?.trim() || 'User';
+  
   // Function to get the appropriate comment
   const getComment = () => {
+    let comment;
     if (hasCommentsForStep) {
-      return alertComments[currentStep][Math.floor(Math.random() * alertComments[currentStep].length)];
+      comment = alertComments[currentStep][Math.floor(Math.random() * alertComments[currentStep].length)];
+    } else {
+      comment = randomComment;
     }
-    return randomComment;
+    
+    // Replace placeholders with player name
+    return comment?.replace(/you/g, displayName).replace(/You/g, displayName);
   };
+  
+  // Personalize alert message
+  const personalizedMessage = gameSteps[currentStep]?.message?.includes('your')
+    ? gameSteps[currentStep].message.replace('your', `${displayName}'s`)
+    : gameSteps[currentStep]?.message;
   
   return (
     <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto">
@@ -29,8 +43,8 @@ const AlertScreen = ({
         <HelpCircle size={48} />
       </div>
       
-      <h2 className="text-2xl font-bold mb-2 text-yellow-400">System Notice</h2>
-      <p className="text-gray-300 mb-8 text-center">{gameSteps[currentStep].message}</p>
+      <h2 className="text-2xl font-bold mb-2 text-yellow-400">System Notice for {displayName}</h2>
+      <p className="text-gray-300 mb-8 text-center">{personalizedMessage}</p>
       
       <div className="flex flex-col w-full max-w-md">
         <button 
@@ -51,7 +65,7 @@ const AlertScreen = ({
       {showAlertConfirmation && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10 p-4">
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 max-w-md w-full shadow-xl">
-            <h3 className="text-xl font-bold mb-6 text-yellow-400">Oh, Really?</h3>
+            <h3 className="text-xl font-bold mb-6 text-yellow-400">Oh, Really, {displayName}?</h3>
             
             <p className="text-gray-300 mb-8">
               {getComment()}

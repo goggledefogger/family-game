@@ -3,7 +3,7 @@ import { Check } from 'lucide-react';
 import { consentComments } from '../data/consentComments';
 import { randomConsentComments } from '../data/randomComments';
 
-const ConsentScreen = ({ onConsent, showConsentConfirmation, onConfirmConsent, onChangeConsent, stepLabel }) => {
+const ConsentScreen = ({ playerName, onConsent, showConsentConfirmation, onConfirmConsent, onChangeConsent, stepLabel }) => {
   // Select a random comment when component mounts
   const [commentIndex] = useState(Math.floor(Math.random() * consentComments.length));
   const comment = consentComments[commentIndex];
@@ -11,42 +11,45 @@ const ConsentScreen = ({ onConsent, showConsentConfirmation, onConfirmConsent, o
   // Select a random confirmation comment
   const [confirmationComment] = useState(randomConsentComments[Math.floor(Math.random() * randomConsentComments.length)]);
   
+  // Get a default name if none is provided
+  const displayName = playerName?.trim() || 'User';
+  
   return (
     <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto container-breathe">
-      <h2 className="text-2xl font-bold mb-6 text-yellow-400 subtle-rotate">Terms & Conditions</h2>
+      <h2 className="text-2xl font-bold mb-6 text-yellow-400 subtle-rotate">Terms & Conditions for {displayName}</h2>
       
       <div className="w-full max-w-md">
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-8">
           <div className="max-h-80 overflow-y-auto mb-6 text-gray-300 text-sm leading-relaxed">
-            <p className="mb-4">By proceeding with this game, you agree to the following terms and conditions:</p>
+            <p className="mb-4">By proceeding with this game, {displayName} agrees to the following terms and conditions:</p>
             
             <ol className="list-decimal pl-5 space-y-4">
               <li className="occasional-glitch" data-text="Game data will be collected for analysis and improvement purposes. This may include your responses, timing, and interaction patterns.">
-                Game data will be collected for analysis and improvement purposes. This may include your responses, timing, and interaction patterns.
+                Game data will be collected for analysis and improvement purposes. This may include {displayName}'s responses, timing, and interaction patterns.
               </li>
               
               <li className="text-glitch">
-                The game provider reserves the right to modify, suspend, or terminate the game experience at any time without prior notice.
+                The game provider reserves the right to modify, suspend, or terminate {displayName}'s game experience at any time without prior notice.
               </li>
               
               <li>
-                You acknowledge that any decisions made within this game are solely for entertainment purposes and do not reflect real-world implications or consequences.
+                {displayName} acknowledges that any decisions made within this game are solely for entertainment purposes and do not reflect real-world implications or consequences.
               </li>
               
               <li className="color-shift">
-                The game provider assumes no responsibility for any emotional distress, confusion, or existential crises that may arise from participating in this game.
+                The game provider assumes no responsibility for any emotional distress, confusion, or existential crises that may arise from {displayName}'s participation in this game.
               </li>
               
               <li>
-                You grant permission for your gameplay data to be shared with our partner companies, subsidiaries, and any interested aliens who may be studying human behavior.
+                {displayName} grants permission for gameplay data to be shared with our partner companies, subsidiaries, and any interested aliens who may be studying human behavior.
               </li>
               
               <li className="occasional-glitch" data-text="This game contains nonsensical elements and arbitrary processes designed to confuse and frustrate users, which you willingly accept.">
-                This game contains nonsensical elements and arbitrary processes designed to confuse and frustrate users, which you willingly accept.
+                This game contains nonsensical elements and arbitrary processes designed to confuse and frustrate users, which {displayName} willingly accepts.
               </li>
               
               <li>
-                You acknowledge that clicking "I Accept" means you haven't actually read these terms in detail, which is exactly what we expected.
+                {displayName} acknowledges that clicking "I Accept" means they haven't actually read these terms in detail, which is exactly what we expected.
               </li>
             </ol>
           </div>
@@ -73,10 +76,10 @@ const ConsentScreen = ({ onConsent, showConsentConfirmation, onConfirmConsent, o
       {showConsentConfirmation && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10 p-4">
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 max-w-md w-full shadow-xl screen-tilt">
-            <h3 className="text-xl font-bold mb-6 text-yellow-400">Are you sure?</h3>
+            <h3 className="text-xl font-bold mb-6 text-yellow-400">Are you sure, {displayName}?</h3>
             
             <p className="text-gray-300 mb-8 occasional-glitch" data-text={confirmationComment}>
-              {confirmationComment}
+              {confirmationComment.replace(/you/g, displayName).replace(/You/g, displayName)}
             </p>
             
             <div className="flex justify-between space-x-4">

@@ -3,6 +3,7 @@ import { Loader } from 'lucide-react';
 import ProgressBar from './ProgressBar';
 
 const LoadingScreen = ({ 
+  playerName,
   stepMessage, 
   loadingProgress, 
   progressBarType, 
@@ -11,6 +12,14 @@ const LoadingScreen = ({
   currentStep,
   stepLabel 
 }) => {
+  // Get a default name if none is provided
+  const displayName = playerName?.trim() || 'User';
+  
+  // Personalize messages with player name
+  const personalizedMessage = stepMessage?.includes('player') 
+    ? stepMessage.replace('player', displayName) 
+    : stepMessage;
+  
   return (
     <div className={`flex flex-col items-center justify-center p-8 max-w-lg mx-auto ${isMelting ? 'melting-ui' : ''}`}>
       <div className={`text-yellow-500 mb-6 ${isMelting ? 'melting-spinner' : ''}`}>
@@ -18,11 +27,11 @@ const LoadingScreen = ({
       </div>
       
       <h2 className={`text-2xl font-bold mb-6 text-yellow-400 ${isMelting ? 'melting-text' : ''}`}>
-        Loading Game Data
+        Loading Game Data for {displayName}
       </h2>
       
       <p className={`text-gray-300 mb-8 text-center ${isMelting ? 'melting-text-subtle' : ''}`}>
-        {stepMessage}
+        {personalizedMessage}
       </p>
       
       <div className="progress-container mb-6 w-full">
@@ -36,7 +45,7 @@ const LoadingScreen = ({
       
       <p className="text-gray-400 text-sm">
         {isReversingProgress 
-          ? 'Error detected, restoring data...' 
+          ? `Error detected, restoring ${displayName}'s data...` 
           : `${Math.floor(loadingProgress)}% complete`
         }
       </p>

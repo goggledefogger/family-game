@@ -5,6 +5,7 @@ import { configComments } from '../data/configComments';
 import { randomConfigComments } from '../data/randomComments';
 
 const ConfigurationScreen = ({ 
+  playerName,
   currentStep, 
   onConfigOption, 
   handleButtonHover, 
@@ -19,6 +20,9 @@ const ConfigurationScreen = ({
   const hasCommentsForStep = configComments[currentStep] !== undefined;
   const [lastMoveDirection, setLastMoveDirection] = useState({ x: 0, y: 0 });
   const [randomComment] = useState(randomConfigComments[Math.floor(Math.random() * randomConfigComments.length)]);
+  
+  // Get a default name if none is provided
+  const displayName = playerName?.trim() || 'User';
   
   // Function to generate random movement when hovering over joke button
   const handleJokeButtonHover = (index) => {
@@ -60,18 +64,30 @@ const ConfigurationScreen = ({
   
   // Function to get the appropriate comment
   const getComment = () => {
+    let comment;
     if (hasCommentsForStep && selectedConfigIndex !== null) {
-      return configComments[currentStep][selectedConfigIndex];
+      comment = configComments[currentStep][selectedConfigIndex];
+    } else {
+      comment = randomComment;
     }
-    return randomComment;
+    
+    // Replace placeholders with player name
+    return comment?.includes('[name]') 
+      ? comment.replace(/\[name\]/g, displayName) 
+      : comment;
   };
+  
+  // Personalize config message
+  const personalizedConfigMessage = configStep?.message?.includes('your')
+    ? configStep.message.replace('your', `${displayName}'s`)
+    : configStep?.message;
   
   return (
     <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto screen-tilt">
-      <h2 className="text-2xl font-bold mb-6 text-yellow-400 subtle-rotate">Game Configuration</h2>
+      <h2 className="text-2xl font-bold mb-6 text-yellow-400 subtle-rotate">{displayName}'s Game Configuration</h2>
       
       <div className="w-full max-w-md mb-6 container-breathe">
-        <p className="text-white text-lg mb-6 occasional-glitch" data-text={configStep.message}>{configStep.message}</p>
+        <p className="text-white text-lg mb-6 occasional-glitch" data-text={personalizedConfigMessage}>{personalizedConfigMessage}</p>
         
         <div className="space-y-3">
           {configStep.options.map((option, index) => (
@@ -113,7 +129,7 @@ const ConfigurationScreen = ({
       {showConfigConfirmation && selectedConfigIndex !== null && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10 p-4">
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 max-w-md w-full shadow-xl">
-            <h3 className="text-xl font-bold mb-6 text-yellow-400">Interesting Choice...</h3>
+            <h3 className="text-xl font-bold mb-6 text-yellow-400">Interesting Choice, {displayName}...</h3>
             
             <p className="text-gray-300 mb-8">
               {getComment()}

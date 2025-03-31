@@ -3,6 +3,7 @@ import { AlertCircle, XCircle, RefreshCw } from 'lucide-react';
 import { errors } from '../data/errors';
 
 const ErrorScreen = ({ 
+  playerName,
   errorType, 
   updateCount, 
   onErrorAction, 
@@ -14,6 +15,9 @@ const ErrorScreen = ({
   const error = errors[errorType];
   const [isButtonMoving, setIsButtonMoving] = useState(false);
   const [lastMoveDirection, setLastMoveDirection] = useState({ x: 0, y: 0 });
+  
+  // Get a default name if none is provided
+  const displayName = playerName?.trim() || 'User';
   
   // Random glitch intervals for text
   useEffect(() => {
@@ -71,6 +75,11 @@ const ErrorScreen = ({
     onErrorAction();
   };
   
+  // Format error message to include player name
+  const personalizedErrorMessage = error?.message?.includes('user')
+    ? error.message.replace('user', displayName)
+    : error?.message;
+  
   return (
     <div className="flex flex-col items-center justify-center p-8 max-w-md mx-auto screen-tilt">
       <div className="text-red-500 mb-6 float">
@@ -84,7 +93,8 @@ const ErrorScreen = ({
           <AlertCircle size={24} className="text-red-500 mr-3 flex-shrink-0 mt-1" />
           <div>
             <p className="text-white mb-2 text-glitch">Error Code: {error.code}</p>
-            <p className="text-gray-300">{error.message}</p>
+            <p className="text-gray-300">{personalizedErrorMessage}</p>
+            <p className="text-gray-500 mt-2 text-sm">Profile: {displayName}</p>
           </div>
         </div>
         
@@ -93,7 +103,7 @@ const ErrorScreen = ({
         </div>
         
         <p className="text-sm text-gray-400 mb-4 color-shift">
-          Attempted fixes: <span className="text-red-400 font-bold">{attempts}</span> of 4
+          Attempted fixes for {displayName}: <span className="text-red-400 font-bold">{attempts}</span> of 4
         </p>
       </div>
       
@@ -115,7 +125,7 @@ const ErrorScreen = ({
         }}
       >
         <RefreshCw size={20} className="mr-2" />
-        <span className="slant-text">{updateCount >= 2 ? "Try One Last Fix" : "Attempt Automatic Fix"}</span>
+        <span className="slant-text">{updateCount >= 2 ? `Try One Last Fix for ${displayName}` : `Attempt Automatic Fix for ${displayName}`}</span>
       </button>
       
       <div className="text-xs text-gray-500 mt-6">

@@ -165,8 +165,8 @@ const App = () => {
   }, [gameState, loadingProgress, currentStep, isReversingProgress, completedSteps]);
 
   useEffect(() => {
-    // Make Joel appear at exactly step 5
-    if (!joelInserted && gameState === 'loading' && currentStep === 5 && loadingProgress >= 65) {
+    // Make Joel appear at exactly the 5th screen (currentStep 4 since arrays are zero-indexed)
+    if (!joelInserted && gameState === 'loading' && currentStep === 4 && loadingProgress >= 65) {
       setGameState('joel-detection');
       setJoelInserted(true);
     }
@@ -686,6 +686,7 @@ const App = () => {
         
         {gameState === 'loading' && loadingScreenType === 'default' && (
           <LoadingScreen 
+            playerName={playerName}
             stepMessage={stepMessage} 
             loadingProgress={loadingProgress} 
             progressBarType={progressBarType} 
@@ -698,6 +699,7 @@ const App = () => {
         
         {gameState === 'loading' && loadingScreenType === 'binary' && (
           <BinaryLoadingScreen
+            playerName={playerName}
             stepMessage={stepMessage}
             loadingProgress={loadingProgress}
             onComplete={() => {}}
@@ -707,6 +709,7 @@ const App = () => {
         
         {gameState === 'loading' && loadingScreenType === 'crash' && (
           <CrashingScreen
+            playerName={playerName}
             stepMessage={stepMessage}
             loadingProgress={loadingProgress}
             onComplete={() => {}}
@@ -716,6 +719,7 @@ const App = () => {
         
         {gameState === 'loading' && loadingScreenType === 'corrupted' && (
           <CorruptedDataScreen
+            playerName={playerName}
             stepMessage={stepMessage}
             loadingProgress={loadingProgress}
             onComplete={() => {}}
@@ -725,6 +729,7 @@ const App = () => {
         
         {gameState === 'question' && (
           <QuestionScreen 
+            playerName={playerName}
             questionIndex={questionIndex} 
             onAnswer={handleAnswer} 
             showConfirmation={showConfirmation} 
@@ -737,6 +742,7 @@ const App = () => {
         
         {gameState === 'configuration' && (
           <ConfigurationScreen 
+            playerName={playerName}
             currentStep={currentStep} 
             onConfigOption={handleConfigOption} 
             handleButtonHover={handleButtonHover} 
@@ -751,6 +757,7 @@ const App = () => {
         
         {gameState === 'consent' && (
           <ConsentScreen 
+            playerName={playerName}
             onConsent={handleConsent}
             showConsentConfirmation={showConsentConfirmation}
             onConfirmConsent={confirmConsent}
@@ -761,6 +768,7 @@ const App = () => {
         
         {gameState === 'alert' && (
           <AlertScreen 
+            playerName={playerName}
             currentStep={currentStep} 
             onAlert={handleAlert}
             showAlertConfirmation={showAlertConfirmation}
@@ -772,6 +780,7 @@ const App = () => {
         
         {gameState === 'error' && (
           <ErrorScreen 
+            playerName={playerName}
             errorType={errorType} 
             updateCount={updateCount} 
             onErrorAction={handleErrorAction} 

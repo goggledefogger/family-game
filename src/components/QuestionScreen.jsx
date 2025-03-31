@@ -5,6 +5,7 @@ import { snarkyComments } from '../data/snarkyComments';
 import { randomQuestionComments } from '../data/randomComments';
 
 const QuestionScreen = ({ 
+  playerName,
   questionIndex,
   onAnswer,
   showConfirmation,
@@ -16,20 +17,33 @@ const QuestionScreen = ({
   const question = funnyQuestions[questionIndex];
   const [randomComment] = useState(randomQuestionComments[Math.floor(Math.random() * randomQuestionComments.length)]);
   
+  // Get a default name if none is provided
+  const displayName = playerName?.trim() || 'User';
+  
   // Function to get the appropriate comment
   const getComment = () => {
+    let comment;
     if (snarkyComments[questionIndex] && snarkyComments[questionIndex][selectedAnswerIndex] !== undefined) {
-      return snarkyComments[questionIndex][selectedAnswerIndex];
+      comment = snarkyComments[questionIndex][selectedAnswerIndex];
+    } else {
+      comment = randomComment;
     }
-    return randomComment;
+    
+    // Replace placeholders with player name
+    return comment?.replace(/you/g, displayName).replace(/You/g, displayName);
   };
+  
+  // Personalize question text
+  const personalizedQuestion = question?.question?.includes('you')
+    ? question.question.replace(/you/g, displayName).replace(/your/g, `${displayName}'s`)
+    : question?.question;
   
   return (
     <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto screen-tilt">
       <h2 className="text-2xl font-bold mb-6 text-yellow-400 float">Question {questionIndex + 1} of {funnyQuestions.length}</h2>
       
       <div className="w-full max-w-md mb-8 container-breathe">
-        <p className="text-white text-lg mb-6 occasional-glitch" data-text={question.question}>{question.question}</p>
+        <p className="text-white text-lg mb-6 occasional-glitch" data-text={personalizedQuestion}>{personalizedQuestion}</p>
         
         <div className="space-y-3">
           {question.options.map((option, index) => (
@@ -55,7 +69,7 @@ const QuestionScreen = ({
       {showConfirmation && selectedAnswerIndex !== null && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10 p-4">
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 max-w-md w-full shadow-xl subtle-rotate">
-            <h3 className="text-xl font-bold mb-6 text-yellow-400">Are you sure?</h3>
+            <h3 className="text-xl font-bold mb-6 text-yellow-400">Are you sure, {displayName}?</h3>
             
             <p className="text-gray-300 mb-8 color-shift">
               {getComment()}
