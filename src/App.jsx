@@ -49,6 +49,7 @@ const App = () => {
   const [joelInserted, setJoelInserted] = useState(false);
   const [stepCount, setStepCount] = useState({ main: 1, sub: null, subsub: null, type: 'numeric' });
   const [completedSteps, setCompletedSteps] = useState(new Set()); // Track completed steps to avoid repetition
+  const [currentStepLabel, setCurrentStepLabel] = useState("Step 1 of 3");
 
   useEffect(() => {
     if (gameState === 'loading') {
@@ -171,7 +172,7 @@ const App = () => {
   }, [gameState, loadingProgress, currentStep, isReversingProgress, completedSteps]);
 
   useEffect(() => {
-    if (!joelInserted && gameState === 'loading' && currentStep === 0 && loadingProgress >= 70) {
+    if (!joelInserted && gameState === 'loading' && currentStep === 2 && loadingProgress >= 70) {
       setGameState('joel-detection');
       setJoelInserted(true);
     }
@@ -181,6 +182,7 @@ const App = () => {
     setGameState('registration');
     // Reset step count when starting game
     setStepCount({ main: 1, sub: null, subsub: null, type: 'numeric' });
+    setCurrentStepLabel("Step 1 of 3");
   };
 
   const handleSubmitRegistration = () => {
@@ -451,61 +453,64 @@ const App = () => {
     advanceStepCount();
   };
 
-  const getStepLabel = () => {
+  const getStepLabel = (countObj) => {
+    // Use the provided count object or fall back to the state
+    const currentCount = countObj || stepCount;
+    
     // Basic formats
     const stepFormats = [
       // Regular numeric
-      () => `Step ${stepCount.main}${stepCount.sub ? `.${stepCount.sub}` : ''}${stepCount.subsub ? `.${stepCount.subsub}` : ''} of 3`,
+      () => `Step ${currentCount.main}${currentCount.sub ? `.${currentCount.sub}` : ''}${currentCount.subsub ? `.${currentCount.subsub}` : ''} of 3`,
       
       // Letters
-      () => `Step ${String.fromCharCode(64 + stepCount.main)}${stepCount.sub ? `.${stepCount.sub}` : ''}${stepCount.subsub ? `.${stepCount.subsub}` : ''} of 3`,
+      () => `Step ${String.fromCharCode(64 + currentCount.main)}${currentCount.sub ? `.${currentCount.sub}` : ''}${currentCount.subsub ? `.${currentCount.subsub}` : ''} of 3`,
       
       // Roman numerals (simplified for I, II, III, IV, V)
       () => {
         const romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
-        return `Step ${romanNumerals[stepCount.main - 1] || stepCount.main}${stepCount.sub ? `.${stepCount.sub}` : ''}${stepCount.subsub ? `.${stepCount.subsub}` : ''} of III`;
+        return `Step ${romanNumerals[currentCount.main - 1] || currentCount.main}${currentCount.sub ? `.${currentCount.sub}` : ''}${currentCount.subsub ? `.${currentCount.subsub}` : ''} of III`;
       },
       
       // Binary
-      () => `Step ${stepCount.main.toString(2)}${stepCount.sub ? `.${stepCount.sub}` : ''}${stepCount.subsub ? `.${stepCount.subsub}` : ''} of 11`,
+      () => `Step ${currentCount.main.toString(2)}${currentCount.sub ? `.${currentCount.sub}` : ''}${currentCount.subsub ? `.${currentCount.subsub}` : ''} of 11`,
       
       // Hexadecimal
-      () => `Step 0x${stepCount.main.toString(16).toUpperCase()}${stepCount.sub ? `.${stepCount.sub}` : ''}${stepCount.subsub ? `.${stepCount.subsub}` : ''} of 0x3`,
+      () => `Step 0x${currentCount.main.toString(16).toUpperCase()}${currentCount.sub ? `.${currentCount.sub}` : ''}${currentCount.subsub ? `.${currentCount.subsub}` : ''} of 0x3`,
     ];
     
     // Special formats that appear randomly
     const specialFormats = [
-      () => `Step ${stepCount.main} of ???`,
-      () => `Step ${stepCount.main} of many, many steps`,
-      () => `Step ${stepCount.main}... (we've lost count)`,
-      () => `Step ${stepCount.main} of 3 (hopefully)`,
-      () => `Step ${stepCount.main}ish of approximately 3`,
-      () => `Step ${stepCount.main} of 3*  (*terms and conditions apply)`,
-      () => `Progress: ${Math.min(33 * stepCount.main, 99)}%`,
-      () => `Loading Step ${stepCount.main}...`,
-      () => `${'I'.repeat(stepCount.main)} of III`,
-      () => `Step ${stepCount.main} of 3 (just kidding)`,
-      () => `Step n+${stepCount.main-1} of n+2, where n=1`,
-      () => `Step ${stepCount.main} of 3 (results may vary)`,
-      () => `Step ${stepCount.main}: We're getting there...`,
-      () => `${stepCount.main}/3 steps completed*`,
-      () => `Step #${stepCount.main} (estimated remaining steps: ∞)`,
+      () => `Step ${currentCount.main} of ???`,
+      () => `Step ${currentCount.main} of many, many steps`,
+      () => `Step ${currentCount.main}... (we've lost count)`,
+      () => `Step ${currentCount.main} of 3 (hopefully)`,
+      () => `Step ${currentCount.main}ish of approximately 3`,
+      () => `Step ${currentCount.main} of 3*  (*terms and conditions apply)`,
+      () => `Progress: ${Math.min(33 * currentCount.main, 99)}%`,
+      () => `Loading Step ${currentCount.main}...`,
+      () => `${'I'.repeat(currentCount.main)} of III`,
+      () => `Step ${currentCount.main} of 3 (just kidding)`,
+      () => `Step n+${currentCount.main-1} of n+2, where n=1`,
+      () => `Step ${currentCount.main} of 3 (results may vary)`,
+      () => `Step ${currentCount.main}: We're getting there...`,
+      () => `${currentCount.main}/3 steps completed*`,
+      () => `Step #${currentCount.main} (estimated remaining steps: ∞)`,
       () => `Almost at Step 3! (${Math.floor(Math.random() * 10 + 70)}% there)`,
       () => `Step 2.${Math.floor(Math.random() * 9000 + 1000)} of 3`,
-      () => `Step 10${stepCount.main.toString()} in base 11`,
-      () => `Step √${stepCount.main * stepCount.main} of √9`,
-      () => `Step ${stepCount.main} of 3 (approximately)`,
-      () => `Please wait... Step ${stepCount.main} in progress`,
-      () => `[${stepCount.main}/3] Loading, please wait...`,
-      () => `Error: Step 3 not found, showing Step ${stepCount.main} instead`,
+      () => `Step 10${currentCount.main.toString()} in base 11`,
+      () => `Step √${currentCount.main * currentCount.main} of √9`,
+      () => `Step ${currentCount.main} of 3 (approximately)`,
+      () => `Please wait... Step ${currentCount.main} in progress`,
+      () => `[${currentCount.main}/3] Loading, please wait...`,
+      () => `Error: Step 3 not found, showing Step ${currentCount.main} instead`,
       () => `You are now in Step 2 dimension ${Math.floor(Math.random() * 100)}`,
-      () => `Step ${stepCount.main} of 3 | Elapsed time: ${Math.floor(Math.random() * 600) + 300}s`,
+      () => `Step ${currentCount.main} of 3 | Elapsed time: ${Math.floor(Math.random() * 600) + 300}s`,
     ];
     
     // Decide which format to use based on the step count and some randomness
-    if (stepCount.main === 1) {
+    if (currentCount.main === 1) {
       return "Step 1 of 3";
-    } else if (stepCount.main === 2 && !stepCount.sub) {
+    } else if (currentCount.main === 2 && !currentCount.sub) {
       // 50% chance of showing special format even at step 2
       if (Math.random() < 0.5) {
         return specialFormats[Math.floor(Math.random() * specialFormats.length)]();
@@ -528,11 +533,11 @@ const App = () => {
       // First transition: go from 1 to 2
       newStepCount.main = 2;
     } else if (newStepCount.main === 2 && !newStepCount.sub) {
-      // Second transition: add a sub-step 20% of the time, or switch counting system
-      if (Math.random() < 0.2) {
+      // Second transition: add a sub-step 40% of the time (increased from 20%), or switch counting system
+      if (Math.random() < 0.4) {
         newStepCount.sub = 1;
       } else {
-        // Sometimes change the counting system
+        // Sometimes change the counting system - increased randomness
         const systems = ['numeric', 0, 1, 2, 3, 4];
         newStepCount.type = systems[Math.floor(Math.random() * systems.length)];
       }
@@ -547,7 +552,7 @@ const App = () => {
       }
       
       // Occasionally reset but with a twist
-      if (Math.random() < 0.2) {
+      if (Math.random() < 0.3) { // Increased chance (0.2 -> 0.3)
         newStepCount.main = 2;
         newStepCount.sub = 1;
         newStepCount.subsub = null;
@@ -559,9 +564,17 @@ const App = () => {
     }
     
     setStepCount(newStepCount);
+    
+    // Calculate and store the new step label
+    const newLabel = getStepLabel(newStepCount);
+    setCurrentStepLabel(newLabel);
   };
 
-  const stepLabel = getStepLabel();
+  // Initialize the step label when the component first loads
+  useEffect(() => {
+    // Set initial step label
+    setCurrentStepLabel("Step 1 of 3");
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex flex-col">
@@ -575,7 +588,7 @@ const App = () => {
             playerName={playerName} 
             setPlayerName={setPlayerName} 
             onSubmit={handleSubmitRegistration} 
-            stepLabel={stepLabel}
+            stepLabel={currentStepLabel}
           />
         )}
         
@@ -583,7 +596,7 @@ const App = () => {
           <JoelDetectionScreen 
             onReport={handleReportJoel}
             onIgnore={handleIgnoreJoel}
-            stepLabel={stepLabel}
+            stepLabel={currentStepLabel}
           />
         )}
         
@@ -591,7 +604,7 @@ const App = () => {
           <JoelResponseScreen 
             reportReason={reportReason}
             onContinue={handleJoelResponseComplete}
-            stepLabel={stepLabel}
+            stepLabel={currentStepLabel}
           />
         )}
         
@@ -603,7 +616,7 @@ const App = () => {
             isMelting={isMelting} 
             isReversingProgress={isReversingProgress} 
             currentStep={currentStep}
-            stepLabel={stepLabel}
+            stepLabel={currentStepLabel}
           />
         )}
         
@@ -612,7 +625,7 @@ const App = () => {
             stepMessage={stepMessage}
             loadingProgress={loadingProgress}
             onComplete={() => {}}
-            stepLabel={stepLabel}
+            stepLabel={currentStepLabel}
           />
         )}
         
@@ -621,7 +634,7 @@ const App = () => {
             stepMessage={stepMessage}
             loadingProgress={loadingProgress}
             onComplete={() => {}}
-            stepLabel={stepLabel}
+            stepLabel={currentStepLabel}
           />
         )}
         
@@ -630,7 +643,7 @@ const App = () => {
             stepMessage={stepMessage}
             loadingProgress={loadingProgress}
             onComplete={() => {}}
-            stepLabel={stepLabel}
+            stepLabel={currentStepLabel}
           />
         )}
         
@@ -642,7 +655,7 @@ const App = () => {
             selectedAnswerIndex={selectedAnswerIndex} 
             onConfirmAnswer={confirmAnswer} 
             onChangeAnswer={handleChangeAnswer}
-            stepLabel={stepLabel}
+            stepLabel={currentStepLabel}
           />
         )}
         
@@ -656,7 +669,7 @@ const App = () => {
             selectedConfigIndex={selectedConfigIndex}
             onConfirmConfig={confirmConfig}
             onChangeConfig={changeConfig}
-            stepLabel={stepLabel}
+            stepLabel={currentStepLabel}
           />
         )}
         
@@ -666,7 +679,7 @@ const App = () => {
             showConsentConfirmation={showConsentConfirmation}
             onConfirmConsent={confirmConsent}
             onChangeConsent={changeConsent}
-            stepLabel={stepLabel}
+            stepLabel={currentStepLabel}
           />
         )}
         
@@ -677,7 +690,7 @@ const App = () => {
             showAlertConfirmation={showAlertConfirmation}
             onConfirmAlert={confirmAlert}
             onChangeAlert={changeAlert}
-            stepLabel={stepLabel}
+            stepLabel={currentStepLabel}
           />
         )}
         
@@ -688,7 +701,7 @@ const App = () => {
             onErrorAction={handleErrorAction} 
             handleButtonHover={handleButtonHover} 
             movingButtonIndex={movingButtonIndex}
-            stepLabel={stepLabel}
+            stepLabel={currentStepLabel}
           />
         )}
         
