@@ -8,7 +8,7 @@ const PaymentConfirmationScreen = ({ playerName, onProceed, stepLabel }) => {
   const displayName = playerName?.trim() || 'User';
   
   // Generate a fake last-4 digits for credit card
-  const lastFourDigits = "****";
+  const lastFourDigits = Math.floor(1000 + Math.random() * 9000);
   
   // Generate a fake verification code
   const verificationCode = Math.floor(100000 + Math.random() * 900000);
@@ -18,22 +18,22 @@ const PaymentConfirmationScreen = ({ playerName, onProceed, stepLabel }) => {
   
   return (
     <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto">
-      <div className="text-green-500 mb-4">
+      <div className="text-yellow-500 mb-4">
         <CheckCircle size={48} />
       </div>
       
-      <h2 className="text-2xl font-bold mb-2 text-green-400">Payment Confirmed</h2>
+      <h2 className="text-2xl font-bold mb-2 text-yellow-400">Payment Confirmed</h2>
       <p className="text-gray-300 mb-6 text-center">Thank you for your subscription, {displayName}!</p>
       
       <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-6 w-full">
         <div className="flex justify-between items-center mb-4 border-b border-gray-700 pb-3">
           <div className="flex items-center">
-            <CreditCard size={20} className="text-blue-400 flex-shrink-0" style={{ marginRight: "12px" }} />
+            <CreditCard size={20} className="text-yellow-400 flex-shrink-0" style={{ marginRight: "12px" }} />
             <span className="text-gray-300">Payment Details</span>
           </div>
           <div className="flex items-center">
-            <Lock size={16} className="text-green-400 flex-shrink-0" style={{ marginRight: "8px" }} />
-            <span className="text-green-400 text-xs">SECURE</span>
+            <Lock size={16} className="text-yellow-400 flex-shrink-0" style={{ marginRight: "8px" }} />
+            <span className="text-yellow-400 text-xs">SECURE</span>
           </div>
         </div>
         
@@ -70,7 +70,7 @@ const PaymentConfirmationScreen = ({ playerName, onProceed, stepLabel }) => {
           onClick={onProceed}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
-          className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg mb-3 flex items-center justify-center transition-colors"
+          className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg mb-3 flex items-center justify-center transition-colors"
         >
           <DollarSign size={20} className="flex-shrink-0" style={{ marginRight: "12px" }} />
           {isHovering ? "Confirm & Continue" : "Continue to Game"}
@@ -78,7 +78,7 @@ const PaymentConfirmationScreen = ({ playerName, onProceed, stepLabel }) => {
       </div>
       
       <div className="text-xs text-gray-500 mt-4 max-w-sm text-center">
-        <p className="mb-2">By proceeding, you agree to our <span className="text-blue-400 cursor-pointer">Terms & Conditions</span>.</p>
+        <p className="mb-2">By proceeding, you agree to our <span className="text-yellow-400 cursor-pointer">Terms & Conditions</span>.</p>
         <p className="opacity-60">*Subscription will auto-renew. Cancel anytime. No refunds.</p>
       </div>
       
