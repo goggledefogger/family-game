@@ -46,7 +46,7 @@ const AlertScreen = ({
       <h2 className="text-2xl font-bold mb-2 text-yellow-400">System Notice for {displayName}</h2>
       <p className="text-gray-300 mb-8 text-center">{personalizedMessage}</p>
       
-      <div className="flex flex-col w-full max-w-md">
+      <div className="flex flex-col w-full">
         <button 
           onClick={onAlert}
           className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg mb-3 flex items-center justify-center"

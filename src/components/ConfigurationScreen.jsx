@@ -86,7 +86,7 @@ const ConfigurationScreen = ({
     <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto screen-tilt">
       <h2 className="text-2xl font-bold mb-6 text-yellow-400 subtle-rotate">{displayName}'s Game Configuration</h2>
       
-      <div className="w-full max-w-md mb-6 container-breathe">
+      <div className="w-full container-breathe">
         <p className="text-white text-lg mb-6 occasional-glitch" data-text={personalizedConfigMessage}>{personalizedConfigMessage}</p>
         
         <div className="space-y-3">
