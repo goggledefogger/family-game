@@ -523,19 +523,15 @@ button {
   justify-content: center;
 }
 
-/* Primary button style (yellow) with highest specificity */
-.btn-primary, 
-button:not(.btn-secondary):not(.btn-ghost):not(.btn-danger),
-button[class*="bg-gray-"]:not(.btn-secondary):not(.btn-ghost) {
+/* Primary button style (yellow) */
+.btn-primary {
   background-color: var(--accent-primary) !important;
   color: #000 !important;
   padding: 0.75rem 1.5rem;
   font-weight: bold;
 }
 
-.btn-primary:hover, 
-button:not(.btn-secondary):not(.btn-ghost):not(.btn-danger):hover,
-button[class*="bg-gray-"]:hover:not(.btn-secondary):not(.btn-ghost) {
+.btn-primary:hover {
   background-color: var(--accent-primary-hover) !important;
 }
 
@@ -571,4 +567,18 @@ button[class*="bg-gray-"]:hover:not(.btn-secondary):not(.btn-ghost) {
 
 .btn-danger:hover {
   background-color: #b91c1c !important; /* red-700 */
+}
+
+/* Cancel/Reconsider button style */
+.btn-cancel {
+  background-color: #1f2937 !important; /* dark blue-gray */
+  color: #94a3b8 !important; /* light blue-gray text */
+  border: 1px solid #374151 !important;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500 !important;
+}
+
+.btn-cancel:hover {
+  background-color: #374151 !important; /* slightly lighter on hover */
+  color: #e5e7eb !important; /* whiter text on hover */
 } 

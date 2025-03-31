@@ -105,7 +105,7 @@ const RevealScreen = ({ playerName, onStartOver }) => {
       {showDetails && (
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 mb-8 max-w-md animate-fade-in">
           <div className="flex justify-between items-start mb-6">
-            <h3 className="text-xl font-bold text-yellow-400">The Prank Revealed</h3>
+            <h3 className="text-xl font-bold text-yellow-400">You Win Nothing</h3>
             <Skull size={20} className="text-gray-400" />
           </div>
           

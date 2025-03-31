@@ -188,7 +188,7 @@ const App = () => {
           // Move to next step after a short delay
           setTimeout(() => {
             // Proceed to next step
-            const nextStep = currentStep + 1;
+            let nextStep = currentStep + 1;
             
             // Mark current step as completed
             setCompletedSteps(prev => new Set(prev).add(currentStep));
@@ -200,6 +200,13 @@ const App = () => {
               // Advance step count when showing error
               advanceStepCount();
               return;
+            }
+            
+            // Check if the next step is a duplicate configuration
+            // Skip steps that are already completed to avoid repeats
+            while (completedSteps.has(nextStep) && nextStep < gameSteps.length - 3) {
+              console.log(`Skipping step ${nextStep} as it's already been completed`);
+              nextStep++;
             }
             
             // Otherwise proceed to the next step
@@ -254,22 +261,26 @@ const App = () => {
     // Reduce chance early, standard in middle, increase late
     let adjustedBaseChance;
     if (gameProgress < 0.3) { // First third
-      adjustedBaseChance = baseChance * 0.4; // 40% of normal chance
+      adjustedBaseChance = baseChance * 0.6; // 60% of normal chance, up from 40%
     } else if (gameProgress < 0.6) { // Middle third
-      adjustedBaseChance = baseChance * 0.8; // 80% of normal chance
+      adjustedBaseChance = baseChance; // 100% of normal chance, up from 80%
     } else { // Final third
-      adjustedBaseChance = baseChance * 1.2; // 120% of normal chance
+      adjustedBaseChance = baseChance * 1.5; // 150% of normal chance, up from 120%
     }
     
     return adjustedBaseChance + (Math.min(currentIndex, maxIndex) * increment);
   };
 
   const handleAnswer = (answerIndex) => {
+    // Force confirmations at specific points for consistency
+    const forceConfirmationPoints = [0, 3]; // First and fourth questions always have confirmations
+    const shouldForceConfirmation = forceConfirmationPoints.includes(questionIndex);
+    
     // Random chance to show confirmation, with progressive increase
-    const baseChance = 0.3; // 30% base chance
+    const baseChance = 0.4; // 40% base chance, up from 30%
     const randomChance = getConfirmationChance(baseChance, questionIndex, 5, 0.08);
     
-    if (Math.random() < randomChance) {
+    if (shouldForceConfirmation || Math.random() < randomChance) {
       // Instead of immediately proceeding, show confirmation dialog
       setSelectedAnswerIndex(answerIndex);
       setShowConfirmation(true);
@@ -310,12 +321,16 @@ const App = () => {
   };
 
   const handleConfigOption = (optionIndex) => {
+    // Force confirmations at key steps
+    const forceConfigSteps = [1, 5, 7, 13, 17, 21]; // Steps where we always want configuration confirmations
+    const shouldForceConfirmation = forceConfigSteps.includes(currentStep);
+    
     // Check if we should show a confirmation for this configuration step
     // With progressive chance increase
-    const baseChance = 0.3; // 30% base chance
+    const baseChance = 0.5; // 50% base chance, up from 30%
     const randomChance = getConfirmationChance(baseChance, currentStep, 20, 0.02);
     
-    if (configComments[currentStep] || Math.random() < randomChance) {
+    if (shouldForceConfirmation || configComments[currentStep] || Math.random() < randomChance) {
       setSelectedConfigIndex(optionIndex);
       setShowConfigConfirmation(true);
       return;
@@ -372,11 +387,14 @@ const App = () => {
   };
 
   const handleConsent = () => {
+    // Always show confirmation for consent steps after the first one
+    const shouldForceConfirmation = currentStep > 4;
+    
     // Random chance to show confirmation, with progressive increase
-    const baseChance = 0.5; // 50% base chance
+    const baseChance = 0.6; // 60% base chance, up from 50%
     const randomChance = getConfirmationChance(baseChance, currentStep, 10, 0.02);
     
-    if (Math.random() < randomChance) {
+    if (shouldForceConfirmation || Math.random() < randomChance) {
       // Show confirmation dialog instead of proceeding immediately
       setShowConsentConfirmation(true);
     } else {
@@ -426,12 +444,16 @@ const App = () => {
   };
 
   const handleAlert = () => {
+    // Force confirmations at later steps for alerts
+    const forceAlertSteps = [10, 15, 20]; // Steps with important alert confirmations
+    const shouldForceConfirmation = forceAlertSteps.includes(currentStep);
+    
     // Check if we should show a confirmation for this alert step
     // With progressive chance increase
-    const baseChance = 0.4; // 40% base chance
-    const randomChance = getConfirmationChance(baseChance, currentStep, 15, 0.02);
+    const baseChance = 0.5; // 50% base chance, up from 40%
+    const randomChance = getConfirmationChance(baseChance, currentStep, 15, 0.03);
     
-    if (alertComments[currentStep] || Math.random() < randomChance) {
+    if (shouldForceConfirmation || alertComments[currentStep] || Math.random() < randomChance) {
       setShowAlertConfirmation(true);
       return;
     }
@@ -808,6 +830,17 @@ const App = () => {
       {showDevTools && (
         <div className="fixed bottom-4 right-4 bg-gray-800 border border-gray-600 text-sm text-white p-3 rounded shadow-lg opacity-90 hover:opacity-100 z-20">
           <div className="mb-2 font-bold text-yellow-400">DEV SHORTCUTS</div>
+          
+          {/* Current game state info */}
+          <div className="mb-3 text-xs border-b border-gray-600 pb-2">
+            <div><span className="text-gray-400">State:</span> {gameState}</div>
+            <div><span className="text-gray-400">Step:</span> {currentStep} of {gameSteps.length-1}</div>
+            <div><span className="text-gray-400">Display:</span> {currentStepLabel}</div>
+            {gameState === 'loading' && (
+              <div><span className="text-gray-400">Loading:</span> {Math.round(loadingProgress)}%</div>
+            )}
+          </div>
+          
           <div className="flex flex-col space-y-2">
             <button 
               onClick={handleJumpToError} 

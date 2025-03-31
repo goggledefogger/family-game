@@ -74,13 +74,13 @@ const AlertScreen = ({
             <div className="flex justify-between space-x-4">
               <button
                 onClick={onChangeAlert}
-                className="bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded font-medium"
+                className="btn-cancel py-3 px-6 rounded font-medium"
               >
                 Wait, What?
               </button>
               <button
                 onClick={onConfirmAlert}
-                className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded"
+                className="btn-primary py-3 px-6 rounded"
               >
                 Whatever, Continue
               </button>
