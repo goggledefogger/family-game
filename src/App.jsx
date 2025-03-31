@@ -53,7 +53,10 @@ const App = () => {
   const [stepCount, setStepCount] = useState({ main: 1, sub: null, subsub: null, type: 'numeric' });
   const [completedSteps, setCompletedSteps] = useState(new Set()); // Track completed steps to avoid repetition
   const [currentStepLabel, setCurrentStepLabel] = useState("Step 1 of 3");
-  const [showDevTools, setShowDevTools] = useState(process.env.NODE_ENV !== 'production');
+  const [showDevTools, setShowDevTools] = useState(false); // Always off by default, regardless of environment
+
+  // Create a ref for tracking reversal count that persists between renders
+  const reversalCountRef = React.useRef(0);
 
   // Development shortcuts moved to UI buttons, no keyboard listeners needed
 
@@ -119,8 +122,6 @@ const App = () => {
         }
       }, maxLoadingTime);
       
-      // Create a ref for tracking reversal count that persists between renders
-      const reversalCountRef = React.useRef(0);
       // Maximum of 5 reversals per loading phase
       const maxReversals = 5;
       
@@ -1060,8 +1061,8 @@ const App = () => {
         )}
       </div>
       
-      {/* Small floating button when dev tools are hidden */}
-      {!showDevTools && (
+      {/* Small floating button when dev tools are hidden - only in development */}
+      {!showDevTools && process.env.NODE_ENV === 'development' && (
         <button 
           onClick={() => setShowDevTools(true)}
           className="fixed bottom-4 right-4 bg-gray-800 border border-gray-600 text-sm text-gray-400 hover:text-white p-1 rounded shadow-lg opacity-50 hover:opacity-90 z-20"
@@ -1071,8 +1072,8 @@ const App = () => {
         </button>
       )}
       
-      {/* Dev shortcuts at the bottom of the page */}
-      {showDevTools && (
+      {/* Dev shortcuts at the bottom of the page - only in development */}
+      {showDevTools && process.env.NODE_ENV === 'development' && (
         <div className="container mx-auto px-4 py-4 mt-4 border-t border-gray-700">
           <div className="bg-gray-800 border border-gray-600 text-sm text-white p-3 rounded shadow-lg w-full">
             <div className="flex justify-between items-center mb-2">
