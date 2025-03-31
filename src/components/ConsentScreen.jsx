@@ -55,15 +55,15 @@ const ConsentScreen = ({ playerName, onConsent, showConsentConfirmation, onConfi
             <p className="mb-3">By proceeding with this game, {displayName} agrees to the following terms and conditions:</p>
             
             <ol className="list-decimal pl-4 space-y-3">
-              <li className="occasional-glitch" data-text="Game data will be collected for analysis and improvement purposes. This may include your responses, timing, and interaction patterns.">
+              <li>
                 Game data will be collected for analysis and improvement purposes. This may include {displayName}'s responses, timing, and interaction patterns.
               </li>
               
-              <li className="text-glitch">
+              <li>
                 The game provider reserves the right to modify, suspend, or terminate {displayName}'s game experience at any time without prior notice.
               </li>
               
-              <li>
+              <li className="occasional-glitch" data-text="You acknowledge that any decisions made within this game are solely for entertainment purposes and do not reflect real-world implications or consequences.">
                 {displayName} acknowledges that any decisions made within this game are solely for entertainment purposes and do not reflect real-world implications or consequences.
               </li>
               
@@ -79,7 +79,7 @@ const ConsentScreen = ({ playerName, onConsent, showConsentConfirmation, onConfi
                 This game contains nonsensical elements and arbitrary processes designed to confuse and frustrate users, which {displayName} willingly accepts.
               </li>
               
-              <li>
+              <li className="text-glitch">
                 {displayName} acknowledges that clicking "I Accept" means they haven't actually read these terms in detail, which is exactly what we expected.
               </li>
             </ol>
