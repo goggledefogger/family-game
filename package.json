@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "vite build && vite preview --port 3024"
   },
   "dependencies": {
     "lucide-react": "^0.486.0",
