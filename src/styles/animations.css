@@ -152,6 +152,50 @@
   animation: moveButton 1.5s ease-in-out;
 }
 
+/* Title glistening effect */
+@keyframes glisten {
+  0%, 100% { 
+    text-shadow: none;
+    filter: brightness(1);
+  }
+  25% { 
+    text-shadow: 0 0 2px rgba(255, 215, 0, 0.3), 0 0 3px rgba(255, 215, 0, 0.2);
+    filter: brightness(1.05);
+  }
+  50% {
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.3), 0 0 8px rgba(255, 215, 0, 0.2);
+    filter: brightness(1.1);
+  }
+  75% {
+    text-shadow: 0 0 2px rgba(255, 215, 0, 0.3), 0 0 3px rgba(255, 215, 0, 0.2);
+    filter: brightness(1.05);
+  }
+}
+
+.animate-glisten {
+  animation: glisten 6s ease-in-out infinite;
+}
+
+/* Title shine animation - improved version */
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+    opacity: 0;
+  }
+  20% {
+    transform: translateX(-50%) skewX(-15deg);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateX(100%) skewX(-15deg);
+    opacity: 0;
+  }
+}
+
+.animate-shine {
+  animation: shine 8s ease-in-out infinite;
+}
+
 /* New animations for finale and reveal screens */
 @keyframes twinkle {
   0%, 100% { opacity: 1; transform: scale(1); }
