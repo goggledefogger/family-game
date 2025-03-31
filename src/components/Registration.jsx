@@ -25,7 +25,7 @@ const Registration = ({ playerName, setPlayerName, onSubmit, stepLabel }) => {
               value={playerName}
               onChange={(e) => setPlayerName(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="flex-1 bg-gray-800 border-t border-r border-b border-gray-600 rounded-r p-3 text-white focus:outline-none focus:border-yellow-400"
+              className="flex-1 bg-gray-800 border-t border-r border-b border-gray-600 rounded-r p-3 text-white text-lg focus:outline-none focus:border-yellow-400"
               placeholder="Your name"
             />
           </div>

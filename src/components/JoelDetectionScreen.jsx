@@ -48,7 +48,7 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
           </div>
         </div>
       
-        <div className="mb-5 bg-gray-900 p-4 rounded-md border-l-4 border-red-500">
+        <div className="mb-5 bg-gray-900 rounded-md border-l-4 border-red-500 text-container">
           <div className="flex items-start">
             <UserRoundX size={22} className="text-red-500 mr-3 flex-shrink-0 mt-1" />
             <div>
@@ -61,7 +61,7 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
           </div>
         </div>
         
-        <div className="mb-5 bg-gray-900 p-4 rounded-md border-l-4 border-yellow-500">
+        <div className="mb-5 bg-gray-900 rounded-md border-l-4 border-yellow-500 text-container">
           <div className="flex items-start">
             <Eye size={22} className="text-yellow-500 mr-3 flex-shrink-0 mt-1" />
             <div>
@@ -70,7 +70,7 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
                 Joel has been observed initiating unauthorized processes and attempting to modify system files.
                 These actions may have security implications.
               </p>
-              <div className="font-mono text-xs text-gray-500 bg-gray-950 p-2 rounded">
+              <div className="font-mono text-xs text-gray-500 bg-gray-950 rounded code-block activity-log">
                 <div>$ ls -la /system/config</div>
                 <div>$ chmod 777 /system/config/game.ini</div>
                 <div>$ cat /etc/shadow</div>
@@ -151,7 +151,7 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
             {reportOptions.map((option, index) => (
               <div 
                 key={index}
-                className={`p-3 rounded cursor-pointer flex items-center transition-all duration-200 ${
+                className={`rounded cursor-pointer flex items-center transition-all duration-200 text-container ${
                   reportOption === index 
                     ? 'bg-gray-700 border border-yellow-500' 
                     : 'bg-gray-800 border border-gray-700 hover:bg-gray-700'

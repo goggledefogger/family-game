@@ -89,6 +89,42 @@ body {
   padding-right: 1rem;
 }
 
+/* Added universal content padding classes */
+.text-container {
+  padding: 1rem;
+}
+
+.scrollable-content {
+  padding: 1rem;
+}
+
+/* Enhanced padding for specific container types */
+.bg-gray-800, .bg-gray-900 {
+  padding: 1.25rem;
+}
+
+/* Ensure lists and code blocks have proper spacing */
+ol, ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+pre, code, .font-mono {
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Fix for form elements */
+input, textarea, select {
+  padding: 0.75rem;
+}
+
+/* Text areas with proper padding */
+.activity-log, .code-block, .content-area {
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -473,4 +509,66 @@ button:disabled {
 
 .disabled\:opacity-50:disabled {
   opacity: 0.5;
+}
+
+/* Global button styling for consistency */
+button {
+  transition-property: background-color, border-color, color, transform;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Primary button style (yellow) with highest specificity */
+.btn-primary, 
+button:not(.btn-secondary):not(.btn-ghost):not(.btn-danger),
+button[class*="bg-gray-"]:not(.btn-secondary):not(.btn-ghost) {
+  background-color: var(--accent-primary) !important;
+  color: #000 !important;
+  padding: 0.75rem 1.5rem;
+  font-weight: bold;
+}
+
+.btn-primary:hover, 
+button:not(.btn-secondary):not(.btn-ghost):not(.btn-danger):hover,
+button[class*="bg-gray-"]:hover:not(.btn-secondary):not(.btn-ghost) {
+  background-color: var(--accent-primary-hover) !important;
+}
+
+/* Secondary button style (dark gray) */
+.btn-secondary {
+  background-color: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
+  padding: 0.75rem 1.5rem;
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-quaternary) !important;
+}
+
+/* Ghost button style (transparent with border) */
+.btn-ghost {
+  background-color: transparent !important;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary) !important;
+  padding: 0.75rem 1.5rem;
+}
+
+.btn-ghost:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Danger button style (red) */
+.btn-danger {
+  background-color: var(--error) !important;
+  color: var(--text-primary) !important;
+  padding: 0.75rem 1.5rem;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c !important; /* red-700 */
 } 

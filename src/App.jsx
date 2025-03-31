@@ -51,6 +51,9 @@ const App = () => {
   const [stepCount, setStepCount] = useState({ main: 1, sub: null, subsub: null, type: 'numeric' });
   const [completedSteps, setCompletedSteps] = useState(new Set()); // Track completed steps to avoid repetition
   const [currentStepLabel, setCurrentStepLabel] = useState("Step 1 of 3");
+  const [showDevTools] = useState(process.env.NODE_ENV !== 'production');
+
+  // Development shortcuts moved to UI buttons, no keyboard listeners needed
 
   useEffect(() => {
     if (gameState === 'loading') {
@@ -530,6 +533,38 @@ const App = () => {
     setCompletedSteps(new Set()); // Reset completed steps
   };
 
+  // Development shortcut handlers
+  const handleJumpToError = () => {
+    console.log('Dev shortcut: Jumping to Error screen');
+    
+    // Set player name if not already set
+    if (!playerName) setPlayerName('DevUser');
+    
+    // Set error type randomly
+    setErrorType(Math.floor(Math.random() * 5));
+    setGameState('error');
+    advanceStepCount();
+  };
+  
+  const handleJumpToFinale = () => {
+    console.log('Dev shortcut: Jumping to Finale screen');
+    
+    // Set player name if not already set
+    if (!playerName) setPlayerName('DevUser');
+    
+    setGameState('finale');
+    advanceStepCount();
+  };
+  
+  const handleJumpToReveal = () => {
+    console.log('Dev shortcut: Jumping to Reveal screen');
+    
+    // Set player name if not already set
+    if (!playerName) setPlayerName('DevUser');
+    
+    setGameState('reveal');
+  };
+
   const handleChangeAnswer = () => {
     setShowConfirmation(false);
     setSelectedAnswerIndex(null);
@@ -764,8 +799,35 @@ const App = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
-      <div className="flex-grow flex items-center justify-center py-8">
+    <div className="min-h-screen bg-gray-900 relative">
+      {/* Dev shortcut indicator */}
+      {showDevTools && (
+        <div className="fixed bottom-4 right-4 bg-gray-800 border border-gray-600 text-sm text-white p-3 rounded shadow-lg opacity-90 hover:opacity-100 z-20">
+          <div className="mb-2 font-bold text-yellow-400">DEV SHORTCUTS</div>
+          <div className="flex flex-col space-y-2">
+            <button 
+              onClick={handleJumpToError} 
+              className="btn-danger px-3 py-2 font-medium rounded shadow-inner flex items-center justify-center"
+            >
+              Error Screen
+            </button>
+            <button 
+              onClick={handleJumpToFinale} 
+              className="btn-primary px-3 py-2 font-medium rounded shadow-inner flex items-center justify-center"
+            >
+              Finale Screen
+            </button>
+            <button 
+              onClick={handleJumpToReveal} 
+              className="btn-secondary px-3 py-2 font-medium rounded shadow-inner flex items-center justify-center"
+            >
+              Reveal Screen
+            </button>
+          </div>
+        </div>
+      )}
+      
+      <div className="container mx-auto px-4 py-8">
         {gameState === 'title' && (
           <TitleScreen onStartGame={handleStartGame} />
         )}

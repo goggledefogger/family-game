@@ -118,7 +118,7 @@ const GrandFinaleScreen = ({ playerName, onComplete }) => {
             </li>
             <li className="flex items-center text-gray-200">
               <span className="mr-3 text-yellow-400">•</span>
-              Recognition from our entire team
+              Recognition from the entire Bauman family
             </li>
           </ul>
         </div>
@@ -141,7 +141,7 @@ const GrandFinaleScreen = ({ playerName, onComplete }) => {
       {stage >= 4 && (
         <button
           onClick={onComplete}
-          className="mt-6 px-8 py-3 bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-white font-bold rounded-full shadow-lg transition-all duration-300 hover:scale-105 animate-pulse"
+          className="btn-primary mt-6 px-8 py-3 font-bold rounded-full shadow-lg transition-all duration-300 hover:scale-105 animate-pulse"
         >
           CLAIM MY PRIZE
         </button>

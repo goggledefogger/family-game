@@ -24,8 +24,8 @@ const RevealScreen = ({ playerName, onStartOver }) => {
       <div className="relative mb-6">
         <Award size={96} className={`text-yellow-500 ${revealStage >= 2 ? 'opacity-50' : ''}`} />
         {revealStage >= 1 && (
-          <div className="absolute top-0 right-0 text-red-500 animate-grow-in">
-            <X size={40} strokeWidth={3} />
+          <div className="absolute inset-0 flex items-center justify-center text-red-500 animate-grow-in">
+            <X size={144} strokeWidth={3} />
           </div>
         )}
       </div>
@@ -67,7 +67,7 @@ const RevealScreen = ({ playerName, onStartOver }) => {
           </div>
           
           <p className="text-gray-300 mb-6 text-left">
-            Sorry to disappoint, but this was all an April Fools' joke! There's no Family Fortune game show, just a series of fake loading screens and "errors" designed to waste your time and drive you a little crazy.
+            Sorry to disappoint, but April Fools! There's no Bauman Family Fortune game show, just a series of fake loading screens and "errors" designed to waste your time and drive you a little crazy.
           </p>
           
           <div className="border-t border-gray-700 pt-6 mt-6">
@@ -92,16 +92,13 @@ const RevealScreen = ({ playerName, onStartOver }) => {
             </ul>
           </div>
           
-          <p className="text-gray-300 mt-6 flex items-center justify-center">
-            <ThumbsUp size={18} className="mr-3 text-yellow-500" />
-            <span>Hope you had a laugh! Happy April Fools' Day!</span>
-          </p>
-          
-          {!isActuallyAprilFirst && (
-            <p className="text-gray-400 text-sm mt-4 italic">
-              (Yes, we know it might not actually be April 1st right now...)
-            </p>
-          )}
+          <div className="text-gray-300 mt-6 flex flex-col justify-between">
+            <div className="flex flex-row items-center justify-center">
+              <ThumbsUp size={18} className="mr-3 text-yellow-500 mr-2" />
+              <span>Hope you had a laugh, and happy April Fools' Day!</span>
+            </div>
+            <div className="mt-2 text-right">-Danny</div>
+          </div>
         </div>
       )}
       

@@ -90,7 +90,7 @@ const JoelResponseScreen = ({ reportReason, onContinue, stepLabel }) => {
       {stage >= 3 && (
         <button 
           onClick={onContinue}
-          className="bg-gray-100 hover:bg-white text-gray-900 font-medium py-4 px-10 rounded-md flex items-center justify-center animate-fade-in transition-colors duration-200"
+          className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded-lg flex items-center justify-center animate-fade-in transition-colors duration-200"
         >
           Continue to Game Setup
         </button>

@@ -20,7 +20,7 @@ const ConsentScreen = ({ playerName, onConsent, showConsentConfirmation, onConfi
       
       <div className="w-full max-w-md">
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-8">
-          <div className="max-h-80 overflow-y-auto mb-6 text-gray-300 text-sm leading-relaxed">
+          <div className="max-h-80 overflow-y-auto mb-6 text-gray-300 text-sm leading-relaxed px-4 py-2">
             <p className="mb-4">By proceeding with this game, {displayName} agrees to the following terms and conditions:</p>
             
             <ol className="list-decimal pl-5 space-y-4">
