@@ -109,6 +109,20 @@ const App = () => {
         }
       }
       
+      // Add a maximum loading time to ensure it always finishes
+      // This prevents infinite loops in the loading progress
+      const maxLoadingTime = 15000; // 15 seconds maximum loading time
+      const forceCompleteTimeout = setTimeout(() => {
+        if (gameState === 'loading' && loadingProgress < 97) {
+          console.log('Forcing loading to complete after timeout');
+          setLoadingProgress(98); // Force to completion
+        }
+      }, maxLoadingTime);
+      
+      // Track the number of reversals to limit them
+      let reversalCount = 0;
+      const maxReversals = 2; // Maximum number of reversals per loading phase
+      
       const interval = setInterval(() => {
         setLoadingProgress(prev => {
           // Reduce weird behavior in early game, increase in late game
@@ -118,17 +132,22 @@ const App = () => {
           let reverseChance = 0.97; // 3% chance early game (increased from 1%)
           let specialStepCheck = false;
           
-          if (progressStage === 'early') {
+          // Prevent reversals near completion or if we've hit the max
+          const isNearCompletion = prev >= 85;
+          const canReverse = reversalCount < maxReversals && !isNearCompletion;
+          
+          if (progressStage === 'early' && canReverse) {
             reverseChance = 0.97; // 3% chance (increased from 1%)
             // Only at specific points with a high threshold
             const isReversePoint = (prev >= 40 && prev <= 43 && Math.random() > 0.85);
             if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
               setIsReversingProgress(true);
+              reversalCount++;
               setTimeout(() => {
                 setIsReversingProgress(false);
               }, 500);
             }
-          } else if (progressStage === 'mid') {
+          } else if (progressStage === 'mid' && canReverse) {
             reverseChance = 0.93; // 7% chance (increased from 5%)
             const isSpecialStep = currentStep === 7 || currentStep === 9;
             const isReversePoint = 
@@ -137,11 +156,12 @@ const App = () => {
             
             if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
               setIsReversingProgress(true);
+              reversalCount++;
               setTimeout(() => {
                 setIsReversingProgress(false);
               }, 1000);
             }
-          } else { // late game
+          } else if (progressStage === 'late' && canReverse) { // late game
             reverseChance = 0.85; // 15% chance (increased from 10%)
             const isSpecialStep = currentStep === 15 || currentStep === 17 || currentStep === 19;
             const isReversePoint = 
@@ -151,6 +171,7 @@ const App = () => {
             
             if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
               setIsReversingProgress(true);
+              reversalCount++;
               setTimeout(() => {
                 setIsReversingProgress(false);
               }, 2000);
@@ -231,7 +252,10 @@ const App = () => {
         }
       }, 100);
       
-      return () => clearInterval(interval);
+      return () => {
+        clearInterval(interval);
+        clearTimeout(forceCompleteTimeout);
+      };
     }
   }, [gameState, loadingProgress, currentStep, isReversingProgress, completedSteps]);
 

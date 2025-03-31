@@ -91,8 +91,11 @@ const BinaryLoadingScreen = ({ playerName, stepMessage, loadingProgress, onCompl
         
         <div className="progress-container h-4 bg-black bg-opacity-50 border border-green-900 mb-6 overflow-hidden">
           <div 
-            className="progress-bar bg-green-500 h-full transition-width duration-300"
-            style={{ width: `${loadingProgress}%` }}
+            className="h-full bg-green-500"
+            style={{ 
+              width: `${loadingProgress}%`,
+              transition: 'width 0.3s ease'
+            }}
           ></div>
         </div>
         
