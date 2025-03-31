@@ -7,8 +7,7 @@ const PaymentConfirmationScreen = ({ playerName, onProceed, stepLabel }) => {
   // Get a default name if none is provided
   const displayName = playerName?.trim() || 'User';
   
-  // Generate a fake last-4 digits for credit card
-  const lastFourDigits = Math.floor(1000 + Math.random() * 9000);
+  const lastFourDigits = '****';
   
   // Generate a fake verification code
   const verificationCode = Math.floor(100000 + Math.random() * 900000);
