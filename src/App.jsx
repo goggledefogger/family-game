@@ -663,8 +663,10 @@ const App = () => {
   };
 
   const handleJoelResponseComplete = () => {
-    // After Joel response, insert payment confirmation at position #8
-    setGameState('payment-confirmation');
+    // After Joel response, return to normal game flow
+    setCurrentStep(currentStep + 1);
+    setLoadingProgress(0);
+    setGameState('loading');
     advanceStepCount();
   };
 
