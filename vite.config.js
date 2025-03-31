@@ -6,5 +6,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3024
+  },
+  preview: {
+    port: 3024,
+    allowedHosts: ['family.roytown.net']
   }
 })
