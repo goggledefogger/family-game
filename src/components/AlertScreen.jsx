@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HelpCircle, Check } from 'lucide-react';
 import { gameSteps } from '../data/gameSteps';
 import { alertComments } from '../data/alertComments';
+import { randomAlertComments } from '../data/randomComments';
 
 const AlertScreen = ({ 
   currentStep, 
@@ -12,6 +13,15 @@ const AlertScreen = ({
   stepLabel
 }) => {
   const hasCommentsForStep = alertComments[currentStep] !== undefined;
+  const [randomComment] = useState(randomAlertComments[Math.floor(Math.random() * randomAlertComments.length)]);
+  
+  // Function to get the appropriate comment
+  const getComment = () => {
+    if (hasCommentsForStep) {
+      return alertComments[currentStep][Math.floor(Math.random() * alertComments[currentStep].length)];
+    }
+    return randomComment;
+  };
   
   return (
     <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto">
@@ -38,13 +48,13 @@ const AlertScreen = ({
       </div>
       
       {/* Confirmation Dialog */}
-      {showAlertConfirmation && hasCommentsForStep && (
+      {showAlertConfirmation && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10 p-4">
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 max-w-md w-full shadow-xl">
             <h3 className="text-xl font-bold mb-6 text-yellow-400">Oh, Really?</h3>
             
             <p className="text-gray-300 mb-8">
-              {alertComments[currentStep][Math.floor(Math.random() * alertComments[currentStep].length)]}
+              {getComment()}
             </p>
             
             <div className="flex justify-between space-x-4">

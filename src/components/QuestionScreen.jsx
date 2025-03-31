@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ChevronRight, CheckCircle, XCircle } from 'lucide-react';
 import { funnyQuestions } from '../data/questions';
 import { snarkyComments } from '../data/snarkyComments';
+import { randomQuestionComments } from '../data/randomComments';
 
 const QuestionScreen = ({ 
   questionIndex,
@@ -13,6 +14,15 @@ const QuestionScreen = ({
   stepLabel
 }) => {
   const question = funnyQuestions[questionIndex];
+  const [randomComment] = useState(randomQuestionComments[Math.floor(Math.random() * randomQuestionComments.length)]);
+  
+  // Function to get the appropriate comment
+  const getComment = () => {
+    if (snarkyComments[questionIndex] && snarkyComments[questionIndex][selectedAnswerIndex] !== undefined) {
+      return snarkyComments[questionIndex][selectedAnswerIndex];
+    }
+    return randomComment;
+  };
   
   return (
     <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto screen-tilt">
@@ -48,7 +58,7 @@ const QuestionScreen = ({
             <h3 className="text-xl font-bold mb-6 text-yellow-400">Are you sure?</h3>
             
             <p className="text-gray-300 mb-8 color-shift">
-              {snarkyComments[questionIndex][selectedAnswerIndex]}
+              {getComment()}
             </p>
             
             <div className="flex justify-between space-x-4">

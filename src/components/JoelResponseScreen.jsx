@@ -43,18 +43,18 @@ const JoelResponseScreen = ({ reportReason, onContinue, stepLabel }) => {
   
   return (
     <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto">
-      <div className="text-green-500 mb-6">
-        <CheckCircle size={48} />
+      <div className="text-white mb-8">
+        <CheckCircle size={64} />
       </div>
       
-      <h2 className="text-2xl font-bold mb-6 text-green-400">Report Processed</h2>
+      <h2 className="text-2xl font-bold mb-8 text-white">Report Processed</h2>
       
-      <div className="bg-gray-800 border border-green-600 rounded-lg p-8 mb-8 w-full max-w-md">
+      <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 mb-10 w-full max-w-md">
         {stage >= 1 && (
-          <div className="animate-slide-in mb-6">
-            <h3 className="text-xl font-bold text-green-400 mb-4">{response.title}</h3>
+          <div className="animate-slide-in mb-8">
+            <h3 className="text-xl font-bold text-white mb-4">{response.title}</h3>
             <div className="flex items-start">
-              <Shield size={24} className="text-green-500 mr-3 flex-shrink-0 mt-1" />
+              <Shield size={24} className="text-blue-400 mr-3 flex-shrink-0 mt-1" />
               <p className="text-gray-300">
                 {response.text}
               </p>
@@ -63,7 +63,7 @@ const JoelResponseScreen = ({ reportReason, onContinue, stepLabel }) => {
         )}
         
         {stage >= 2 && (
-          <div className="animate-slide-in border-t border-gray-700 pt-6 mb-6">
+          <div className="animate-slide-in border-t border-gray-700 pt-6 mb-8">
             <div className="flex items-start">
               <UserRoundX size={24} className="text-red-500 mr-3 flex-shrink-0 mt-1" />
               <p className="text-gray-300">
@@ -76,7 +76,7 @@ const JoelResponseScreen = ({ reportReason, onContinue, stepLabel }) => {
         {stage >= 3 && (
           <div className="animate-fade-in flex items-center justify-between border-t border-gray-700 pt-6">
             <div className="flex items-center">
-              <Clock size={20} className="text-blue-400 mr-2" />
+              <Clock size={20} className="text-gray-400 mr-2" />
               <span className="text-gray-400 text-sm">Incident #SEC-{Math.floor(Math.random() * 9000) + 1000}</span>
             </div>
             <div className="flex items-center">
@@ -90,13 +90,13 @@ const JoelResponseScreen = ({ reportReason, onContinue, stepLabel }) => {
       {stage >= 3 && (
         <button 
           onClick={onContinue}
-          className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg flex items-center justify-center animate-fade-in"
+          className="bg-gray-100 hover:bg-white text-gray-900 font-medium py-4 px-10 rounded-md flex items-center justify-center animate-fade-in transition-colors duration-200"
         >
           Continue to Game Setup
         </button>
       )}
       
-      <div className="text-xs text-gray-500 mt-6">
+      <div className="text-xs text-gray-500 mt-8">
         {stepLabel}
       </div>
     </div>

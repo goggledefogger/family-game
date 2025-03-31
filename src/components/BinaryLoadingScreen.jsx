@@ -74,27 +74,27 @@ const BinaryLoadingScreen = ({ stepMessage, loadingProgress, onComplete, delay =
         ))}
       </div>
       
-      {/* Main content */}
-      <div className="relative z-10 bg-black bg-opacity-70 p-8 rounded-lg border border-green-500">
+      {/* Main content with fixed dimensions to prevent fluctuation */}
+      <div className="relative z-10 bg-black bg-opacity-70 p-8 rounded-lg border border-green-500" style={{ width: '450px', minHeight: '380px' }}>
         <div className="mb-6 flex justify-center">
           <Database size={48} className="text-green-500 animate-pulse" />
         </div>
         
         <h2 className="text-xl font-mono text-green-400 mb-6 text-center">SYSTEM OPERATION</h2>
         
-        <div className="progress-container mb-6">
+        <div className="progress-container h-4 bg-black bg-opacity-50 border border-green-900 mb-6 overflow-hidden">
           <div 
-            className="progress-bar bg-green-500"
+            className="progress-bar bg-green-500 h-full transition-width duration-300"
             style={{ width: `${loadingProgress}%` }}
           ></div>
         </div>
         
-        <p className="text-green-400 font-mono mb-6 text-center">
+        <p className="text-green-400 font-mono mb-6 text-center h-12 flex items-center justify-center">
           {stepMessage}
         </p>
         
-        <div className="font-mono text-green-800 text-xs h-24 overflow-hidden border border-green-900 bg-black bg-opacity-50 p-4 mb-2">
-          <div>
+        <div className="font-mono text-green-800 text-xs h-24 overflow-hidden border border-green-900 bg-black bg-opacity-50 p-4 mb-2 w-full">
+          <div className="binary-text-container">
             <p>&gt; INITIALIZING DATA STREAM</p>
             <p>&gt; {generateBinaryString(32)}</p>
             <p>&gt; {generateBinaryString(32)}</p>
@@ -114,6 +114,25 @@ const BinaryLoadingScreen = ({ stepMessage, loadingProgress, onComplete, delay =
       <div className="text-xs text-gray-500 mt-6">
         {stepLabel}
       </div>
+      
+      {/* Add CSS using className approach instead of styled-jsx */}
+      <style>
+        {`
+        .binary-text-container {
+          width: 100%;
+          overflow-y: auto;
+          overflow-x: hidden;
+        }
+        
+        .progress-container {
+          width: 100%;
+        }
+        
+        .transition-width {
+          transition: width 0.3s linear;
+        }
+        `}
+      </style>
     </div>
   );
 };

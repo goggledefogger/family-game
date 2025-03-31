@@ -116,9 +116,9 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
           <div className="flex flex-col space-y-3">
             <button 
               onClick={handleReport}
-              className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-md flex items-center justify-center transition-colors duration-200"
+              className="bg-gray-800 hover:bg-gray-900 border-2 border-red-500 text-white font-bold py-3 px-6 rounded-md flex items-center justify-center transition-colors duration-200"
             >
-              <AlertTriangle size={20} className="mr-2" />
+              <AlertTriangle size={20} className="mr-2 text-red-500" />
               <span>Report Suspicious Activity</span>
             </button>
             
@@ -179,7 +179,7 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
             </button>
             <button
               onClick={confirmReport}
-              className="bg-red-800 hover:bg-red-900 text-white font-bold py-3 px-6 rounded transition-colors duration-200"
+              className="bg-gray-800 hover:bg-gray-900 border-2 border-red-500 text-white font-bold py-3 px-6 rounded transition-colors duration-200"
               disabled={reportOption === null}
             >
               Submit Report

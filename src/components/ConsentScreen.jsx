@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Check } from 'lucide-react';
 import { consentComments } from '../data/consentComments';
+import { randomConsentComments } from '../data/randomComments';
 
 const ConsentScreen = ({ onConsent, showConsentConfirmation, onConfirmConsent, onChangeConsent, stepLabel }) => {
   // Select a random comment when component mounts
   const [commentIndex] = useState(Math.floor(Math.random() * consentComments.length));
   const comment = consentComments[commentIndex];
+  
+  // Select a random confirmation comment
+  const [confirmationComment] = useState(randomConsentComments[Math.floor(Math.random() * randomConsentComments.length)]);
   
   return (
     <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto container-breathe">
@@ -71,8 +75,8 @@ const ConsentScreen = ({ onConsent, showConsentConfirmation, onConfirmConsent, o
           <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 max-w-md w-full shadow-xl screen-tilt">
             <h3 className="text-xl font-bold mb-6 text-yellow-400">Are you sure?</h3>
             
-            <p className="text-gray-300 mb-8 occasional-glitch" data-text="Nobody ever reads the terms and conditions. You're either very diligent or very suspicious. Either way, we appreciate your attention to detail.">
-              Nobody ever reads the terms and conditions. You're either very diligent or very suspicious. Either way, we appreciate your attention to detail.
+            <p className="text-gray-300 mb-8 occasional-glitch" data-text={confirmationComment}>
+              {confirmationComment}
             </p>
             
             <div className="flex justify-between space-x-4">
