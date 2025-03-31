@@ -4,8 +4,12 @@ import { Award, X, Frown, Laugh, Calendar, Skull, ThumbsUp } from 'lucide-react'
 const RevealScreen = ({ playerName, onStartOver }) => {
   const [revealStage, setRevealStage] = useState(0);
   const [showDetails, setShowDetails] = useState(false);
+  const [emojis, setEmojis] = useState([]);
   const currentDate = new Date();
   const isActuallyAprilFirst = currentDate.getMonth() === 3 && currentDate.getDate() === 1;
+  
+  // Emoji collection for April Fools
+  const funEmojis = ['🤡', '😂', '🎭', '🎪', '🃏', '😜', '🎯', '🎉', '🎊', '🤪'];
   
   useEffect(() => {
     // Sequence of reveal animations
@@ -19,13 +23,52 @@ const RevealScreen = ({ playerName, onStartOver }) => {
     return () => sequence.forEach(timeout => clearTimeout(timeout));
   }, []);
   
+  // Generate floating emojis when the April Fools text appears
+  useEffect(() => {
+    if (revealStage >= 3) {
+      // Generate random emojis
+      const newEmojis = Array(15).fill().map(() => ({
+        id: Math.random().toString(36).substring(7),
+        emoji: funEmojis[Math.floor(Math.random() * funEmojis.length)],
+        x: Math.random() * 95, // 0-95% viewport width
+        y: Math.random() * 95, // 0-95% viewport height
+        size: Math.random() * 1.5 + 1, // Size multiplier between 1-2.5
+        animDuration: Math.random() * 20 + 10, // Animation length 10-30s
+        animDelay: Math.random() * 5, // Delay 0-5s
+        opacity: Math.random() * 0.7 + 0.3, // Opacity 0.3-1
+      }));
+      
+      setEmojis(newEmojis);
+    }
+  }, [revealStage]);
+  
   return (
-    <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto text-center">
+    <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto text-center relative min-h-[80vh]">
+      {/* Fun floating emojis */}
+      {emojis.map(emoji => (
+        <div 
+          key={emoji.id}
+          className="fixed pointer-events-none opacity-0 animate-float-emoji z-10"
+          style={{
+            left: `${emoji.x}%`,
+            top: `${emoji.y}%`,
+            fontSize: `${emoji.size}rem`,
+            opacity: emoji.opacity,
+            animationDuration: `${emoji.animDuration}s`,
+            animationDelay: `${emoji.animDelay}s`
+          }}
+        >
+          {emoji.emoji}
+        </div>
+      ))}
+
       <div className="relative mb-6">
         <Award size={96} className={`text-yellow-500 ${revealStage >= 2 ? 'opacity-50' : ''}`} />
         {revealStage >= 1 && (
           <div className="absolute inset-0 flex items-center justify-center text-red-500 animate-grow-in">
-            <X size={144} strokeWidth={3} />
+            <div style={{fontSize: "200px", lineHeight: "1", fontWeight: "bold"}} className="text-red-500">
+              ✕
+            </div>
           </div>
         )}
       </div>
@@ -67,7 +110,7 @@ const RevealScreen = ({ playerName, onStartOver }) => {
           </div>
           
           <p className="text-gray-300 mb-6 text-left">
-            Sorry to disappoint, but April Fools! There's no Bauman Family Fortune game show, just a series of fake loading screens and "errors" designed to waste your time and drive you a little crazy.
+            Sorry to disappoint, but April Fools! Believe it or not, there's no Bauman Family Fortune game show, just a series of screens to waste your time and drive you a little crazy.
           </p>
           
           <div className="border-t border-gray-700 pt-6 mt-6">
@@ -83,11 +126,7 @@ const RevealScreen = ({ playerName, onStartOver }) => {
               </li>
               <li className="flex items-start">
                 <span className="mr-3 mt-1">•</span>
-                <span>You were trolled by snarky dialog boxes</span>
-              </li>
-              <li className="flex items-start">
-                <span className="mr-3 mt-1">•</span>
-                <span>You dealt with mysterious "errors" and "technical issues"</span>
+                <span>You fixed mysterious errors and technical issues</span>
               </li>
             </ul>
           </div>
