@@ -7,7 +7,7 @@ const TitleScreen = ({ onStartGame }) => {
       <div className="mb-8 text-yellow-500 animate-pulse">
         <Award size={64} />
       </div>
-      <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">FAMILY FORTUNE</h1>
+      <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">BAUMAN FAMILY FORTUNE</h1>
       <h2 className="text-xl mb-8 text-yellow-200">The Ultimate Family Game Show</h2>
       
       <p className="mb-8 text-gray-300">Compete with family members for amazing prizes in this turn-based game of skill, luck, and family knowledge!</p>
@@ -21,7 +21,7 @@ const TitleScreen = ({ onStartGame }) => {
       </button>
       
       <div className="mt-8 text-sm text-gray-400">
-        <p>Version 1.4.2 • © 2025 Family Games Inc.</p>
+        <p>Version 1.4.2 • © 2025 Bauman Family Games Inc.</p>
       </div>
     </div>
   );
