@@ -41,7 +41,7 @@ export const randomAlertComments = [
   "This alert is testing how committed you are to finishing the setup.",
   "Clicking Continue will advance you to the next pointless step.",
   "Warning: Continued use may lead to increased frustration and mild amusement.",
-  "You're doing great! Only 17 more identical confirmations to go!"
+  "You're doing great! Only a few more identical confirmations to go!"
 ];
 
 export const randomConsentComments = [

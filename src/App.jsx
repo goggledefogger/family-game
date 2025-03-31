@@ -113,51 +113,54 @@ const App = () => {
           const progressStage = currentStep < 6 ? 'early' : currentStep < 12 ? 'mid' : 'late';
           
           // Different reverse progress chance based on game stage
-          let reverseChance = 0.99; // 1% chance early game
+          let reverseChance = 0.97; // 3% chance early game (increased from 1%)
           let specialStepCheck = false;
           
           if (progressStage === 'early') {
-            reverseChance = 0.99; // 1% chance
+            reverseChance = 0.97; // 3% chance (increased from 1%)
             // Only at specific points with a high threshold
-            const isReversePoint = (prev >= 40 && prev <= 41 && Math.random() > 0.9);
+            const isReversePoint = (prev >= 40 && prev <= 43 && Math.random() > 0.85);
             if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
               setIsReversingProgress(true);
               setTimeout(() => {
                 setIsReversingProgress(false);
-              }, 500); // Short reverse period
+              }, 500); // Extended reverse period to 2 seconds
             }
           } else if (progressStage === 'mid') {
-            reverseChance = 0.95; // 5% chance
-            const isSpecialStep = currentStep === 7;
+            reverseChance = 0.93; // 7% chance (increased from 5%)
+            const isSpecialStep = currentStep === 7 || currentStep === 9;
             const isReversePoint = 
-              (prev >= 40 && prev <= 42 && Math.random() > 0.8) || 
-              (prev >= 70 && prev <= 72 && isSpecialStep && Math.random() > 0.85);
+              (prev >= 35 && prev <= 45 && Math.random() > 0.7) || 
+              (prev >= 65 && prev <= 75 && isSpecialStep && Math.random() > 0.8);
             
             if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
               setIsReversingProgress(true);
               setTimeout(() => {
                 setIsReversingProgress(false);
-              }, 700); // Medium reverse period
+              }, 1000); // Extended reverse period to 2 seconds
             }
           } else { // late game
-            reverseChance = 0.9; // 10% chance
-            const isSpecialStep = currentStep === 15 || currentStep === 17;
+            reverseChance = 0.85; // 15% chance (increased from 10%)
+            const isSpecialStep = currentStep === 15 || currentStep === 17 || currentStep === 19;
             const isReversePoint = 
-              (prev >= 40 && prev <= 43 && Math.random() > 0.7) || 
-              (prev >= 70 && prev <= 73 && Math.random() > 0.75) ||
-              (prev >= 55 && prev <= 58 && isSpecialStep); 
+              (prev >= 35 && prev <= 46 && Math.random() > 0.6) || 
+              (prev >= 65 && prev <= 78 && Math.random() > 0.7) ||
+              (prev >= 50 && prev <= 60 && isSpecialStep); 
             
             if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
               setIsReversingProgress(true);
               setTimeout(() => {
                 setIsReversingProgress(false);
-              }, 800); // Longer reverse period
+              }, 2000); // Extended reverse period to 2 seconds
             }
           }
           
-          // If we're reversing, go backwards
+          // If we're reversing, go backwards with steeper drop
           if (isReversingProgress) {
-            return Math.max(prev - (progressStage === 'late' ? 1.5 : 1), 35);
+            // More dramatic drop based on game stage
+            const dropRate = progressStage === 'early' ? 1.2 : 
+                           progressStage === 'mid' ? 2.0 : 3.0;
+            return Math.max(prev - dropRate, progressStage === 'early' ? 38 : 32);
           }
           
           // Otherwise normal progress, slowing down at certain points
