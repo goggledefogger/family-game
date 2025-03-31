@@ -595,6 +595,18 @@ const App = () => {
     setGameState('reveal');
   };
 
+  // Handler for jumping to Joel detection screen
+  const handleJumpToJoel = () => {
+    // Clear necessary states first
+    setShowConfirmation(false);
+    setShowConfigConfirmation(false);
+    setShowConsentConfirmation(false);
+    setShowAlertConfirmation(false);
+    
+    // Set to Joel detection screen
+    setGameState('joel-detection');
+  };
+
   const handleChangeAnswer = () => {
     setShowConfirmation(false);
     setSelectedAnswerIndex(null);
@@ -1042,6 +1054,12 @@ const App = () => {
                 className="btn-secondary px-3 py-2 font-medium rounded shadow-inner flex items-center justify-center"
               >
                 Reveal Screen
+              </button>
+              <button 
+                onClick={handleJumpToJoel} 
+                className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 font-medium rounded shadow-inner flex items-center justify-center"
+              >
+                Joel Screen
               </button>
             </div>
           </div>

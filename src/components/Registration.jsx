@@ -38,7 +38,7 @@ const Registration = ({ playerName, setPlayerName, onSubmit, stepLabel }) => {
           disabled={!playerName.trim()}
         >
           <span>Start Game</span>
-          <ArrowRight size={20} className="ml-2" />
+          <ArrowRight size={20} className="flex-shrink-0" style={{ marginLeft: "12px" }} />
         </button>
       </div>
       

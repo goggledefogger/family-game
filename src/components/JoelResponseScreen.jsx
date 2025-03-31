@@ -54,7 +54,7 @@ const JoelResponseScreen = ({ reportReason, onContinue, stepLabel }) => {
           <div className="animate-slide-in mb-8">
             <h3 className="text-xl font-bold text-white mb-4">{response.title}</h3>
             <div className="flex items-start">
-              <Shield size={24} className="text-blue-400 mr-3 flex-shrink-0 mt-1" />
+              <Shield size={24} className="text-blue-400 flex-shrink-0 mt-1" style={{ marginRight: "12px" }} />
               <p className="text-gray-300">
                 {response.text}
               </p>
@@ -65,7 +65,7 @@ const JoelResponseScreen = ({ reportReason, onContinue, stepLabel }) => {
         {stage >= 2 && (
           <div className="animate-slide-in border-t border-gray-700 pt-6 mb-8">
             <div className="flex items-start">
-              <UserRoundX size={24} className="text-red-500 mr-3 flex-shrink-0 mt-1" />
+              <UserRoundX size={24} className="text-red-500 flex-shrink-0 mt-1" style={{ marginRight: "12px" }} />
               <p className="text-gray-300">
                 {response.action}
               </p>
@@ -76,11 +76,11 @@ const JoelResponseScreen = ({ reportReason, onContinue, stepLabel }) => {
         {stage >= 3 && (
           <div className="animate-fade-in flex items-center justify-between border-t border-gray-700 pt-6">
             <div className="flex items-center">
-              <Clock size={20} className="text-gray-400 mr-2" />
+              <Clock size={20} className="text-gray-400" style={{ marginRight: "12px" }} />
               <span className="text-gray-400 text-sm">Incident #SEC-{Math.floor(Math.random() * 9000) + 1000}</span>
             </div>
             <div className="flex items-center">
-              <ThumbsUp size={20} className="text-green-500 mr-2" />
+              <ThumbsUp size={20} className="text-green-500" style={{ marginRight: "12px" }} />
               <span className="text-gray-400 text-sm">Threat mitigated</span>
             </div>
           </div>

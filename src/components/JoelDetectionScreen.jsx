@@ -32,25 +32,25 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
   return (
     <div className="flex flex-col items-center justify-center p-4 md:p-8 max-w-2xl mx-auto">
       <div className="w-full bg-gray-900 border-t border-b border-red-500 py-3 mb-6 flex items-center justify-center">
-        <ShieldAlert size={24} className="text-red-400 animate-pulse mr-3" />
+        <ShieldAlert size={24} className="text-red-400 animate-pulse" style={{ marginRight: "12px" }} />
         <h2 className="text-xl md:text-2xl font-bold text-red-400 tracking-wide">SECURITY ALERT: INTRUSION DETECTED</h2>
       </div>
       
       <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-6 w-full">
         <div className="flex justify-between items-center mb-5 border-b border-gray-700 pb-3">
           <div className="flex items-center">
-            <Fingerprint size={18} className="text-yellow-500 mr-2" />
+            <Fingerprint size={18} className="text-yellow-500" style={{ marginRight: "12px" }} />
             <span className="text-yellow-400 font-mono text-sm">SECURITY PROTOCOL 9-A</span>
           </div>
           <div className="flex items-center">
-            <Clock size={14} className="text-gray-400 mr-2" />
+            <Clock size={14} className="text-gray-400" style={{ marginRight: "12px" }} />
             <span className="text-gray-400 text-xs font-mono">{new Date().toLocaleTimeString()}</span>
           </div>
         </div>
       
         <div className="mb-5 bg-gray-900 rounded-md border-l-4 border-red-500 text-container">
           <div className="flex items-start">
-            <UserRoundX size={22} className="text-red-500 mr-4 flex-shrink-0 mt-1" />
+            <UserRoundX size={22} className="text-red-500 flex-shrink-0 mt-1" style={{ marginRight: "12px" }} />
             <div>
               <h3 className="text-lg font-semibold text-white mb-1">Unauthorized User Detected</h3>
               <p className="text-gray-300">
@@ -63,7 +63,7 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
         
         <div className="mb-5 bg-gray-900 rounded-md border-l-4 border-yellow-500 text-container">
           <div className="flex items-start">
-            <Eye size={22} className="text-yellow-500 mr-4 flex-shrink-0 mt-1" />
+            <Eye size={22} className="text-yellow-500 flex-shrink-0 mt-1" style={{ marginRight: "12px" }} />
             <div>
               <h3 className="text-lg font-semibold text-white mb-1">Activity Log</h3>
               <p className="text-gray-300 mb-2">
@@ -141,7 +141,7 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
       ) : (
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 w-full max-w-md mx-auto">
           <h3 className="text-xl font-bold mb-4 text-yellow-400 flex items-center">
-            <Shield size={20} className="mr-4" />
+            <Shield size={20} className="flex-shrink-0" style={{ marginRight: "12px" }} />
             <span>Security Report</span>
           </h3>
           
@@ -158,16 +158,15 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
                 }`}
                 onClick={() => setReportOption(index)}
               >
-                <div className="flex-none w-10 flex items-center justify-center">
+                <div className="flex-none flex items-center justify-center" style={{ width: "40px" }}>
                   <input 
                     type="radio" 
                     checked={reportOption === index}
                     onChange={() => setReportOption(index)}
-                    className="w-auto"
                     id={`option-${index}`}
                   />
                 </div>
-                <label htmlFor={`option-${index}`} className="cursor-pointer text-gray-200 flex-1 py-2">{option}</label>
+                <label htmlFor={`option-${index}`} className="cursor-pointer text-gray-200 py-2 pr-3 flex-1">{option}</label>
               </div>
             ))}
           </div>

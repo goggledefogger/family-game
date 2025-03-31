@@ -90,7 +90,7 @@ const ErrorScreen = ({
       
       <div className="bg-gray-800 border-2 border-red-600 rounded-lg p-8 mb-8 w-full container-breathe">
         <div className="flex items-start mb-6">
-          <AlertCircle size={24} className="text-red-500 mr-3 flex-shrink-0 mt-1" />
+          <AlertCircle size={24} className="text-red-500 flex-shrink-0 mt-1" style={{ marginRight: "12px" }} />
           <div>
             <p className="text-white mb-2 text-glitch">Error Code: {error.code}</p>
             <p className="text-gray-300">{personalizedErrorMessage}</p>
@@ -124,7 +124,7 @@ const ErrorScreen = ({
           transitionDuration: '0.15s'
         }}
       >
-        <RefreshCw size={20} className="mr-2" />
+        <RefreshCw size={20} className="flex-shrink-0" style={{ marginRight: "12px" }} />
         <span className="slant-text">{updateCount >= 2 ? `Try One Last Fix for ${displayName}` : `Attempt Automatic Fix for ${displayName}`}</span>
       </button>
       

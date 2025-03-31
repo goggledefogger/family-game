@@ -52,7 +52,7 @@ const AlertScreen = ({
           className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg mb-3 flex items-center justify-center"
           disabled={showAlertConfirmation}
         >
-          <Check size={20} className="mr-2" />
+          <Check size={20} className="flex-shrink-0" style={{ marginRight: "12px" }} />
           Continue
         </button>
       </div>
