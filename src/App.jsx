@@ -119,9 +119,10 @@ const App = () => {
         }
       }, maxLoadingTime);
       
-      // Track the number of reversals to limit them
-      let reversalCount = 0;
-      const maxReversals = 2; // Maximum number of reversals per loading phase
+      // Create a ref for tracking reversal count that persists between renders
+      const reversalCountRef = React.useRef(0);
+      // Maximum of 5 reversals per loading phase
+      const maxReversals = 5;
       
       const interval = setInterval(() => {
         setLoadingProgress(prev => {
@@ -134,7 +135,7 @@ const App = () => {
           
           // Prevent reversals near completion or if we've hit the max
           const isNearCompletion = prev >= 85;
-          const canReverse = reversalCount < maxReversals && !isNearCompletion;
+          const canReverse = reversalCountRef.current < maxReversals && !isNearCompletion;
           
           if (progressStage === 'early' && canReverse) {
             reverseChance = 0.97; // 3% chance (increased from 1%)
@@ -142,7 +143,8 @@ const App = () => {
             const isReversePoint = (prev >= 40 && prev <= 43 && Math.random() > 0.85);
             if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
               setIsReversingProgress(true);
-              reversalCount++;
+              reversalCountRef.current += 1;
+              console.log(`Reversal #${reversalCountRef.current} of ${maxReversals}`);
               setTimeout(() => {
                 setIsReversingProgress(false);
               }, 500);
@@ -156,7 +158,8 @@ const App = () => {
             
             if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
               setIsReversingProgress(true);
-              reversalCount++;
+              reversalCountRef.current += 1;
+              console.log(`Reversal #${reversalCountRef.current} of ${maxReversals}`);
               setTimeout(() => {
                 setIsReversingProgress(false);
               }, 1000);
@@ -171,7 +174,8 @@ const App = () => {
             
             if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
               setIsReversingProgress(true);
-              reversalCount++;
+              reversalCountRef.current += 1;
+              console.log(`Reversal #${reversalCountRef.current} of ${maxReversals}`);
               setTimeout(() => {
                 setIsReversingProgress(false);
               }, 2000);
