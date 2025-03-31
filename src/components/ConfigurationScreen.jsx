@@ -93,23 +93,23 @@ const ConfigurationScreen = ({
           {configStep.options.map((option, index) => (
             <button
               key={index}
-              onClick={() => index !== 2 && onConfigOption(index)}
+              onClick={() => index !== 0 && onConfigOption(index)}
               onMouseEnter={() => {
-                if (index === 2) {
+                if (index === 0) {
                   const newPos = handleJokeButtonHover(index);
                   setButtonPosition(newPos);
                 }
               }}
               className={`w-full text-left bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded px-4 py-3 text-white flex items-center transition-all ${
-                movingButtonIndex === index && index === 2 ? 'transform' : ''
+                movingButtonIndex === index && index === 0 ? 'transform' : ''
               } ${index === 1 ? 'button-wobble' : ''}`}
               style={{ 
-                transform: movingButtonIndex === index && index === 2 
+                transform: movingButtonIndex === index && index === 0 
                   ? `translate(${buttonPosition.x}px, ${buttonPosition.y}px)` 
                   : 'none',
                 transitionProperty: 'transform, background-color',
                 transitionDuration: '0.15s',
-                cursor: index === 2 ? 'not-allowed' : 'pointer'
+                cursor: index === 0 ? 'not-allowed' : 'pointer'
               }}
               disabled={showConfigConfirmation}
             >

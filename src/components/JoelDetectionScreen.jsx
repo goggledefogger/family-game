@@ -113,10 +113,10 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
       {!showConfirmation ? (
         <div className="w-full">
           <h3 className="text-lg text-center font-semibold text-white mb-4">Recommended Actions</h3>
-          <div className="flex flex-col space-y-3">
+          <div className="flex flex-col space-y-3 items-center">
             <button 
               onClick={handleReport}
-              className="bg-gray-800 hover:bg-gray-900 border-2 border-red-500 text-white font-bold py-3 px-6 rounded-md flex items-center justify-center transition-colors duration-200"
+              className="bg-gray-800 hover:bg-gray-900 border-2 border-red-500 text-white font-bold py-3 px-6 rounded-md flex items-center justify-center transition-colors duration-200 max-w-md w-auto"
             >
               <AlertTriangle size={20} className="mr-2 text-red-500" />
               <span>Report Suspicious Activity</span>
@@ -124,7 +124,7 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
             
             <button 
               onClick={onIgnore}
-              className="bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded-md flex items-center justify-center transition-colors duration-200"
+              className="bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded-md flex items-center justify-center transition-colors duration-200 max-w-md w-auto"
             >
               <UserRoundCheck size={20} className="mr-2" />
               <span>Ignore (Accept Risk)</span>
@@ -139,7 +139,7 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
           </div>
         </div>
       ) : (
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 w-full">
+        <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 w-full max-w-md mx-auto">
           <h3 className="text-xl font-bold mb-4 text-yellow-400 flex items-center">
             <Shield size={20} className="mr-2" />
             <span>Security Report</span>
@@ -170,16 +170,16 @@ const JoelDetectionScreen = ({ onReport, onIgnore, stepLabel }) => {
             ))}
           </div>
           
-          <div className="flex flex-col md:flex-row justify-between space-y-3 md:space-y-0 md:space-x-4">
+          <div className="flex flex-col md:flex-row justify-center space-y-3 md:space-y-0 md:space-x-4">
             <button
               onClick={changeOption}
-              className="bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded font-medium transition-colors duration-200"
+              className="bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded font-medium transition-colors duration-200 w-auto"
             >
               Cancel Report
             </button>
             <button
               onClick={confirmReport}
-              className="bg-gray-800 hover:bg-gray-900 border-2 border-red-500 text-white font-bold py-3 px-6 rounded transition-colors duration-200"
+              className="bg-gray-800 hover:bg-gray-900 border-2 border-red-500 text-white font-bold py-3 px-6 rounded transition-colors duration-200 w-auto"
               disabled={reportOption === null}
             >
               Submit Report

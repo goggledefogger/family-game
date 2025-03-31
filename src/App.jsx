@@ -75,18 +75,22 @@ const App = () => {
         
         // Create a progressive distribution of loading screen types
         if (currentStep < 6) {
-          // First third: mostly default loading screens, occasional binary
-          const screenTypes = ['default', 'default', 'default', 'default', 'binary'];
+          // First third: rarely show binary loading screen
+          const screenTypes = ['default', 'default', 'default', 'default', 'default'];
+          // Only 5% chance for binary in early game
+          if (Math.random() < 0.05) {
+            screenTypes[Math.floor(Math.random() * screenTypes.length)] = 'binary';
+          }
           const randomIndex = Math.floor(Math.random() * screenTypes.length);
           setLoadingScreenType(screenTypes[randomIndex]);
         } else if (currentStep < 12) {
-          // Middle third: introduce crash screens, more binary
-          const screenTypes = ['default', 'default', 'binary', 'binary', 'crash'];
+          // Middle third: occasionally show binary and crash screens
+          const screenTypes = ['default', 'default', 'default', 'binary', 'crash'];
           const randomIndex = Math.floor(Math.random() * screenTypes.length);
           setLoadingScreenType(screenTypes[randomIndex]);
         } else {
-          // Final third: all screen types with corrupted data more frequent
-          const screenTypes = ['default', 'binary', 'crash', 'corrupted', 'corrupted'];
+          // Final third: more variety but still control frequency
+          const screenTypes = ['default', 'default', 'binary', 'crash', 'corrupted'];
           const randomIndex = Math.floor(Math.random() * screenTypes.length);
           setLoadingScreenType(screenTypes[randomIndex]);
         }
