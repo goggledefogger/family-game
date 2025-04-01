@@ -907,7 +907,7 @@ const App = () => {
       <div className="container mx-auto px-4 py-4">
         {/* Title screen doesn't need the header */}
         {gameState === 'title' ? (
-          <TitleScreen onStart={handleStartGame} />
+          <TitleScreen onStartGame={handleStartGame} />
         ) : (
           <>
             <GameHeader
