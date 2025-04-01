@@ -1,21 +1,210 @@
-<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-  <!-- Background shape -->
-  <rect x="2" y="2" width="60" height="60" rx="8" fill="#1f2937" stroke="#f59e0b" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Defs for the glowing and animation effects -->
+  <defs>
+    <radialGradient id="glowingLight" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#FFF7D6" stop-opacity="0.9">
+        <animate attributeName="stop-color" values="#FFF7D6;#FFE08A;#FFF7D6" dur="3s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="30%" stop-color="#FFEAA7" stop-opacity="0.6">
+        <animate attributeName="stop-color" values="#FFEAA7;#FFD700;#FFEAA7" dur="3s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#FFD700" stop-opacity="0" />
+    </radialGradient>
+    <filter id="blur">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" />
+    </filter>
+  </defs>
   
-  <!-- Game controller shape -->
-  <path d="M16 32c0-2.2 1.8-4 4-4h24c2.2 0 4 1.8 4 4v8c0 2.2-1.8 4-4 4H20c-2.2 0-4-1.8-4-4v-8z" fill="#374151" stroke="#f59e0b" stroke-width="1"/>
+  <!-- Whole chest container with subtle shake animation -->
+  <g id="chest">
+    <animateTransform 
+      attributeName="transform" 
+      type="translate" 
+      values="0,0; 0.3,0.2; 0,-0.2; -0.3,0.1; 0,0" 
+      dur="5s" 
+      repeatCount="indefinite" 
+    />
+    
+    <!-- Chest bottom -->
+    <path d="M22 42 L22 80 C22 82, 24 84, 26 84 L74 84 C76 84, 78 82, 78 80 L78 42" fill="#614124" stroke="#472D1C" stroke-width="2.5" />
+    
+    <!-- Light glow coming from inside the chest with pulsing animation -->
+    <ellipse cx="50" cy="42" rx="25" ry="10" fill="url(#glowingLight)" filter="url(#blur)">
+      <animate 
+        attributeName="ry" 
+        values="10;12;10" 
+        dur="2.5s" 
+        repeatCount="indefinite" 
+      />
+      <animate 
+        attributeName="opacity" 
+        values="0.8;1;0.8" 
+        dur="2s" 
+        repeatCount="indefinite" 
+      />
+    </ellipse>
+    
+    <!-- Subtle light beams with flickering animation -->
+    <path d="M38 38 L35 30" stroke="#FFEAA7" stroke-width="0.7" opacity="0.6">
+      <animate 
+        attributeName="opacity" 
+        values="0.3;0.7;0.3" 
+        dur="3.7s" 
+        repeatCount="indefinite" 
+      />
+    </path>
+    <path d="M50 38 L50 28" stroke="#FFEAA7" stroke-width="0.7" opacity="0.6">
+      <animate 
+        attributeName="opacity" 
+        values="0.4;0.8;0.4" 
+        dur="2.9s" 
+        repeatCount="indefinite" 
+      />
+    </path>
+    <path d="M62 38 L65 30" stroke="#FFEAA7" stroke-width="0.7" opacity="0.6">
+      <animate 
+        attributeName="opacity" 
+        values="0.5;0.7;0.5" 
+        dur="3.3s" 
+        repeatCount="indefinite" 
+      />
+    </path>
+    
+    <!-- Slightly open lid with subtle movement -->
+    <path d="M22 42 C22 30, 78 30, 78 42" fill="#472D1C" stroke="#472D1C" stroke-width="2.5" transform="rotate(-5 50 42)">
+      <animateTransform 
+        attributeName="transform" 
+        type="rotate" 
+        values="-5 50 42;-5.5 50 42;-5 50 42" 
+        dur="4s" 
+        repeatCount="indefinite" 
+        additive="sum"
+      />
+    </path>
+    
+    <!-- Inner edge of the lid opening with glowing effect -->
+    <path d="M25 42 L75 42" stroke="#FFEAA7" stroke-width="1" opacity="0.8">
+      <animate 
+        attributeName="opacity" 
+        values="0.6;0.9;0.6" 
+        dur="2s" 
+        repeatCount="indefinite" 
+      />
+    </path>
+    
+    <!-- Faded/worn metal band -->
+    <path d="M22 62 L78 62" stroke="#8A7256" stroke-width="3" stroke-dasharray="2,1" />
+    
+    <!-- Ancient lock with mysterious symbol -->
+    <rect x="45" y="37" width="10" height="15" rx="1" ry="1" fill="#8A7256" stroke="#472D1C" stroke-width="1" transform="rotate(-5 50 42)">
+      <animateTransform 
+        attributeName="transform" 
+        type="rotate" 
+        values="-5 50 42;-5.5 50 42;-5 50 42" 
+        dur="4s" 
+        repeatCount="indefinite" 
+        additive="sum"
+      />
+    </rect>
+    <path d="M48 45 L52 45 M50 42 L50 48" stroke="#472D1C" stroke-width="1" transform="rotate(-5 50 42)">
+      <animateTransform 
+        attributeName="transform" 
+        type="rotate" 
+        values="-5 50 42;-5.5 50 42;-5 50 42" 
+        dur="4s" 
+        repeatCount="indefinite" 
+        additive="sum"
+      />
+    </path>
+    
+    <!-- Mysterious rune-like engravings on chest with subtle glowing -->
+    <path d="M30 51 L35 51 M32.5 48 L32.5 54" stroke="#8A7256" stroke-width="1">
+      <animate 
+        attributeName="stroke" 
+        values="#8A7256;#A69779;#8A7256" 
+        dur="4s" 
+        repeatCount="indefinite" 
+      />
+    </path>
+    <path d="M65 51 L70 51 M67.5 48 L67.5 54" stroke="#8A7256" stroke-width="1">
+      <animate 
+        attributeName="stroke" 
+        values="#8A7256;#A69779;#8A7256" 
+        dur="3.5s" 
+        repeatCount="indefinite" 
+      />
+    </path>
+    
+    <!-- Subtle crack in the wood -->
+    <path d="M55 62 L58 70" stroke="#472D1C" stroke-width="0.7" stroke-dasharray="2,1" />
+    
+    <!-- Ancient coin, with subtle glow from the chest light -->
+    <circle cx="50" cy="70" r="6" fill="#C9A66B" stroke="#8A7256" stroke-width="1">
+      <animate 
+        attributeName="fill" 
+        values="#C9A66B;#DDBA7D;#C9A66B" 
+        dur="3s" 
+        repeatCount="indefinite" 
+      />
+    </circle>
+    <path d="M48 70 L52 70 M50 68 L50 72" stroke="#472D1C" stroke-width="0.7" />
+  </g>
   
-  <!-- D-pad left button -->
-  <rect x="20" y="34" width="4" height="4" rx="1" fill="#f59e0b"/>
+  <!-- Occasional mystical particle effects -->
+  <circle cx="50" cy="40" r="0.5" fill="#FFFFFF">
+    <animate 
+      attributeName="cy" 
+      from="42" 
+      to="30" 
+      dur="4s" 
+      begin="1s"
+      repeatCount="indefinite" 
+    />
+    <animate 
+      attributeName="opacity" 
+      from="1" 
+      to="0" 
+      dur="4s" 
+      begin="1s"
+      repeatCount="indefinite" 
+    />
+  </circle>
   
-  <!-- Action buttons -->
-  <circle cx="40" cy="36" r="2" fill="#ef4444"/> <!-- Red button -->
-  <circle cx="44" cy="32" r="2" fill="#10b981"/> <!-- Green button -->
+  <circle cx="45" cy="40" r="0.5" fill="#FFFFFF">
+    <animate 
+      attributeName="cy" 
+      from="42" 
+      to="32" 
+      dur="5s" 
+      begin="2s"
+      repeatCount="indefinite" 
+    />
+    <animate 
+      attributeName="opacity" 
+      from="1" 
+      to="0" 
+      dur="5s" 
+      begin="2s"
+      repeatCount="indefinite" 
+    />
+  </circle>
   
-  <!-- Question mark - representing the quiz/game aspect -->
-  <path d="M32 18c-3.3 0-6 2.7-6 6h4c0-1.1 0.9-2 2-2s2 0.9 2 2c0 2-3 1.5-3 5h4c0-2 3-2.5 3-5 0-3.3-2.7-6-6-6z" fill="#f59e0b"/>
-  <rect x="30" y="30" width="4" height="4" rx="1" fill="#f59e0b"/>
-  
-  <!-- Snarky smile/smirk at the bottom -->
-  <path d="M24 46c0 0 4 4 8 4s8-4 8-4" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" transform="rotate(5, 32, 48)"/>
+  <circle cx="55" cy="40" r="0.5" fill="#FFFFFF">
+    <animate 
+      attributeName="cy" 
+      from="42" 
+      to="34" 
+      dur="3.5s" 
+      begin="0.5s"
+      repeatCount="indefinite" 
+    />
+    <animate 
+      attributeName="opacity" 
+      from="1" 
+      to="0" 
+      dur="3.5s" 
+      begin="0.5s"
+      repeatCount="indefinite" 
+    />
+  </circle>
 </svg> 

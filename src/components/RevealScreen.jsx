@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Award, X, Frown, Laugh, Calendar, Skull, ThumbsUp } from 'lucide-react';
+import { X, Frown, Laugh, Calendar, Skull, ThumbsUp } from 'lucide-react';
+import TreasureChest from './TreasureChest';
 
 const RevealScreen = ({ playerName, onStartOver }) => {
   const [revealStage, setRevealStage] = useState(0);
@@ -63,12 +64,10 @@ const RevealScreen = ({ playerName, onStartOver }) => {
       ))}
 
       <div className="relative mb-6">
-        <Award size={96} className={`text-yellow-500 ${revealStage >= 2 ? 'opacity-50' : ''}`} />
+        <TreasureChest size={120} className={`text-yellow-500 ${revealStage >= 2 ? 'opacity-50' : ''}`} />
         {revealStage >= 1 && (
           <div className="absolute inset-0 flex items-center justify-center text-red-500 animate-grow-in">
-            <div style={{fontSize: "200px", lineHeight: "1", fontWeight: "bold"}} className="text-red-500">
-              ✕
-            </div>
+            <X size={100} strokeWidth={1.5} />
           </div>
         )}
       </div>
@@ -110,7 +109,7 @@ const RevealScreen = ({ playerName, onStartOver }) => {
           </div>
           
           <p className="text-gray-300 mb-6 text-left">
-            Sorry to disappoint, but April Fools! Believe it or not, there's no Bauman Family Fortune game show, just a series of screens to waste your time and drive you a little crazy.
+            Sorry to disappoint, but April Fools! Believe it or not, there's no Bauman Family Treasure game show, just a series of screens to waste your time and drive you a little crazy.
           </p>
           
           <div className="border-t border-gray-700 pt-6 mt-6">

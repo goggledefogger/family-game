@@ -1,6 +1,6 @@
-# Family Fortune Game
+# Family Treasure Game
 
-![Family Fortune](public/logo.png)
+![Family Treasure](public/logo.png)
 
 A deceptively fun April Fools' application that provides the ultimate "is this working?" experience. This interactive experience takes users through a series of fake loading screens, configuration options, and error messages, all leading up to a hilarious prank reveal.
 
