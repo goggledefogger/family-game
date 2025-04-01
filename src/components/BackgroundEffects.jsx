@@ -2,48 +2,67 @@ import React, { useEffect, useState } from 'react';
 
 const BackgroundEffects = ({ isPlaying }) => {
   const [particles, setParticles] = useState([]);
+  const [treasures, setTreasures] = useState([]);
 
-  // Generate particles only once on mount, not when audio state changes
+  // Generate particles and treasures only once on mount
   useEffect(() => {
-    // Generate initial set of particles
+    // Initial generation
     generateParticles();
+    generateTreasures();
 
-    // Set up a refresh interval to regenerate particles occasionally
-    // This keeps animations fresh regardless of audio state
+    // Refresh interval
     const refreshInterval = setInterval(() => {
       generateParticles();
-    }, 30000); // Refresh particles every 30 seconds
+      generateTreasures();
+    }, 30000);
 
-    return () => {
-      clearInterval(refreshInterval);
-    };
-  }, []); // Only run once on mount
+    return () => clearInterval(refreshInterval);
+  }, []); // Empty dependency array means this only runs once on mount
 
   // Function to generate new particles
   const generateParticles = () => {
     const newParticles = Array(20).fill().map(() => ({
-      id: Math.random().toString(36).substr(2, 9),
-      x: Math.random() * 100, // position across viewport width (%)
-      y: Math.random() * 100, // position across viewport height (%)
-      size: Math.random() * 12 + 4, // Larger size range: 4-16px
+      id: Math.random().toString(36).substring(2, 9),
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 12 + 4,
       color: getRandomColor(),
-      duration: Math.random() * 20 + 15, // Slower animation: 15-35s
-      delay: Math.random() * 8, // More varied delays: 0-8s
+      duration: Math.random() * 20 + 15,
+      delay: Math.random() * 8,
     }));
 
     setParticles(newParticles);
   };
 
-  // Generate random more vibrant, semi-transparent colors
+  // Function to generate treasures and coins
+  const generateTreasures = () => {
+    const treasureEmojis = ['💰', '🪙', '💎', '👑', '✨', '🏆', '🔮'];
+    const count = 12;
+
+    const newTreasures = Array(count).fill().map(() => ({
+      id: Math.random().toString(36).substring(2, 9),
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 18 + 8,
+      emoji: treasureEmojis[Math.floor(Math.random() * treasureEmojis.length)],
+      rotation: Math.random() * 360,
+      duration: Math.random() * 25 + 20,
+      delay: Math.random() * 15,
+    }));
+
+    setTreasures(newTreasures);
+  };
+
+  // Generate random colors
   const getRandomColor = () => {
     const colors = [
-      'rgba(255, 215, 0, 0.75)', // gold - even more intense
-      'rgba(255, 99, 71, 0.7)', // tomato - even more intense
-      'rgba(0, 206, 209, 0.7)', // turquoise - even more intense
-      'rgba(147, 112, 219, 0.7)', // purple - even more intense
-      'rgba(50, 205, 50, 0.7)', // lime - even more intense
-      'rgba(255, 105, 180, 0.65)', // pink - even more intense
-      'rgba(30, 144, 255, 0.7)', // blue - even more intense
+      'rgba(255, 215, 0, 0.75)', // gold
+      'rgba(255, 99, 71, 0.7)',  // tomato
+      'rgba(0, 206, 209, 0.7)',  // turquoise
+      'rgba(147, 112, 219, 0.7)', // purple
+      'rgba(50, 205, 50, 0.7)',  // lime
+      'rgba(255, 105, 180, 0.65)', // pink
+      'rgba(30, 144, 255, 0.7)',  // blue
     ];
 
     return colors[Math.floor(Math.random() * colors.length)];
@@ -51,6 +70,7 @@ const BackgroundEffects = ({ isPlaying }) => {
 
   return (
     <div className={`background-effects ${isPlaying ? 'effects-active' : 'effects-muted'}`}>
+      {/* Regular particles */}
       {particles.map(particle => (
         <div
           key={particle.id}
@@ -65,6 +85,24 @@ const BackgroundEffects = ({ isPlaying }) => {
             animationDelay: `${particle.delay}s`,
           }}
         />
+      ))}
+
+      {/* Treasure elements */}
+      {treasures.map((treasure, index) => (
+        <div
+          key={treasure.id}
+          className={`treasure-item ${!isPlaying && index >= 8 ? 'treasure-hidden' : ''}`}
+          style={{
+            left: `${treasure.x}%`,
+            top: `${treasure.y}%`,
+            fontSize: `${treasure.size}px`,
+            transform: `rotate(${treasure.rotation}deg)`,
+            animationDuration: `${treasure.duration}s`,
+            animationDelay: `${treasure.delay}s`,
+          }}
+        >
+          {treasure.emoji}
+        </div>
       ))}
     </div>
   );
