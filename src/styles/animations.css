@@ -121,9 +121,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, 
-    transparent 0%, 
-    rgba(255, 255, 255, 0.15) 50%, 
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
     transparent 100%);
   animation: shimmer 1.5s infinite;
   transform: translateX(-100%);
@@ -152,13 +152,26 @@
   animation: moveButton 1.5s ease-in-out;
 }
 
+/* Treasure chest shake animation */
+@keyframes treasure-shake {
+  0% { transform: scale(1) translateY(0) rotate(0deg); }
+  25% { transform: scale(1.1) translateY(-5px) rotate(-2deg); }
+  50% { transform: scale(1.15) translateY(0) rotate(0deg); }
+  75% { transform: scale(1.1) translateY(3px) rotate(2deg); }
+  100% { transform: scale(1) translateY(0) rotate(0deg); }
+}
+
+.animate-treasure-shake {
+  animation: treasure-shake 0.8s ease-in-out infinite;
+}
+
 /* Title glistening effect */
 @keyframes glisten {
-  0%, 100% { 
+  0%, 100% {
     text-shadow: none;
     filter: brightness(1);
   }
-  25% { 
+  25% {
     text-shadow: 0 0 2px rgba(255, 215, 0, 0.3), 0 0 3px rgba(255, 215, 0, 0.2);
     filter: brightness(1.05);
   }
@@ -866,4 +879,4 @@
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   animation-fill-mode: both;
-} 
+}

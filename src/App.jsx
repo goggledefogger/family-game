@@ -63,7 +63,7 @@ const App = () => {
   useEffect(() => {
     if (gameState === 'loading') {
       setStepMessage(gameSteps[currentStep].message);
-      
+
       // Select a loading screen type based on step or random choice
       if (loadingProgress === 0) {
         // Randomly select a progress bar type - more variety later in the game
@@ -77,7 +77,7 @@ const App = () => {
           // Final third: full variety
           setProgressBarType(Math.floor(Math.random() * 4)); // All types 0-3
         }
-        
+
         // Create a progressive distribution of loading screen types
         if (currentStep < 6) {
           // First third: rarely show binary loading screen
@@ -99,7 +99,7 @@ const App = () => {
           const randomIndex = Math.floor(Math.random() * screenTypes.length);
           setLoadingScreenType(screenTypes[randomIndex]);
         }
-        
+
         // Set melting effect with increasing frequency as game progresses
         if (
           (currentStep < 6 && Math.random() > 0.95) || // 5% chance early game
@@ -111,7 +111,7 @@ const App = () => {
           setIsMelting(false);
         }
       }
-      
+
       // Add a maximum loading time to ensure it always finishes
       // This prevents infinite loops in the loading progress
       const maxLoadingTime = 15000; // 15 seconds maximum loading time
@@ -121,23 +121,23 @@ const App = () => {
           setLoadingProgress(98); // Force to completion
         }
       }, maxLoadingTime);
-      
+
       // Maximum of 5 reversals per loading phase
       const maxReversals = 5;
-      
+
       const interval = setInterval(() => {
         setLoadingProgress(prev => {
           // Reduce weird behavior in early game, increase in late game
           const progressStage = currentStep < 6 ? 'early' : currentStep < 12 ? 'mid' : 'late';
-          
+
           // Different reverse progress chance based on game stage
           let reverseChance = 0.97; // 3% chance early game (increased from 1%)
           let specialStepCheck = false;
-          
+
           // Prevent reversals near completion or if we've hit the max
           const isNearCompletion = prev >= 85;
           const canReverse = reversalCountRef.current < maxReversals && !isNearCompletion;
-          
+
           if (progressStage === 'early' && canReverse) {
             reverseChance = 0.97; // 3% chance (increased from 1%)
             // Only at specific points with a high threshold
@@ -153,10 +153,10 @@ const App = () => {
           } else if (progressStage === 'mid' && canReverse) {
             reverseChance = 0.93; // 7% chance (increased from 5%)
             const isSpecialStep = currentStep === 7 || currentStep === 9;
-            const isReversePoint = 
-              (prev >= 35 && prev <= 45 && Math.random() > 0.7) || 
+            const isReversePoint =
+              (prev >= 35 && prev <= 45 && Math.random() > 0.7) ||
               (prev >= 65 && prev <= 75 && isSpecialStep && Math.random() > 0.8);
-            
+
             if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
               setIsReversingProgress(true);
               reversalCountRef.current += 1;
@@ -168,11 +168,11 @@ const App = () => {
           } else if (progressStage === 'late' && canReverse) { // late game
             reverseChance = 0.85; // 15% chance (increased from 10%)
             const isSpecialStep = currentStep === 15 || currentStep === 17 || currentStep === 19;
-            const isReversePoint = 
-              (prev >= 35 && prev <= 46 && Math.random() > 0.6) || 
+            const isReversePoint =
+              (prev >= 35 && prev <= 46 && Math.random() > 0.6) ||
               (prev >= 65 && prev <= 78 && Math.random() > 0.7) ||
-              (prev >= 50 && prev <= 60 && isSpecialStep); 
-            
+              (prev >= 50 && prev <= 60 && isSpecialStep);
+
             if (isReversePoint && !isReversingProgress && Math.random() > reverseChance) {
               setIsReversingProgress(true);
               reversalCountRef.current += 1;
@@ -182,21 +182,21 @@ const App = () => {
               }, 2000);
             }
           }
-          
+
           // If we're reversing, go backwards with steeper drop
           if (isReversingProgress) {
             // More dramatic drop based on game stage
-            const dropRate = progressStage === 'early' ? 1.2 : 
+            const dropRate = progressStage === 'early' ? 1.2 :
                            progressStage === 'mid' ? 2.0 : 3.0;
             return Math.max(prev - dropRate, progressStage === 'early' ? 38 : 32);
           }
-          
+
           // Otherwise normal progress, slowing down at certain points
           if (prev >= 75 && prev < 95) {
             return prev + 0.5;
           } else {
             let nextProgress = prev + 2;
-            
+
             // Cap at 100% in early game, allow exceeding only in mid and late game
             if (progressStage === 'early') {
               return Math.min(nextProgress, 100);
@@ -211,19 +211,19 @@ const App = () => {
             }
           }
         });
-        
+
         // Complete this loading step
         if (loadingProgress >= 97) {
           clearInterval(interval);
-          
+
           // Move to next step after a short delay
           setTimeout(() => {
             // Proceed to next step
             let nextStep = currentStep + 1;
-            
+
             // Mark current step as completed
             setCompletedSteps(prev => new Set(prev).add(currentStep));
-            
+
             // If we've gone through enough steps, show the error
             if (nextStep >= gameSteps.length - 3) {
               setErrorType(Math.floor(Math.random() * 5));
@@ -232,22 +232,22 @@ const App = () => {
               advanceStepCount();
               return;
             }
-            
+
             // Check if the next step is a duplicate configuration
             // Skip steps that are already completed to avoid repeats
             while (completedSteps.has(nextStep) && nextStep < gameSteps.length - 3) {
               console.log(`Skipping step ${nextStep} as it's already been completed`);
               nextStep++;
             }
-            
+
             // Otherwise proceed to the next step
             setCurrentStep(nextStep);
             setLoadingProgress(0);
-            
+
             // Set the appropriate game state based on the next step type
             const nextGameState = gameSteps[nextStep].type;
             setGameState(nextGameState);
-            
+
             // Only advance step counter when moving to non-loading screens
             // This ensures we follow the desired step counter progression
             if (nextGameState !== 'loading') {
@@ -256,7 +256,7 @@ const App = () => {
           }, 1000);
         }
       }, 100);
-      
+
       return () => {
         clearInterval(interval);
         clearTimeout(forceCompleteTimeout);
@@ -291,7 +291,7 @@ const App = () => {
   const getConfirmationChance = (baseChance, currentIndex, maxIndex, increment) => {
     // Calculate game progress as a percentage
     const gameProgress = currentStep / 20; // Assuming about 20 steps total
-    
+
     // Reduce chance early, standard in middle, increase late
     let adjustedBaseChance;
     if (gameProgress < 0.3) { // First third
@@ -301,7 +301,7 @@ const App = () => {
     } else { // Final third
       adjustedBaseChance = baseChance * 1.5; // 150% of normal chance, up from 120%
     }
-    
+
     return adjustedBaseChance + (Math.min(currentIndex, maxIndex) * increment);
   };
 
@@ -309,11 +309,11 @@ const App = () => {
     // Force confirmations at specific points for consistency
     const forceConfirmationPoints = [0, 3]; // First and fourth questions always have confirmations
     const shouldForceConfirmation = forceConfirmationPoints.includes(questionIndex);
-    
+
     // Random chance to show confirmation, with progressive increase
     const baseChance = 0.4; // 40% base chance, up from 30%
     const randomChance = getConfirmationChance(baseChance, questionIndex, 5, 0.08);
-    
+
     if (shouldForceConfirmation || Math.random() < randomChance) {
       // Instead of immediately proceeding, show confirmation dialog
       setSelectedAnswerIndex(answerIndex);
@@ -322,7 +322,7 @@ const App = () => {
       // Skip confirmation and proceed directly
       const newAnswers = [...playerAnswers, answerIndex];
       setPlayerAnswers(newAnswers);
-      
+
       // Move to next question or to loading if all questions answered
       if (questionIndex < funnyQuestions.length - 1) {
         setQuestionIndex(questionIndex + 1);
@@ -335,13 +335,13 @@ const App = () => {
       }
     }
   };
-  
+
   const confirmAnswer = () => {
     const newAnswers = [...playerAnswers, selectedAnswerIndex];
     setPlayerAnswers(newAnswers);
     setShowConfirmation(false);
     setSelectedAnswerIndex(null);
-    
+
     // Move to next question or to loading if all questions answered
     if (questionIndex < funnyQuestions.length - 1) {
       setQuestionIndex(questionIndex + 1);
@@ -356,35 +356,41 @@ const App = () => {
 
   const handleConfigOption = (optionIndex) => {
     // Force confirmations at key steps
-    const forceConfigSteps = [1, 5, 7, 13, 17, 21]; // Steps where we always want configuration confirmations
+    const forceConfigSteps = [5, 7, 13, 17, 21]; // Removed step 1 from force confirmations
+    // Steps where we never want configuration confirmations
+    const forceNoConfirmSteps = [1];
     const shouldForceConfirmation = forceConfigSteps.includes(currentStep);
-    
+    const shouldSkipConfirmation = forceNoConfirmSteps.includes(currentStep);
+
     // Check if we should show a confirmation for this configuration step
     // With progressive chance increase
     const baseChance = 0.5; // 50% base chance, up from 30%
     const randomChance = getConfirmationChance(baseChance, currentStep, 20, 0.02);
-    
-    if (shouldForceConfirmation || configComments[currentStep] || Math.random() < randomChance) {
+
+    if (shouldSkipConfirmation) {
+      // Skip confirmation for the initial configuration screen
+      proceedWithConfig(optionIndex);
+    } else if (shouldForceConfirmation || configComments[currentStep] || Math.random() < randomChance) {
       setSelectedConfigIndex(optionIndex);
       setShowConfigConfirmation(true);
       return;
+    } else {
+      // If no confirmation needed, proceed directly
+      proceedWithConfig(optionIndex);
     }
-    
-    // If no confirmation needed, proceed directly
-    proceedWithConfig(optionIndex);
   };
-  
+
   const proceedWithConfig = (optionIndex) => {
     setConfigOption(optionIndex);
-    
+
     // Mark current step as completed
     setCompletedSteps(prev => new Set(prev).add(currentStep));
-    
+
     // Move to next step
     const nextStep = currentStep + 1;
     setCurrentStep(nextStep);
     setLoadingProgress(0);
-    
+
     // Set the appropriate game state based on the next step type
     if (gameSteps[nextStep].type === 'loading') {
       setGameState('loading');
@@ -402,18 +408,18 @@ const App = () => {
       advanceStepCount(); // Only advance step count for non-loading screens
     }
   };
-  
+
   const confirmConfig = () => {
     // Clear the confirmation dialog
     setShowConfigConfirmation(false);
-    
+
     // Proceed with the selected config option
     proceedWithConfig(selectedConfigIndex);
-    
+
     // Reset the selected index
     setSelectedConfigIndex(null);
   };
-  
+
   const changeConfig = () => {
     // Just close the confirmation dialog without proceeding
     setShowConfigConfirmation(false);
@@ -423,11 +429,11 @@ const App = () => {
   const handleConsent = () => {
     // Always show confirmation for consent steps after the first one
     const shouldForceConfirmation = currentStep > 4;
-    
+
     // Random chance to show confirmation, with progressive increase
     const baseChance = 0.6; // 60% base chance, up from 50%
     const randomChance = getConfirmationChance(baseChance, currentStep, 10, 0.02);
-    
+
     if (shouldForceConfirmation || Math.random() < randomChance) {
       // Show confirmation dialog instead of proceeding immediately
       setShowConsentConfirmation(true);
@@ -435,12 +441,12 @@ const App = () => {
       // Skip confirmation and proceed directly
       // Mark current step as completed
       setCompletedSteps(prev => new Set(prev).add(currentStep));
-      
+
       // Proceed to next step
       const nextStep = currentStep + 1;
       setCurrentStep(nextStep);
       setLoadingProgress(0);
-      
+
       // Handle state transition
       if (gameSteps[nextStep].type === 'loading') {
         setGameState('loading');
@@ -450,19 +456,19 @@ const App = () => {
       }
     }
   };
-  
+
   const confirmConsent = () => {
     // Clear the confirmation dialog
     setShowConsentConfirmation(false);
-    
+
     // Mark current step as completed
     setCompletedSteps(prev => new Set(prev).add(currentStep));
-    
+
     // Proceed to next step
     const nextStep = currentStep + 1;
     setCurrentStep(nextStep);
     setLoadingProgress(0);
-    
+
     // Handle state transition
     if (gameSteps[nextStep].type === 'loading') {
       setGameState('loading');
@@ -471,7 +477,7 @@ const App = () => {
       advanceStepCount(); // Only advance step count for non-loading screens
     }
   };
-  
+
   const changeConsent = () => {
     // Just close the confirmation dialog
     setShowConsentConfirmation(false);
@@ -481,30 +487,30 @@ const App = () => {
     // Force confirmations at later steps for alerts
     const forceAlertSteps = [10, 15, 20]; // Steps with important alert confirmations
     const shouldForceConfirmation = forceAlertSteps.includes(currentStep);
-    
+
     // Check if we should show a confirmation for this alert step
     // With progressive chance increase
     const baseChance = 0.5; // 50% base chance, up from 40%
     const randomChance = getConfirmationChance(baseChance, currentStep, 15, 0.03);
-    
+
     if (shouldForceConfirmation || alertComments[currentStep] || Math.random() < randomChance) {
       setShowAlertConfirmation(true);
       return;
     }
-    
+
     // If no confirmation needed, proceed directly
     proceedWithAlert();
   };
-  
+
   const proceedWithAlert = () => {
     // Mark current step as completed
     setCompletedSteps(prev => new Set(prev).add(currentStep));
-    
+
     // Move to next step
     const nextStep = currentStep + 1;
     setCurrentStep(nextStep);
     setLoadingProgress(0);
-    
+
     // Handle state transition
     if (gameSteps[nextStep].type === 'loading') {
       setGameState('loading');
@@ -513,15 +519,15 @@ const App = () => {
       advanceStepCount(); // Only advance step count for non-loading screens
     }
   };
-  
+
   const confirmAlert = () => {
     // Clear the confirmation dialog
     setShowAlertConfirmation(false);
-    
+
     // Proceed to next step
     proceedWithAlert();
   };
-  
+
   const changeAlert = () => {
     // Just close the confirmation dialog
     setShowAlertConfirmation(false);
@@ -533,9 +539,9 @@ const App = () => {
       setGameState('finale');
       return;
     }
-    
+
     setUpdateCount(updateCount + 1);
-    
+
     // Reset to a random place in the sequence, avoiding previously completed steps
     let availableSteps = [];
     for(let i = 4; i < gameSteps.length - 8; i++) {
@@ -543,23 +549,23 @@ const App = () => {
         availableSteps.push(i);
       }
     }
-    
+
     // If all steps have been shown or not enough available, just use a random step
     if(availableSteps.length < 3) {
       availableSteps = Array.from({length: gameSteps.length - 12}, (_, i) => i + 4);
     }
-    
+
     const randomStep = availableSteps[Math.floor(Math.random() * availableSteps.length)];
     setCurrentStep(randomStep);
     setGameState('loading');
     setLoadingProgress(0);
   };
-  
+
   const handleButtonHover = (index) => {
     // Set moving button index on hover, without applying the actual transformation
     // (the components will handle their own transformation logic now)
     setMovingButtonIndex(index);
-    
+
     // Reset after a short delay
     setTimeout(() => {
       setMovingButtonIndex(null);
@@ -596,32 +602,32 @@ const App = () => {
   // Development shortcut handlers
   const handleJumpToError = () => {
     console.log('Dev shortcut: Jumping to Error screen');
-    
+
     // Set player name if not already set
     if (!playerName) setPlayerName('DevUser');
-    
+
     // Set error type randomly
     setErrorType(Math.floor(Math.random() * 5));
     setGameState('error');
     advanceStepCount();
   };
-  
+
   const handleJumpToFinale = () => {
     console.log('Dev shortcut: Jumping to Finale screen');
-    
+
     // Set player name if not already set
     if (!playerName) setPlayerName('DevUser');
-    
+
     setGameState('finale');
     advanceStepCount();
   };
-  
+
   const handleJumpToReveal = () => {
     console.log('Dev shortcut: Jumping to Reveal screen');
-    
+
     // Set player name if not already set
     if (!playerName) setPlayerName('DevUser');
-    
+
     setGameState('reveal');
   };
 
@@ -632,7 +638,7 @@ const App = () => {
     setShowConfigConfirmation(false);
     setShowConsentConfirmation(false);
     setShowAlertConfirmation(false);
-    
+
     // Set to Joel detection screen
     setGameState('joel-detection');
   };
@@ -644,7 +650,7 @@ const App = () => {
     setShowConfigConfirmation(false);
     setShowConsentConfirmation(false);
     setShowAlertConfirmation(false);
-    
+
     // Set to payment confirmation screen
     setGameState('payment-confirmation');
   };
@@ -687,28 +693,28 @@ const App = () => {
   const getStepLabel = (countObj) => {
     // Use the provided count object or fall back to the state
     const currentCount = countObj || stepCount;
-    
+
     // Basic formats
     const stepFormats = [
       // Regular numeric
       () => `Step ${currentCount.main}${currentCount.sub ? `.${currentCount.sub}` : ''}${currentCount.subsub ? `.${currentCount.subsub}` : ''} of 3`,
-      
+
       // Letters
       () => `Step ${String.fromCharCode(64 + currentCount.main)}${currentCount.sub ? `.${currentCount.sub}` : ''}${currentCount.subsub ? `.${currentCount.subsub}` : ''} of 3`,
-      
+
       // Roman numerals (simplified for I, II, III, IV, V)
       () => {
         const romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
         return `Step ${romanNumerals[currentCount.main - 1] || currentCount.main}${currentCount.sub ? `.${currentCount.sub}` : ''}${currentCount.subsub ? `.${currentCount.subsub}` : ''} of III`;
       },
-      
+
       // Binary
       () => `Step ${currentCount.main.toString(2)}${currentCount.sub ? `.${currentCount.sub}` : ''}${currentCount.subsub ? `.${currentCount.subsub}` : ''} of 11`,
-      
+
       // Hexadecimal
       () => `Step 0x${currentCount.main.toString(16).toUpperCase()}${currentCount.sub ? `.${currentCount.sub}` : ''}${currentCount.subsub ? `.${currentCount.subsub}` : ''} of 0x3`,
     ];
-    
+
     // Special formats that appear randomly
     const specialFormats = [
       () => `Step ${currentCount.main} of ???`,
@@ -737,7 +743,7 @@ const App = () => {
       () => `You are now in Step 2 dimension ${Math.floor(Math.random() * 100)}`,
       () => `Step ${currentCount.main} of 3 | Elapsed time: ${Math.floor(Math.random() * 600) + 300}s`,
     ];
-    
+
     // Decide which format to use based on the step count and some randomness
     if (currentCount.main === 1) {
       return "Step 1 of 3";
@@ -758,7 +764,7 @@ const App = () => {
   const advanceStepCount = () => {
     // Get the current progression stage
     let nextStage = 0;
-    
+
     // Determine which stage we're advancing to
     if (stepCount.main === 1 && !stepCount.sub) {
       // If currently showing Step 1, advance to Step 2
@@ -773,10 +779,10 @@ const App = () => {
       // Beyond Step 2.2, get creative
       nextStage = 4;
     }
-    
+
     // Set the step count according to the determined stage
     const newStepCount = { ...stepCount };
-    
+
     if (nextStage === 1) {
       // Stage 1: Step 2
       newStepCount.main = 2;
@@ -798,11 +804,11 @@ const App = () => {
     } else {
       // Stage 4+: Get weird, but gradually based on game progress
       const gameProgress = currentStep / 20; // Assuming about 20 steps total
-      
+
       if (gameProgress < 0.6) {
         // Before final third, keep somewhat reasonable
         newStepCount.main = 2;
-        
+
         // Just add sequential sub-steps
         if (!newStepCount.sub || Math.random() < 0.8) {
           newStepCount.sub = newStepCount.sub ? newStepCount.sub + 1 : 3; // Move to 2.3, 2.4, etc.
@@ -813,7 +819,7 @@ const App = () => {
             newStepCount.subsub++;
           }
         }
-        
+
         // Small chance of weird numbering system
         if (Math.random() < 0.2) {
           const systems = ['numeric', 0, 1];  // Limited options
@@ -824,7 +830,7 @@ const App = () => {
         if (Math.random() < 0.7) {
           // 70% chance: increment existing step in strange ways
           newStepCount.main = 2;
-          
+
           // Add or advance sub-steps in unpredictable ways
           if (!newStepCount.sub || Math.random() < 0.5) {
             newStepCount.sub = newStepCount.sub ? newStepCount.sub + Math.floor(Math.random() * 3) + 1 : 3; // Skip to 2.3 after 2.2, maybe jump ahead more
@@ -835,7 +841,7 @@ const App = () => {
               newStepCount.subsub += Math.floor(Math.random() * 3) + 1;
             }
           }
-          
+
           // Higher chance of weird numbering systems
           if (Math.random() < 0.4) {
             const systems = ['numeric', 0, 1, 2, 3, 4];
@@ -846,19 +852,19 @@ const App = () => {
           newStepCount.main = 2;
           newStepCount.sub = Math.floor(Math.random() * 9) + 3; // 2.3 through 2.11
           newStepCount.subsub = Math.random() < 0.5 ? Math.floor(Math.random() * 5) + 1 : null;
-          
+
           // Use a random numbering system
           const systems = ['numeric', 0, 1, 2, 3, 4];
           newStepCount.type = systems[Math.floor(Math.random() * systems.length)];
         }
       }
     }
-    
+
     setStepCount(newStepCount);
-    
+
     // Calculate and set the new step label
     let newLabel;
-    
+
     if (nextStage === 1) {
       newLabel = "Step 2 of 3";
     } else if (nextStage === 2) {
@@ -882,7 +888,7 @@ const App = () => {
         newLabel = getStepLabel(newStepCount);
       }
     }
-    
+
     setCurrentStepLabel(newLabel);
   };
 
@@ -903,51 +909,51 @@ const App = () => {
             <GameHeader />
             <div className="py-2">
               {gameState === 'registration' && (
-                <Registration 
-                  playerName={playerName} 
-                  setPlayerName={setPlayerName} 
-                  onSubmit={handleSubmitRegistration} 
+                <Registration
+                  playerName={playerName}
+                  setPlayerName={setPlayerName}
+                  onSubmit={handleSubmitRegistration}
                   stepLabel={currentStepLabel}
                 />
               )}
-              
+
               {gameState === 'joel-detection' && (
-                <JoelDetectionScreen 
+                <JoelDetectionScreen
                   onReport={handleReportJoel}
                   onIgnore={handleIgnoreJoel}
                   stepLabel={currentStepLabel}
                 />
               )}
-              
+
               {gameState === 'joel-response' && (
-                <JoelResponseScreen 
+                <JoelResponseScreen
                   reportReason={reportReason}
                   onContinue={handleJoelResponseComplete}
                   stepLabel={currentStepLabel}
                 />
               )}
-              
+
               {gameState === 'payment-confirmation' && (
-                <PaymentConfirmationScreen 
+                <PaymentConfirmationScreen
                   playerName={playerName}
                   onProceed={handlePaymentConfirmation}
                   stepLabel={currentStepLabel}
                 />
               )}
-              
+
               {gameState === 'loading' && loadingScreenType === 'default' && (
-                <LoadingScreen 
+                <LoadingScreen
                   playerName={playerName}
-                  stepMessage={stepMessage} 
-                  loadingProgress={loadingProgress} 
-                  progressBarType={progressBarType} 
-                  isMelting={isMelting} 
-                  isReversingProgress={isReversingProgress} 
+                  stepMessage={stepMessage}
+                  loadingProgress={loadingProgress}
+                  progressBarType={progressBarType}
+                  isMelting={isMelting}
+                  isReversingProgress={isReversingProgress}
                   currentStep={currentStep}
                   stepLabel={currentStepLabel}
                 />
               )}
-              
+
               {gameState === 'loading' && loadingScreenType === 'binary' && (
                 <BinaryLoadingScreen
                   playerName={playerName}
@@ -957,7 +963,7 @@ const App = () => {
                   stepLabel={currentStepLabel}
                 />
               )}
-              
+
               {gameState === 'loading' && loadingScreenType === 'crash' && (
                 <CrashingScreen
                   playerName={playerName}
@@ -967,7 +973,7 @@ const App = () => {
                   stepLabel={currentStepLabel}
                 />
               )}
-              
+
               {gameState === 'loading' && loadingScreenType === 'corrupted' && (
                 <CorruptedDataScreen
                   playerName={playerName}
@@ -977,26 +983,26 @@ const App = () => {
                   stepLabel={currentStepLabel}
                 />
               )}
-              
+
               {gameState === 'question' && (
-                <QuestionScreen 
+                <QuestionScreen
                   playerName={playerName}
-                  questionIndex={questionIndex} 
-                  onAnswer={handleAnswer} 
-                  showConfirmation={showConfirmation} 
-                  selectedAnswerIndex={selectedAnswerIndex} 
-                  onConfirmAnswer={confirmAnswer} 
+                  questionIndex={questionIndex}
+                  onAnswer={handleAnswer}
+                  showConfirmation={showConfirmation}
+                  selectedAnswerIndex={selectedAnswerIndex}
+                  onConfirmAnswer={confirmAnswer}
                   onChangeAnswer={handleChangeAnswer}
                   stepLabel={currentStepLabel}
                 />
               )}
-              
+
               {gameState === 'configuration' && (
-                <ConfigurationScreen 
+                <ConfigurationScreen
                   playerName={playerName}
-                  currentStep={currentStep} 
-                  onConfigOption={handleConfigOption} 
-                  handleButtonHover={handleButtonHover} 
+                  currentStep={currentStep}
+                  onConfigOption={handleConfigOption}
+                  handleButtonHover={handleButtonHover}
                   movingButtonIndex={movingButtonIndex}
                   showConfigConfirmation={showConfigConfirmation}
                   selectedConfigIndex={selectedConfigIndex}
@@ -1005,9 +1011,9 @@ const App = () => {
                   stepLabel={currentStepLabel}
                 />
               )}
-              
+
               {gameState === 'consent' && (
-                <ConsentScreen 
+                <ConsentScreen
                   playerName={playerName}
                   onConsent={handleConsent}
                   showConsentConfirmation={showConsentConfirmation}
@@ -1016,11 +1022,11 @@ const App = () => {
                   stepLabel={currentStepLabel}
                 />
               )}
-              
+
               {gameState === 'alert' && (
-                <AlertScreen 
+                <AlertScreen
                   playerName={playerName}
-                  currentStep={currentStep} 
+                  currentStep={currentStep}
                   onAlert={handleAlert}
                   showAlertConfirmation={showAlertConfirmation}
                   onConfirmAlert={confirmAlert}
@@ -1028,30 +1034,30 @@ const App = () => {
                   stepLabel={currentStepLabel}
                 />
               )}
-              
+
               {gameState === 'error' && (
-                <ErrorScreen 
+                <ErrorScreen
                   playerName={playerName}
-                  errorType={errorType} 
-                  updateCount={updateCount} 
-                  onErrorAction={handleErrorAction} 
-                  handleButtonHover={handleButtonHover} 
+                  errorType={errorType}
+                  updateCount={updateCount}
+                  onErrorAction={handleErrorAction}
+                  handleButtonHover={handleButtonHover}
                   movingButtonIndex={movingButtonIndex}
                   stepLabel={currentStepLabel}
                 />
               )}
-              
+
               {gameState === 'finale' && (
-                <GrandFinaleScreen 
+                <GrandFinaleScreen
                   playerName={playerName}
                   onComplete={handleFinaleComplete}
                   stepLabel="Final Step!"
                 />
               )}
-              
+
               {gameState === 'reveal' && (
-                <RevealScreen 
-                  playerName={playerName} 
+                <RevealScreen
+                  playerName={playerName}
                   onStartOver={handleStartOver}
                   stepLabel="April Fools!"
                 />
@@ -1060,10 +1066,10 @@ const App = () => {
           </>
         )}
       </div>
-      
+
       {/* Small floating button when dev tools are hidden - only in development */}
       {!showDevTools && process.env.NODE_ENV === 'development' && (
-        <button 
+        <button
           onClick={() => setShowDevTools(true)}
           className="fixed bottom-4 right-4 bg-gray-800 border border-gray-600 text-sm text-gray-400 hover:text-white p-1 rounded shadow-lg opacity-50 hover:opacity-90 z-20"
           title="Show Dev Tools"
@@ -1071,21 +1077,21 @@ const App = () => {
           DEV
         </button>
       )}
-      
+
       {/* Dev shortcuts at the bottom of the page - only in development */}
       {showDevTools && process.env.NODE_ENV === 'development' && (
         <div className="container mx-auto px-4 py-4 mt-4 border-t border-gray-700">
           <div className="bg-gray-800 border border-gray-600 text-sm text-white p-3 rounded shadow-lg w-full">
             <div className="flex justify-between items-center mb-2">
               <div className="font-bold text-yellow-400">DEV SHORTCUTS</div>
-              <button 
+              <button
                 onClick={() => setShowDevTools(false)}
                 className="text-gray-400 hover:text-white text-xs px-2 py-1 rounded hover:bg-gray-700"
               >
                 Hide
               </button>
             </div>
-            
+
             {/* Current game state info */}
             <div className="mb-3 text-xs border-b border-gray-600 pb-2">
               <div><span className="text-gray-400">State:</span> {gameState}</div>
@@ -1095,34 +1101,34 @@ const App = () => {
                 <div><span className="text-gray-400">Loading:</span> {Math.round(loadingProgress)}%</div>
               )}
             </div>
-            
+
             <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2">
-              <button 
-                onClick={handleJumpToError} 
+              <button
+                onClick={handleJumpToError}
                 className="btn-danger px-3 py-2 font-medium rounded shadow-inner flex items-center justify-center"
               >
                 Error Screen
               </button>
-              <button 
-                onClick={handleJumpToFinale} 
+              <button
+                onClick={handleJumpToFinale}
                 className="btn-primary px-3 py-2 font-medium rounded shadow-inner flex items-center justify-center"
               >
                 Finale Screen
               </button>
-              <button 
-                onClick={handleJumpToReveal} 
+              <button
+                onClick={handleJumpToReveal}
                 className="btn-secondary px-3 py-2 font-medium rounded shadow-inner flex items-center justify-center"
               >
                 Reveal Screen
               </button>
-              <button 
-                onClick={handleJumpToJoel} 
+              <button
+                onClick={handleJumpToJoel}
                 className="bg-gray-900 hover:bg-gray-900 text-white px-3 py-2 font-medium rounded shadow-inner flex items-center justify-center"
               >
                 Joel Screen
               </button>
-              <button 
-                onClick={handleJumpToPayment} 
+              <button
+                onClick={handleJumpToPayment}
                 className="bg-gray-700 hover:bg-gray-700 text-white px-3 py-2 font-medium rounded shadow-inner flex items-center justify-center"
               >
                 Payment Screen
@@ -1135,4 +1141,4 @@ const App = () => {
   );
 };
 
-export default App; 
+export default App;
