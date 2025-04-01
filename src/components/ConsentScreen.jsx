@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Check } from 'lucide-react';
 import { consentComments } from '../data/consentComments';
 import { randomConsentComments } from '../data/randomComments';
@@ -11,35 +11,11 @@ const ConsentScreen = ({ playerName, onConsent, showConsentConfirmation, onConfi
   // Select a random confirmation comment
   const [confirmationComment] = useState(randomConsentComments[Math.floor(Math.random() * randomConsentComments.length)]);
   
-  // Track if user has scrolled to the bottom
-  const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
-  
   // Reference to the scrollable content element
   const termsContentRef = useRef(null);
   
   // Get a default name if none is provided
   const displayName = playerName?.trim() || 'User';
-  
-  // Handle scroll event in the terms content
-  const handleScroll = (e) => {
-    const element = e.target;
-    
-    // Check if user has scrolled to the bottom (with a small buffer)
-    const isAtBottom = 
-      element.scrollHeight - element.scrollTop <= element.clientHeight + 10;
-    
-    if (isAtBottom && !hasScrolledToBottom) {
-      setHasScrolledToBottom(true);
-    }
-  };
-  
-  // Ensure the terms content is scrolled to the top when component mounts
-  useEffect(() => {
-    if (termsContentRef.current) {
-      termsContentRef.current.scrollTop = 0;
-      setHasScrolledToBottom(false);
-    }
-  }, []);
   
   return (
     <div className="flex flex-col items-center justify-center p-8 max-w-lg mx-auto container-breathe">
@@ -49,7 +25,6 @@ const ConsentScreen = ({ playerName, onConsent, showConsentConfirmation, onConfi
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-6">
           <div 
             ref={termsContentRef}
-            onScroll={handleScroll}
             className="max-h-80 overflow-y-auto mb-4 text-gray-300 text-sm leading-relaxed px-2 py-1"
           >
             <p className="mb-3">By proceeding with this game, {displayName} agrees to the following terms and conditions:</p>
@@ -83,16 +58,12 @@ const ConsentScreen = ({ playerName, onConsent, showConsentConfirmation, onConfi
                 {displayName} acknowledges that clicking "I Accept" means they haven't actually read these terms in detail, which is exactly what we expected.
               </li>
             </ol>
-            
-            <div className="text-center text-yellow-400 mt-4 mb-2 font-semibold">
-              {!hasScrolledToBottom && 'Please scroll to review all terms'}
-            </div>
           </div>
           
           <button 
             onClick={onConsent}
-            className={`w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded button-wobble ${!hasScrolledToBottom ? 'opacity-50' : ''}`}
-            disabled={showConsentConfirmation || !hasScrolledToBottom}
+            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 px-6 rounded button-wobble"
+            disabled={showConsentConfirmation}
           >
             I Accept
           </button>
