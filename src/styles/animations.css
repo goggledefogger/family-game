@@ -935,6 +935,55 @@
   transition: opacity 1.5s ease;
 }
 
+/* Main content background for better visibility against background effects */
+.content-container-backdrop {
+  border-radius: 8px;
+  transition: background-color 0.5s ease;
+  max-width: 32rem; /* Match Tailwind's max-w-lg (512px) */
+  margin-left: auto;
+  margin-right: auto;
+  padding: 12px;
+  position: relative;
+  z-index: 5; /* Ensure it's above background effects */
+  background-color: rgba(17, 24, 39, 1); /* Match the base background color */
+}
+
+/* Make backdrop pulse like the background based on audio state */
+.background-pulse .content-container-backdrop {
+  animation: backdrop-pulse 8s ease-in-out infinite;
+}
+
+.background-pulse-muted .content-container-backdrop {
+  animation: backdrop-pulse-muted 12s ease-in-out infinite;
+}
+
+@keyframes backdrop-pulse {
+  0%, 100% {
+    background-color: rgba(17, 24, 39, 1); /* dark gray-900 */
+  }
+  50% {
+    background-color: rgba(24, 31, 45, 1); /* reduced brightness */
+  }
+}
+
+@keyframes backdrop-pulse-muted {
+  0%, 100% {
+    background-color: rgba(17, 24, 39, 1); /* dark gray-900 */
+  }
+  50% {
+    background-color: rgba(20, 27, 40, 1); /* slightly more noticeable but still subtle */
+  }
+}
+
+/* Don't apply the backdrop on title screen and final screens */
+.screen-title .content-container-backdrop,
+.screen-grandfinale .content-container-backdrop,
+.screen-reveal .content-container-backdrop {
+  background-color: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
 /* Treasure items styling */
 .treasure-item {
   position: absolute;
