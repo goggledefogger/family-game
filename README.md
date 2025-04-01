@@ -9,6 +9,7 @@ A deceptively fun April Fools' application that provides the ultimate "is this w
 - **Engaging User Journey**: Step through a fake game setup process with realistic loading screens and configuration dialogs
 - **Dynamic Interactions**: Experience a variety of confirmation dialogs, moving buttons, and surprising interface elements
 - **Specialized Loading Screens**: Enjoy multiple themed loading screens including Matrix-style binary rain, system crash effects, and corrupted data simulations
+- **Atmospheric Background Music**: Looping theme song with mute/unmute controls enhances the immersive experience
 - **Grand Finale**: Build anticipation with a dramatic grand finale sequence before the big reveal
 - **April Fools' Reveal**: End with a satisfying "gotcha" moment to share the joke with friends
 
@@ -30,6 +31,19 @@ npm install
 npm run dev
 ```
 
+## Audio Setup
+
+For the background music feature:
+
+1. Place your MP3 file in the `/public/audio/` directory
+2. Rename it to `theme-song.mp3`
+3. If using a different filename, update the `audioSrc` prop in `App.jsx`
+
+The audio player will automatically:
+- Loop the audio throughout the entire application
+- Provide a mute/unmute button in the bottom right corner
+- Handle autoplay restrictions by starting muted if browsers block autoplay
+
 ## How to Use
 
 1. Share the application with friends or family, telling them it's a fun family quiz game that will test their knowledge
@@ -50,6 +64,7 @@ The application is structured as follows:
 - `/src/components`: UI components including various screens
 - `/src/data`: Game text, questions, and configuration options
 - `/src/styles`: CSS styles and animations
+- `/public/audio`: Background music files
 
 ## Credits
 
