@@ -110,18 +110,26 @@ const AudioPlayer = ({ audioSrc, onMusicChange = () => {} }) => {
         preload="auto"
       />
 
-      {/* Button appears after delay */}
+      {/* Button with absolute positioning to ensure it stays in the bottom right */}
       {isVisible && (
-        <div className="fixed bottom-4 right-4 z-50 audio-button-enter">
+        <div
+          className="audio-button-enter"
+          style={{
+            position: 'fixed',
+            bottom: '8px',
+            right: '8px',
+            zIndex: 50,
+          }}
+        >
           <button
             onClick={toggleMute}
-            className={`bg-gray-800 hover:bg-gray-700 p-3 rounded-full flex items-center justify-center transition-colors shadow-lg border border-gray-700 ${!isMuted ? 'audio-button-active' : ''}`}
+            className={`bg-gray-800 hover:bg-gray-700 p-2 rounded-full flex items-center justify-center transition-colors shadow-lg border border-gray-700 ${!isMuted ? 'audio-button-active' : ''}`}
             aria-label={isMuted ? "Unmute background music" : "Mute background music"}
           >
             {isMuted ? (
-              <Music size={20} className="text-gray-300" style={{ opacity: 0.5 }} />
+              <Music size={18} className="text-gray-300" style={{ opacity: 0.5 }} />
             ) : (
-              <Music size={20} className="text-yellow-400" />
+              <Music size={18} className="text-yellow-400" />
             )}
           </button>
         </div>
