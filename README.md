@@ -1,13 +1,13 @@
 # Family Treasure Game
 
-![Family Treasure](public/logo.png)
+![Family Treasure](public/gamelogo.svg)
 
 A deceptively fun April Fools' application that provides the ultimate "is this working?" experience. This interactive experience takes users through a series of fake loading screens, configuration options, and error messages, all leading up to a hilarious prank reveal.
 
 ## Features
 
 - **Engaging User Journey**: Step through a fake game setup process with realistic loading screens and configuration dialogs
-- **Dynamic Interactions**: Experience a variety of confirmation dialogs, moving buttons, and surprising interface elements  
+- **Dynamic Interactions**: Experience a variety of confirmation dialogs, moving buttons, and surprising interface elements
 - **Specialized Loading Screens**: Enjoy multiple themed loading screens including Matrix-style binary rain, system crash effects, and corrupted data simulations
 - **Grand Finale**: Build anticipation with a dramatic grand finale sequence before the big reveal
 - **April Fools' Reveal**: End with a satisfying "gotcha" moment to share the joke with friends
