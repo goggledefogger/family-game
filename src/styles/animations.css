@@ -993,7 +993,7 @@
     background-color: rgba(17, 24, 39, 1); /* dark gray-900 */
   }
   50% {
-    background-color: rgba(30, 41, 59, 1); /* dark slate-800 */
+    background-color: rgba(26, 34, 48, 1); /* darker slate color - reduced brightness */
   }
 }
 
@@ -1002,6 +1002,6 @@
     background-color: rgba(17, 24, 39, 1); /* dark gray-900 */
   }
   50% {
-    background-color: rgba(22, 30, 46, 1); /* very subtle pulse, barely visible */
+    background-color: rgba(20, 27, 40, 1); /* very subtle pulse, barely visible */
   }
 }
