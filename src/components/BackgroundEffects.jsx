@@ -21,29 +21,29 @@ const BackgroundEffects = ({ isPlaying }) => {
 
   // Function to generate new particles
   const generateParticles = () => {
-    const newParticles = Array(30).fill().map(() => ({
+    const newParticles = Array(12).fill().map(() => ({
       id: Math.random().toString(36).substr(2, 9),
       x: Math.random() * 100, // position across viewport width (%)
       y: Math.random() * 100, // position across viewport height (%)
-      size: Math.random() * 15 + 5, // size between 5-20px
+      size: Math.random() * 8 + 2, // Smaller size range: 2-10px
       color: getRandomColor(),
-      duration: Math.random() * 15 + 10, // animation duration 10-25s
-      delay: Math.random() * 5, // delay 0-5s
+      duration: Math.random() * 20 + 15, // Slower animation: 15-35s
+      delay: Math.random() * 8, // More varied delays: 0-8s
     }));
 
     setParticles(newParticles);
   };
 
-  // Generate random vibrant colors
+  // Generate random more subdued colors
   const getRandomColor = () => {
     const colors = [
-      '#FFD700', // gold
-      '#FF6347', // tomato
-      '#00CED1', // dark turquoise
-      '#9370DB', // medium purple
-      '#32CD32', // lime green
-      '#FF69B4', // hot pink
-      '#1E90FF', // dodger blue
+      'rgba(255, 215, 0, 0.6)', // gold
+      'rgba(255, 99, 71, 0.5)', // tomato
+      'rgba(0, 206, 209, 0.5)', // turquoise
+      'rgba(147, 112, 219, 0.5)', // purple
+      'rgba(50, 205, 50, 0.5)', // lime
+      'rgba(255, 105, 180, 0.4)', // pink
+      'rgba(30, 144, 255, 0.5)', // blue
     ];
 
     return colors[Math.floor(Math.random() * colors.length)];
