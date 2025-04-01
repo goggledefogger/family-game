@@ -930,9 +930,82 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 1; /* Changed back to positive but low z-index */
+  z-index: 1;
   overflow: hidden;
   transition: opacity 1.5s ease;
+}
+
+/* Treasure items styling */
+.treasure-item {
+  position: absolute;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+  animation: treasure-float 30s ease-in-out infinite;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* Hide excess treasures when music is muted */
+.treasure-hidden {
+  display: none !important;
+}
+
+/* Less visible treasures when music is muted */
+.effects-muted .treasure-item {
+  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3));
+  animation: treasure-float-muted 40s ease-in-out infinite;
+}
+
+/* More visible treasures when music is playing */
+.effects-active .treasure-item {
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+  animation: treasure-float 30s ease-in-out infinite;
+  z-index: -1; /* Make sure treasures stay behind content when music is playing */
+}
+
+@keyframes treasure-float-muted {
+  0% {
+    opacity: 0;
+    transform: translateY(0) rotate(0deg) scale(0.6);
+  }
+  15% {
+    opacity: 0.4; /* Lower opacity when muted */
+    transform: translateY(-15px) rotate(10deg) scale(0.8);
+  }
+  50% {
+    transform: translateY(-40px) translateX(20px) rotate(-10deg) scale(0.75);
+  }
+  85% {
+    opacity: 0.4; /* Lower opacity when muted */
+    transform: translateY(-75px) translateX(-15px) rotate(20deg) scale(0.7);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-90px) translateX(0px) rotate(0deg) scale(0.6);
+  }
+}
+
+@keyframes treasure-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) rotate(0deg) scale(0.7);
+  }
+  10% {
+    opacity: 0.8;
+    transform: translateY(-20px) rotate(15deg) scale(1);
+  }
+  50% {
+    transform: translateY(-60px) translateX(30px) rotate(-15deg) scale(0.9);
+  }
+  90% {
+    opacity: 0.8;
+    transform: translateY(-100px) translateX(-20px) rotate(30deg) scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-120px) translateX(0px) rotate(0deg) scale(0.7);
+  }
 }
 
 /* Particle base styling - animation is the same regardless of audio state */
@@ -993,7 +1066,7 @@
     background-color: rgba(17, 24, 39, 1); /* dark gray-900 */
   }
   50% {
-    background-color: rgba(28, 36, 52, 1); /* slightly brighter for better visibility */
+    background-color: rgba(24, 31, 45, 1); /* reduced brightness */
   }
 }
 
@@ -1002,6 +1075,6 @@
     background-color: rgba(17, 24, 39, 1); /* dark gray-900 */
   }
   50% {
-    background-color: rgba(22, 30, 44, 1); /* slightly more noticeable but still subtle */
+    background-color: rgba(20, 27, 40, 1); /* slightly more noticeable but still subtle */
   }
 }
