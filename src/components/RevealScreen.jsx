@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Frown, Laugh, Calendar, Skull, ThumbsUp } from 'lucide-react';
+import { Frown, Laugh, Calendar, Skull, ThumbsUp } from 'lucide-react';
 import TreasureChest from './TreasureChest';
 
 const RevealScreen = ({ playerName, onStartOver }) => {
@@ -14,7 +14,7 @@ const RevealScreen = ({ playerName, onStartOver }) => {
     // Sequence of reveal animations
     const sequence = [
       setTimeout(() => setRevealStage(1), 1000), // Treasure chest animation
-      setTimeout(() => setRevealStage(2), 3000), // X appears
+      setTimeout(() => setRevealStage(2), 3000), // Calendar A4 appears
       setTimeout(() => setRevealStage(3), 4500), // Prize cancellation
       setTimeout(() => setRevealStage(4), 6000), // April Fools text
       setTimeout(() => setShowDetails(true), 7500) // Show explanation
@@ -70,17 +70,22 @@ const RevealScreen = ({ playerName, onStartOver }) => {
             ${revealStage >= 3 ? 'opacity-50' : ''}`}
         />
         {revealStage >= 2 && (
-          <div className="absolute inset-0 flex items-center justify-center text-red-500 animate-grow-in">
-            <X size={100} strokeWidth={1.5} />
+          <div className="absolute inset-0 flex items-center justify-center animate-grow-in">
+            <div className="neon-calendar text-3xl p-3 flex flex-col items-center" style={{ minWidth: "60px", minHeight: "70px" }}>
+              <div className="text-xs mb-1">APR</div>
+              <div className="font-bold leading-none">4</div>
+            </div>
           </div>
         )}
       </div>
 
       <div className="space-y-4">
-        {revealStage >= 3 && (
-          <div className="animate-slide-in">
-            <p className="text-2xl text-white line-through opacity-50 mb-2">You're the winner of...</p>
-            <Frown size={32} className="text-gray-400 mx-auto mb-4" />
+        {revealStage >= 1 && (
+          <div className={`animate-slide-in transition-all duration-500 ${revealStage >= 3 ? 'line-through opacity-50' : ''}`}>
+            <p className="text-2xl text-white mb-2">You're the winner of...</p>
+            {revealStage >= 3 && (
+              <Frown size={32} className="text-gray-400 mx-auto mb-4" />
+            )}
           </div>
         )}
 
@@ -93,7 +98,7 @@ const RevealScreen = ({ playerName, onStartOver }) => {
         {revealStage >= 4 && (
           <div className="animate-fade-in-delay">
             <p className="text-xl text-white mb-6">
-              Nice job making it this far, {playerName}
+              Congrats on even making it this far, {playerName}
             </p>
 
             <div className="flex justify-center items-center mb-6 space-x-4">
