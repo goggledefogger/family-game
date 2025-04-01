@@ -18,6 +18,7 @@ import JoelDetectionScreen from './components/JoelDetectionScreen';
 import JoelResponseScreen from './components/JoelResponseScreen';
 import PaymentConfirmationScreen from './components/PaymentConfirmationScreen';
 import GameHeader from './components/GameHeader';
+import AudioPlayer from './components/AudioPlayer';
 import { gameSteps } from './data/gameSteps';
 import { funnyQuestions } from './data/questions';
 import { configComments } from './data/configComments';
@@ -900,13 +901,21 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 relative">
+      {/* Audio Player - persistent across all screens */}
+      <AudioPlayer audioSrc="/audio/theme-song.mp3" />
+
       <div className="container mx-auto px-4 py-4">
         {/* Title screen doesn't need the header */}
         {gameState === 'title' ? (
-          <TitleScreen onStartGame={handleStartGame} />
+          <TitleScreen onStart={handleStartGame} />
         ) : (
           <>
-            <GameHeader />
+            <GameHeader
+              playerName={playerName}
+              currentStepLabel={currentStepLabel}
+              isOnError={['error', 'joelDetection', 'joelResponse', 'paymentConfirmation'].includes(gameState)}
+              stepCount={stepCount}
+            />
             <div className="py-2">
               {gameState === 'registration' && (
                 <Registration
