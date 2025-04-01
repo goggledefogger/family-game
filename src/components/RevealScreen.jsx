@@ -125,7 +125,7 @@ const RevealScreen = ({ playerName, onStartOver }) => {
           </div>
 
           <p className="text-sm sm:text-base text-gray-300 mb-6 text-left">
-            Sorry to disappoint, but April Fools! Believe it or not, there's no Bauman Family Treasure game show, just a series of screens to waste your time and drive you a little crazy.
+            Sorry to disappoint, but April Fools! Believe it or not, there's no game show or Bauman Family Treasure (or is there...), just a series of screens to waste your time and drive you a little crazy.
           </p>
 
           <div className="border-t border-gray-700 pt-6 mt-6">
@@ -141,9 +141,16 @@ const RevealScreen = ({ playerName, onStartOver }) => {
               </li>
               <li className="flex items-start">
                 <span className="mr-3 mt-1">•</span>
-                <span>You fixed mysterious errors and technical issues</span>
+                <span>You fixed mysterious errors and caused technical issues</span>
               </li>
             </ul>
+          </div>
+
+          <div className="border-t border-gray-700 pt-6 mt-6">
+            <p className="text-sm sm:text-base text-gray-300 mb-6 text-left">
+              Not that different from most days!
+            </p>
+
           </div>
 
           <div className="text-sm sm:text-base text-gray-300 mt-6 flex flex-col justify-between">
