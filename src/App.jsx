@@ -55,6 +55,7 @@ const App = () => {
   const [completedSteps, setCompletedSteps] = useState(new Set()); // Track completed steps to avoid repetition
   const [currentStepLabel, setCurrentStepLabel] = useState("Step 1 of 3");
   const [showDevTools, setShowDevTools] = useState(false); // Always off by default, regardless of environment
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
 
   // Create a ref for tracking reversal count that persists between renders
   const reversalCountRef = React.useRef(0);
@@ -899,10 +900,18 @@ const App = () => {
     setCurrentStepLabel("Step 1 of 3");
   }, []);
 
+  // Handle music state change
+  const handleMusicChange = (isPlaying) => {
+    setIsMusicPlaying(isPlaying);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-900 relative">
+    <div className={`min-h-screen bg-gray-900 relative ${isMusicPlaying ? 'background-pulse' : 'background-pulse-muted'}`}>
       {/* Audio Player - persistent across all screens */}
-      <AudioPlayer audioSrc="/audio/theme-song.mp3" />
+      <AudioPlayer
+        audioSrc="/audio/theme-song.mp3"
+        onMusicChange={handleMusicChange}
+      />
 
       <div className="container mx-auto px-4 py-4">
         {/* Title screen doesn't need the header */}
