@@ -21,11 +21,11 @@ const BackgroundEffects = ({ isPlaying }) => {
 
   // Function to generate new particles
   const generateParticles = () => {
-    const newParticles = Array(12).fill().map(() => ({
+    const newParticles = Array(20).fill().map(() => ({
       id: Math.random().toString(36).substr(2, 9),
       x: Math.random() * 100, // position across viewport width (%)
       y: Math.random() * 100, // position across viewport height (%)
-      size: Math.random() * 8 + 2, // Smaller size range: 2-10px
+      size: Math.random() * 12 + 4, // Larger size range: 4-16px
       color: getRandomColor(),
       duration: Math.random() * 20 + 15, // Slower animation: 15-35s
       delay: Math.random() * 8, // More varied delays: 0-8s
@@ -34,16 +34,16 @@ const BackgroundEffects = ({ isPlaying }) => {
     setParticles(newParticles);
   };
 
-  // Generate random more subdued colors
+  // Generate random more vibrant, semi-transparent colors
   const getRandomColor = () => {
     const colors = [
-      'rgba(255, 215, 0, 0.6)', // gold
-      'rgba(255, 99, 71, 0.5)', // tomato
-      'rgba(0, 206, 209, 0.5)', // turquoise
-      'rgba(147, 112, 219, 0.5)', // purple
-      'rgba(50, 205, 50, 0.5)', // lime
-      'rgba(255, 105, 180, 0.4)', // pink
-      'rgba(30, 144, 255, 0.5)', // blue
+      'rgba(255, 215, 0, 0.75)', // gold - even more intense
+      'rgba(255, 99, 71, 0.7)', // tomato - even more intense
+      'rgba(0, 206, 209, 0.7)', // turquoise - even more intense
+      'rgba(147, 112, 219, 0.7)', // purple - even more intense
+      'rgba(50, 205, 50, 0.7)', // lime - even more intense
+      'rgba(255, 105, 180, 0.65)', // pink - even more intense
+      'rgba(30, 144, 255, 0.7)', // blue - even more intense
     ];
 
     return colors[Math.floor(Math.random() * colors.length)];
