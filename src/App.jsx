@@ -916,7 +916,9 @@ const App = () => {
       <div className="container mx-auto px-4 py-4">
         {/* Title screen doesn't need the header */}
         {gameState === 'title' ? (
-          <TitleScreen onStartGame={handleStartGame} />
+          <div className="screen-title">
+            <TitleScreen onStartGame={handleStartGame} />
+          </div>
         ) : (
           <>
             <GameHeader
@@ -925,161 +927,163 @@ const App = () => {
               isOnError={['error', 'joelDetection', 'joelResponse', 'paymentConfirmation'].includes(gameState)}
               stepCount={stepCount}
             />
-            <div className="py-2">
-              {gameState === 'registration' && (
-                <Registration
-                  playerName={playerName}
-                  setPlayerName={setPlayerName}
-                  onSubmit={handleSubmitRegistration}
-                  stepLabel={currentStepLabel}
-                />
-              )}
+            <div className={`py-2 ${gameState === 'finale' ? 'screen-grandfinale' : ''} ${gameState === 'reveal' ? 'screen-reveal' : ''}`}>
+              <div className="content-container-backdrop">
+                {gameState === 'registration' && (
+                  <Registration
+                    playerName={playerName}
+                    setPlayerName={setPlayerName}
+                    onSubmit={handleSubmitRegistration}
+                    stepLabel={currentStepLabel}
+                  />
+                )}
 
-              {gameState === 'joel-detection' && (
-                <JoelDetectionScreen
-                  onReport={handleReportJoel}
-                  onIgnore={handleIgnoreJoel}
-                  stepLabel={currentStepLabel}
-                />
-              )}
+                {gameState === 'joel-detection' && (
+                  <JoelDetectionScreen
+                    onReport={handleReportJoel}
+                    onIgnore={handleIgnoreJoel}
+                    stepLabel={currentStepLabel}
+                  />
+                )}
 
-              {gameState === 'joel-response' && (
-                <JoelResponseScreen
-                  reportReason={reportReason}
-                  onContinue={handleJoelResponseComplete}
-                  stepLabel={currentStepLabel}
-                />
-              )}
+                {gameState === 'joel-response' && (
+                  <JoelResponseScreen
+                    reportReason={reportReason}
+                    onContinue={handleJoelResponseComplete}
+                    stepLabel={currentStepLabel}
+                  />
+                )}
 
-              {gameState === 'payment-confirmation' && (
-                <PaymentConfirmationScreen
-                  playerName={playerName}
-                  onProceed={handlePaymentConfirmation}
-                  stepLabel={currentStepLabel}
-                />
-              )}
+                {gameState === 'payment-confirmation' && (
+                  <PaymentConfirmationScreen
+                    playerName={playerName}
+                    onProceed={handlePaymentConfirmation}
+                    stepLabel={currentStepLabel}
+                  />
+                )}
 
-              {gameState === 'loading' && loadingScreenType === 'default' && (
-                <LoadingScreen
-                  playerName={playerName}
-                  stepMessage={stepMessage}
-                  loadingProgress={loadingProgress}
-                  progressBarType={progressBarType}
-                  isMelting={isMelting}
-                  isReversingProgress={isReversingProgress}
-                  currentStep={currentStep}
-                  stepLabel={currentStepLabel}
-                />
-              )}
+                {gameState === 'loading' && loadingScreenType === 'default' && (
+                  <LoadingScreen
+                    playerName={playerName}
+                    stepMessage={stepMessage}
+                    loadingProgress={loadingProgress}
+                    progressBarType={progressBarType}
+                    isMelting={isMelting}
+                    isReversingProgress={isReversingProgress}
+                    currentStep={currentStep}
+                    stepLabel={currentStepLabel}
+                  />
+                )}
 
-              {gameState === 'loading' && loadingScreenType === 'binary' && (
-                <BinaryLoadingScreen
-                  playerName={playerName}
-                  stepMessage={stepMessage}
-                  loadingProgress={loadingProgress}
-                  onComplete={() => {}}
-                  stepLabel={currentStepLabel}
-                />
-              )}
+                {gameState === 'loading' && loadingScreenType === 'binary' && (
+                  <BinaryLoadingScreen
+                    playerName={playerName}
+                    stepMessage={stepMessage}
+                    loadingProgress={loadingProgress}
+                    onComplete={() => {}}
+                    stepLabel={currentStepLabel}
+                  />
+                )}
 
-              {gameState === 'loading' && loadingScreenType === 'crash' && (
-                <CrashingScreen
-                  playerName={playerName}
-                  stepMessage={stepMessage}
-                  loadingProgress={loadingProgress}
-                  onComplete={() => {}}
-                  stepLabel={currentStepLabel}
-                />
-              )}
+                {gameState === 'loading' && loadingScreenType === 'crash' && (
+                  <CrashingScreen
+                    playerName={playerName}
+                    stepMessage={stepMessage}
+                    loadingProgress={loadingProgress}
+                    onComplete={() => {}}
+                    stepLabel={currentStepLabel}
+                  />
+                )}
 
-              {gameState === 'loading' && loadingScreenType === 'corrupted' && (
-                <CorruptedDataScreen
-                  playerName={playerName}
-                  stepMessage={stepMessage}
-                  loadingProgress={loadingProgress}
-                  onComplete={() => {}}
-                  stepLabel={currentStepLabel}
-                />
-              )}
+                {gameState === 'loading' && loadingScreenType === 'corrupted' && (
+                  <CorruptedDataScreen
+                    playerName={playerName}
+                    stepMessage={stepMessage}
+                    loadingProgress={loadingProgress}
+                    onComplete={() => {}}
+                    stepLabel={currentStepLabel}
+                  />
+                )}
 
-              {gameState === 'question' && (
-                <QuestionScreen
-                  playerName={playerName}
-                  questionIndex={questionIndex}
-                  onAnswer={handleAnswer}
-                  showConfirmation={showConfirmation}
-                  selectedAnswerIndex={selectedAnswerIndex}
-                  onConfirmAnswer={confirmAnswer}
-                  onChangeAnswer={handleChangeAnswer}
-                  stepLabel={currentStepLabel}
-                />
-              )}
+                {gameState === 'question' && (
+                  <QuestionScreen
+                    playerName={playerName}
+                    questionIndex={questionIndex}
+                    onAnswer={handleAnswer}
+                    showConfirmation={showConfirmation}
+                    selectedAnswerIndex={selectedAnswerIndex}
+                    onConfirmAnswer={confirmAnswer}
+                    onChangeAnswer={handleChangeAnswer}
+                    stepLabel={currentStepLabel}
+                  />
+                )}
 
-              {gameState === 'configuration' && (
-                <ConfigurationScreen
-                  playerName={playerName}
-                  currentStep={currentStep}
-                  onConfigOption={handleConfigOption}
-                  handleButtonHover={handleButtonHover}
-                  movingButtonIndex={movingButtonIndex}
-                  showConfigConfirmation={showConfigConfirmation}
-                  selectedConfigIndex={selectedConfigIndex}
-                  onConfirmConfig={confirmConfig}
-                  onChangeConfig={changeConfig}
-                  stepLabel={currentStepLabel}
-                />
-              )}
+                {gameState === 'configuration' && (
+                  <ConfigurationScreen
+                    playerName={playerName}
+                    currentStep={currentStep}
+                    onConfigOption={handleConfigOption}
+                    handleButtonHover={handleButtonHover}
+                    movingButtonIndex={movingButtonIndex}
+                    showConfigConfirmation={showConfigConfirmation}
+                    selectedConfigIndex={selectedConfigIndex}
+                    onConfirmConfig={confirmConfig}
+                    onChangeConfig={changeConfig}
+                    stepLabel={currentStepLabel}
+                  />
+                )}
 
-              {gameState === 'consent' && (
-                <ConsentScreen
-                  playerName={playerName}
-                  onConsent={handleConsent}
-                  showConsentConfirmation={showConsentConfirmation}
-                  onConfirmConsent={confirmConsent}
-                  onChangeConsent={changeConsent}
-                  stepLabel={currentStepLabel}
-                />
-              )}
+                {gameState === 'consent' && (
+                  <ConsentScreen
+                    playerName={playerName}
+                    onConsent={handleConsent}
+                    showConsentConfirmation={showConsentConfirmation}
+                    onConfirmConsent={confirmConsent}
+                    onChangeConsent={changeConsent}
+                    stepLabel={currentStepLabel}
+                  />
+                )}
 
-              {gameState === 'alert' && (
-                <AlertScreen
-                  playerName={playerName}
-                  currentStep={currentStep}
-                  onAlert={handleAlert}
-                  showAlertConfirmation={showAlertConfirmation}
-                  onConfirmAlert={confirmAlert}
-                  onChangeAlert={changeAlert}
-                  stepLabel={currentStepLabel}
-                />
-              )}
+                {gameState === 'alert' && (
+                  <AlertScreen
+                    playerName={playerName}
+                    currentStep={currentStep}
+                    onAlert={handleAlert}
+                    showAlertConfirmation={showAlertConfirmation}
+                    onConfirmAlert={confirmAlert}
+                    onChangeAlert={changeAlert}
+                    stepLabel={currentStepLabel}
+                  />
+                )}
 
-              {gameState === 'error' && (
-                <ErrorScreen
-                  playerName={playerName}
-                  errorType={errorType}
-                  updateCount={updateCount}
-                  onErrorAction={handleErrorAction}
-                  handleButtonHover={handleButtonHover}
-                  movingButtonIndex={movingButtonIndex}
-                  stepLabel={currentStepLabel}
-                />
-              )}
+                {gameState === 'error' && (
+                  <ErrorScreen
+                    playerName={playerName}
+                    errorType={errorType}
+                    updateCount={updateCount}
+                    onErrorAction={handleErrorAction}
+                    handleButtonHover={handleButtonHover}
+                    movingButtonIndex={movingButtonIndex}
+                    stepLabel={currentStepLabel}
+                  />
+                )}
 
-              {gameState === 'finale' && (
-                <GrandFinaleScreen
-                  playerName={playerName}
-                  onComplete={handleFinaleComplete}
-                  stepLabel="Final Step!"
-                />
-              )}
+                {gameState === 'finale' && (
+                  <GrandFinaleScreen
+                    playerName={playerName}
+                    onComplete={handleFinaleComplete}
+                    stepLabel="Final Step!"
+                  />
+                )}
 
-              {gameState === 'reveal' && (
-                <RevealScreen
-                  playerName={playerName}
-                  onStartOver={handleStartOver}
-                  stepLabel="April Fools!"
-                />
-              )}
+                {gameState === 'reveal' && (
+                  <RevealScreen
+                    playerName={playerName}
+                    onStartOver={handleStartOver}
+                    stepLabel="April Fools!"
+                  />
+                )}
+              </div>
             </div>
           </>
         )}
