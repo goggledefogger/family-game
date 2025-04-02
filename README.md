@@ -2,16 +2,15 @@
 
 ![Family Treasure](public/gamelogo.svg)
 
-A deceptively fun April Fools' application that provides the ultimate "is this working?" experience. This interactive experience takes users through a series of fake loading screens, configuration options, and error messages, all leading up to a hilarious prank reveal.
+An engaging interactive family experience that tests your knowledge, patience, and skill. This unique game takes users through an immersive memorable family game show experience that will leave everyone wondering.
 
 ## Features
 
-- **Engaging User Journey**: Step through a fake game setup process with realistic loading screens and configuration dialogs
-- **Dynamic Interactions**: Experience a variety of confirmation dialogs, moving buttons, and surprising interface elements
-- **Specialized Loading Screens**: Enjoy multiple themed loading screens including Matrix-style binary rain, system crash effects, and corrupted data simulations
-- **Atmospheric Background Music**: Looping theme song with mute/unmute controls enhances the immersive experience
-- **Grand Finale**: Build anticipation with a dramatic grand finale sequence before the big reveal
-- **April Fools' Reveal**: End with a satisfying "gotcha" moment to share the joke with friends
+- **Easy Setup**: Simple guided process to get everyone playing quickly
+- **Interactive Experience**: Engaging responsive elements
+- **Visual Effects**: Custom screens and animations
+- **Audio Enhancement**: Epic catchy theme song
+- **Surprise Ending**: A finale that brings it all together
 
 ## Installation
 
@@ -46,9 +45,9 @@ The audio player will automatically:
 
 ## How to Use
 
-1. Share the application with friends or family, telling them it's a fun family quiz game that will test their knowledge
-2. Watch as they follow through the lengthy setup process, dealing with ridiculous confirmations and loading screens
-3. Enjoy the moment of realization when they discover it's all an April Fools' joke!
+1. Share the application with only those who are ready for a family adventure
+2. Encourage patience and persistence
+3. Keep going, and enjoy!
 
 ## Technology Stack
 
@@ -66,10 +65,6 @@ The application is structured as follows:
 - `/src/styles`: CSS styles and animations
 - `/public/audio`: Background music files
 
-## Credits
-
-Created as a fun April Fools' Day project to bring laughter and confusion to friends and family everywhere.
-
 ## License
 
-MIT License - Feel free to use, modify, and distribute this project for your own April Fools' pranks!
+MIT License - Feel free to use, modify, and distribute this project for your own family entertainment purposes!
