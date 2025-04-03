@@ -59,6 +59,8 @@ const App = () => {
 
   // Create a ref for tracking reversal count that persists between renders
   const reversalCountRef = React.useRef(0);
+  // Create a ref for the audio player
+  const audioPlayerRef = React.useRef(null);
 
   // Development shortcuts moved to UI buttons, no keyboard listeners needed
 
@@ -275,6 +277,11 @@ const App = () => {
   }, [joelInserted, gameState, currentStep, loadingProgress]);
 
   const handleStartGame = () => {
+    // Start playing music when game starts
+    if (audioPlayerRef.current) {
+      audioPlayerRef.current.unmute();
+    }
+
     setGameState('registration');
     // Set step count and label to Step 1
     setStepCount({ main: 1, sub: null, subsub: null, type: 'numeric' });
@@ -909,6 +916,7 @@ const App = () => {
     <div className={`min-h-screen bg-gray-900 relative ${isMusicPlaying ? 'background-pulse' : 'background-pulse-muted'}`}>
       {/* Audio Player - persistent across all screens */}
       <AudioPlayer
+        ref={audioPlayerRef}
         audioSrc="/audio/theme-song.mp3"
         onMusicChange={handleMusicChange}
       />

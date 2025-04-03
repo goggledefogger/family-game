@@ -1,12 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import { Music } from 'lucide-react';
 import BackgroundEffects from './BackgroundEffects';
 
-const AudioPlayer = ({ audioSrc, onMusicChange = () => {} }) => {
+const AudioPlayer = forwardRef(({ audioSrc, onMusicChange = () => {} }, ref) => {
   const [isMuted, setIsMuted] = useState(true); // Start muted to avoid autoplay issues
   const [isVisible, setIsVisible] = useState(false);
   const audioRef = useRef(null);
   const hasInitialized = useRef(false);
+
+  // Expose functions to parent components
+  useImperativeHandle(ref, () => ({
+    unmute: () => {
+      if (isMuted) {
+        toggleMute();
+      }
+    }
+  }));
 
   // Initial setup only once
   useEffect(() => {
@@ -136,6 +145,6 @@ const AudioPlayer = ({ audioSrc, onMusicChange = () => {} }) => {
       )}
     </>
   );
-};
+});
 
 export default AudioPlayer;
