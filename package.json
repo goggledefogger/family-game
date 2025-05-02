@@ -8,7 +8,7 @@
     "build": "NODE_OPTIONS=--max-old-space-size=768 vite build --debug",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "NODE_OPTIONS=--max-old-space-size=768 vite build && vite preview --port 3024 --host"
+    "start": "NODE_OPTIONS=--max-old-space-size=768 vite build && vite preview --port 3024 --host 127.0.0.1"
   },
   "dependencies": {
     "lucide-react": "^0.486.0",
