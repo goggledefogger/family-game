@@ -1,8 +1,10 @@
 # Family Treasure Game
 
-![Family Treasure](public/gamelogo.svg)
-
 An engaging interactive family experience that tests your knowledge, patience, and skill. This unique game takes users through an immersive memorable family game show experience that will leave everyone wondering.
+
+## Demo: https://family.roytown.net
+
+<img src="public/gamelogo.svg" alt="Alt Text" width="600">
 
 ## Features
 
